@@ -96,81 +96,75 @@ const breadcrumbSchema = {
 >
   <Fragment slot="head">
     <meta property="article:published_time" content={isoDate} />
-    {
-      hasUpdate && (
-        <meta property="article:modified_time" content={isoUpdated} />
-      )
-    }
+    {hasUpdate && (
+      <meta property="article:modified_time" content={isoUpdated} />
+    )}
     <meta property="article:author" content={site.author} />
     {category && <meta property="article:section" content={category.name} />}
-    {post.data.tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    {post.data.tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
     <script
       is:inline
       type="application/ld+json"
       set:html={toJsonLd(blogPostingSchema)}
-    />
+    ></script>
     <script
       is:inline
       type="application/ld+json"
       set:html={toJsonLd(breadcrumbSchema)}
-    />
+    ></script>
   </Fragment>
 
   <nav
     class="mb-8 flex min-w-0 flex-wrap items-center gap-2 text-sm text-slate-400"
     aria-label="麵包屑"
   >
-    <a href="/" class="shrink-0 no-underline">首頁</a>
+    <a href="/" class="shrink-0 no-underline">
+      首頁
+    </a>
     <span aria-hidden="true">/</span>
-    {
-      category && (
-        <>
-          <a
-            href={`/categories/${post.data.category}/`}
-            class="shrink-0 no-underline"
-          >
-            {category.name}
-          </a>
-          <span aria-hidden="true">/</span>
-        </>
-      )
-    }
+    {category && (
+      <>
+        <a
+          href={`/categories/${post.data.category}/`}
+          class="shrink-0 no-underline"
+        >
+          {category.name}
+        </a>
+        <span aria-hidden="true">/</span>
+      </>
+    )}
     <span class="min-w-0 truncate text-slate-300">{post.data.title}</span>
   </nav>
 
   <article class="prose prose-lg prose-a:break-all">
     <header class="not-prose mb-12 border-b border-border-soft pb-8">
-      <div
-        class="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-400"
-      >
+      <div class="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-400">
         <time datetime={isoDate}>{formattedDate}</time>
-        {
-          hasUpdate && (
-            <span>
-              更新於 <time datetime={isoUpdated}>{formatDate(isoUpdated)}</time>
-            </span>
-          )
-        }
+        {hasUpdate && (
+          <span>
+            更新於 <time datetime={isoUpdated}>{formatDate(isoUpdated)}</time>
+          </span>
+        )}
         <span>約 {readingTime} 分鐘閱讀</span>
       </div>
 
       <h1 class="mb-6 text-3xl leading-tight md:text-5xl">{post.data.title}</h1>
 
-      {
-        post.data.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {post.data.tags.map((tag) => (
-              <a
-                class="tag-pill"
-                href={`/tags/${slugifyTag(tag)}/`}
-                aria-label={`查看 #${tag} 標籤文章`}
-              >
-                #{tag}
-              </a>
-            ))}
-          </div>
-        )
-      }
+      {post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <a
+              class="tag-pill"
+              href={`/tags/${slugifyTag(tag)}/`}
+              aria-label={`查看 #${tag} 標籤文章`}
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
     </header>
 
     <Content />

@@ -56,18 +56,14 @@ const siteJsonLd = {
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
-    {
-      /* Inter 是內文字型，值得 preload；astro.config.mjs 已限定 styles: ["normal"]，
-        因此不會連帶把用不到的斜體檔案拉到最高優先級。 */
-    }
+    {/* Inter 是內文字型，值得 preload；astro.config.mjs 已限定 styles: ["normal"]，
+        因此不會連帶把用不到的斜體檔案拉到最高優先級。 */}
     <Font cssVariable="--font-inter" preload />
     <Font cssVariable="--font-outfit" />
     <Font cssVariable="--font-jetbrains" />
 
-    {
-      /* 只取 400／700 兩個字重：500 僅用於導覽列與小字級 UI，14px 下與 400 幾乎無差異，
-        但整份 CSS 的傳輸量可因此減少約三分之一。 */
-    }
+    {/* 只取 400／700 兩個字重：500 僅用於導覽列與小字級 UI，14px 下與 400 幾乎無差異，
+        但整份 CSS 的傳輸量可因此減少約三分之一。 */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -110,8 +106,7 @@ const siteJsonLd = {
       type="application/ld+json"
       set:html={toJsonLd(siteJsonLd)}
       is:inline
-    />
-
+    ></script>
     <slot name="head" />
 
     <ClientRouter />
@@ -120,45 +115,38 @@ const siteJsonLd = {
     <canvas
       id="grid-glow-canvas"
       class="pointer-events-none fixed inset-0 z-0 h-full w-full"
-      aria-hidden="true"></canvas>
+      aria-hidden="true"
+    ></canvas>
 
-    <a class="skip-link" href="#main-content">跳到主要內容</a>
+    <a class="skip-link" href="#main-content">
+      跳到主要內容
+    </a>
 
-    <header
-      class="sticky top-0 z-40 border-b border-border-soft bg-base/90 backdrop-blur"
-    >
-      <div
-        class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
-      >
+    <header class="sticky top-0 z-40 border-b border-border-soft bg-base/90 backdrop-blur">
+      <div class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <a
           href="/"
           class="flex items-center gap-3 no-underline"
           aria-label={`${site.name} 首頁`}
         >
-          <span
-            class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display text-base font-semibold text-slate-50"
-          >
+          <span class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display text-base font-semibold text-slate-50">
             {site.name.charAt(0)}
           </span>
-          <span
-            class="hidden font-display text-base font-semibold text-slate-50 sm:inline"
-          >
+          <span class="hidden font-display text-base font-semibold text-slate-50 sm:inline">
             {site.name}
           </span>
         </a>
 
         <nav class="flex items-center gap-1" aria-label="主要導覽">
-          {
-            navLinks.map((link) => (
-              <a
-                href={link.href}
-                aria-current={isCurrentNav(link.href) ? "page" : undefined}
-                class="rounded-md px-3 py-2 text-sm font-medium text-slate-400 no-underline hover:bg-surface hover:text-slate-50 aria-current:bg-surface aria-current:text-slate-50"
-              >
-                {link.label}
-              </a>
-            ))
-          }
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              aria-current={isCurrentNav(link.href) ? "page" : undefined}
+              class="rounded-md px-3 py-2 text-sm font-medium text-slate-400 no-underline hover:bg-surface hover:text-slate-50 aria-current:bg-surface aria-current:text-slate-50"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
       </div>
     </header>
@@ -172,14 +160,10 @@ const siteJsonLd = {
     </main>
 
     <footer class="relative z-10 mt-16 border-t border-border-soft bg-base">
-      <div
-        class="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 sm:px-6 md:footer-columns"
-      >
+      <div class="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 sm:px-6 md:footer-columns">
         <section>
           <div class="mb-3 flex items-center gap-3">
-            <span
-              class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display font-semibold text-slate-50"
-            >
+            <span class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display font-semibold text-slate-50">
               {site.name.charAt(0)}
             </span>
             <h2 class="text-lg">{site.name}</h2>
@@ -192,18 +176,17 @@ const siteJsonLd = {
         <nav aria-label="頁尾導覽">
           <h2 class="mb-3 text-sm font-semibold text-slate-200">導覽</h2>
           <ul class="grid gap-2 text-sm">
-            {
-              navLinks.map((link) => (
-                <li>
-                  <a href={link.href} class="text-slate-400 no-underline">
-                    {link.label}
-                  </a>
-                </li>
-              ))
-            }
+            {navLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-slate-400 no-underline">
+                  {link.label}
+                </a>
+              </li>
+            ))}
             <li>
-              <a href="/rss.xml" class="text-slate-400 no-underline">RSS 訂閱</a
-              >
+              <a href="/rss.xml" class="text-slate-400 no-underline">
+                RSS 訂閱
+              </a>
             </li>
           </ul>
         </nav>
@@ -235,9 +218,7 @@ const siteJsonLd = {
         </section>
       </div>
 
-      <div
-        class="border-t border-border-soft px-4 py-5 text-center text-xs text-slate-400"
-      >
+      <div class="border-t border-border-soft px-4 py-5 text-center text-xs text-slate-400">
         © {currentYear}
         {site.name}. <span lang="en">Built with Astro and Tailwind CSS.</span>
       </div>

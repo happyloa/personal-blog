@@ -15,76 +15,74 @@ const filteredHeadings = headings.filter(
 );
 ---
 
-{
-  filteredHeadings.length > 0 && (
-    <>
-      <aside
-        id="toc-desktop"
-        class="fixed right-6 top-24 z-30 hidden max-h-toc-desktop w-64 overflow-y-auto 2xl:block"
+{filteredHeadings.length > 0 && (
+  <>
+    <aside
+      id="toc-desktop"
+      class="fixed right-6 top-24 z-30 hidden max-h-toc-desktop w-64 overflow-y-auto 2xl:block"
+    >
+      <nav class="surface p-4 text-sm" aria-label="文章目錄">
+        <p class="mb-3 font-semibold text-slate-200">目錄</p>
+        <ol class="grid gap-1">
+          {filteredHeadings.map((heading) => (
+            <li class={heading.depth === 3 ? "pl-4" : ""}>
+              <a
+                href={`#${heading.slug}`}
+                class="toc-link block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
+                data-slug={heading.slug}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+
+    <div class="2xl:hidden">
+      <button
+        id="toc-fab"
+        type="button"
+        class="fixed bottom-4 right-4 z-50 rounded-md border border-border-soft bg-surface px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg"
+        aria-label="文章目錄"
+        aria-controls="toc-mobile"
+        aria-expanded="false"
       >
-        <nav class="surface p-4 text-sm" aria-label="文章目錄">
-          <p class="mb-3 font-semibold text-slate-200">目錄</p>
-          <ol class="grid gap-1">
-            {filteredHeadings.map((heading) => (
-              <li class={heading.depth === 3 ? "pl-4" : ""}>
-                <a
-                  href={`#${heading.slug}`}
-                  class="toc-link block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
-                  data-slug={heading.slug}
-                >
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </aside>
+        目錄
+      </button>
 
-      <div class="2xl:hidden">
-        <button
-          id="toc-fab"
-          type="button"
-          class="fixed bottom-4 right-4 z-50 rounded-md border border-border-soft bg-surface px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg"
-          aria-label="文章目錄"
-          aria-controls="toc-mobile"
-          aria-expanded="false"
-        >
-          目錄
-        </button>
+      <div
+        id="toc-overlay"
+        class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity"
+        aria-hidden="true"
+        inert
+      />
 
-        <div
-          id="toc-overlay"
-          class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity"
-          aria-hidden="true"
-          inert
-        />
-
-        <nav
-          id="toc-mobile"
-          class="fixed bottom-20 right-4 z-50 max-h-toc-mobile w-toc-panel overflow-y-auto rounded-lg border border-border-soft bg-surface p-4 opacity-0 pointer-events-none transition-opacity"
-          aria-label="文章目錄"
-          aria-hidden="true"
-          inert
-        >
-          <p class="mb-3 font-semibold text-slate-200">目錄</p>
-          <ol class="grid gap-1 text-sm">
-            {filteredHeadings.map((heading) => (
-              <li class={heading.depth === 3 ? "pl-4" : ""}>
-                <a
-                  href={`#${heading.slug}`}
-                  class="toc-link-mobile block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
-                  data-slug={heading.slug}
-                >
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </div>
-    </>
-  )
-}
+      <nav
+        id="toc-mobile"
+        class="fixed bottom-20 right-4 z-50 max-h-toc-mobile w-toc-panel overflow-y-auto rounded-lg border border-border-soft bg-surface p-4 opacity-0 pointer-events-none transition-opacity"
+        aria-label="文章目錄"
+        aria-hidden="true"
+        inert
+      >
+        <p class="mb-3 font-semibold text-slate-200">目錄</p>
+        <ol class="grid gap-1 text-sm">
+          {filteredHeadings.map((heading) => (
+            <li class={heading.depth === 3 ? "pl-4" : ""}>
+              <a
+                href={`#${heading.slug}`}
+                class="toc-link-mobile block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
+                data-slug={heading.slug}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+  </>
+)}
 
 <script>
   import { initTOC } from "../scripts/toc";

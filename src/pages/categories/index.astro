@@ -14,8 +14,12 @@ const categoryCounts = getCategoryCounts(posts);
   description="依照主題分類瀏覽所有文章"
 >
   <section class="mb-10 max-w-3xl">
-    <a href="/" class="mb-5 inline-flex text-sm no-underline">← 返回首頁</a>
-    <p class="eyebrow mb-3" lang="en">Categories</p>
+    <a href="/" class="mb-5 inline-flex text-sm no-underline">
+      ← 返回首頁
+    </a>
+    <p class="eyebrow mb-3" lang="en">
+      Categories
+    </p>
     <h1 class="mb-4 text-3xl md:text-4xl">文章分類</h1>
     <p class="leading-8 text-slate-400">
       選擇你有興趣的主題，從一組相關文章開始讀。
@@ -23,14 +27,12 @@ const categoryCounts = getCategoryCounts(posts);
   </section>
 
   <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      categories.map((category) => (
-        <CategoryCard
-          category={category}
-          count={categoryCounts.get(category.slug) || 0}
-          headingLevel="h2"
-        />
-      ))
-    }
+    {categories.map((category) => (
+      <CategoryCard
+        category={category}
+        count={categoryCounts.get(category.slug) || 0}
+        headingLevel="h2"
+      />
+    ))}
   </section>
 </BaseLayout>

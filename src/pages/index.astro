@@ -19,7 +19,9 @@ const topTags = getAllTags(posts).slice(0, 8);
 <BaseLayout title={site.title} description={site.description}>
   <div class="grid gap-16">
     <section class="max-w-3xl">
-      <p class="eyebrow mb-5" lang="en">Frontend / Web / Notes</p>
+      <p class="eyebrow mb-5" lang="en">
+        Frontend / Web / Notes
+      </p>
       <h1 class="mb-6 text-4xl leading-tight md:text-6xl">
         寫下前端開發、網站架構與學習路上的實作筆記。
       </h1>
@@ -32,7 +34,9 @@ const topTags = getAllTags(posts).slice(0, 8);
     <section>
       <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p class="eyebrow mb-2" lang="en">Categories</p>
+          <p class="eyebrow mb-2" lang="en">
+            Categories
+          </p>
           <h2 class="text-2xl">文章分類</h2>
         </div>
         <a href="/categories/" class="text-sm font-medium no-underline">
@@ -41,22 +45,22 @@ const topTags = getAllTags(posts).slice(0, 8);
       </div>
 
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          visibleCategories.map((category) => (
-            <CategoryCard
-              category={category}
-              count={categoryCounts.get(category.slug) || 0}
-              headingLevel="h3"
-            />
-          ))
-        }
+        {visibleCategories.map((category) => (
+          <CategoryCard
+            category={category}
+            count={categoryCounts.get(category.slug) || 0}
+            headingLevel="h3"
+          />
+        ))}
       </div>
     </section>
 
     <section>
       <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p class="eyebrow mb-2" lang="en">Tags</p>
+          <p class="eyebrow mb-2" lang="en">
+            Tags
+          </p>
           <h2 class="text-2xl">熱門標籤</h2>
         </div>
         <a href="/tags/" class="text-sm font-medium no-underline">
@@ -65,25 +69,25 @@ const topTags = getAllTags(posts).slice(0, 8);
       </div>
 
       <div class="flex flex-wrap gap-2">
-        {
-          topTags.map((tag) => (
-            <a
-              href={`/tags/${tag.slug}/`}
-              class="tag-pill"
-              aria-label={`查看 #${tag.display} 標籤的 ${tag.count} 篇文章`}
-            >
-              #{tag.display}
-              <span class="ml-1 text-slate-400">{tag.count}</span>
-            </a>
-          ))
-        }
+        {topTags.map((tag) => (
+          <a
+            href={`/tags/${tag.slug}/`}
+            class="tag-pill"
+            aria-label={`查看 #${tag.display} 標籤的 ${tag.count} 篇文章`}
+          >
+            #{tag.display}
+            <span class="ml-1 text-slate-400">{tag.count}</span>
+          </a>
+        ))}
       </div>
     </section>
 
     <section>
       <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p class="eyebrow mb-2" lang="en">Latest</p>
+          <p class="eyebrow mb-2" lang="en">
+            Latest
+          </p>
           <h2 class="text-2xl">最新文章</h2>
         </div>
         <a href="/rss.xml" class="text-sm font-medium no-underline">
@@ -92,7 +96,9 @@ const topTags = getAllTags(posts).slice(0, 8);
       </div>
 
       <div class="grid gap-4">
-        {posts.map((post) => <PostCard post={post} headingLevel="h3" />)}
+        {posts.map((post) => (
+          <PostCard post={post} headingLevel="h3" />
+        ))}
       </div>
     </section>
   </div>

@@ -75,6 +75,8 @@ Tailwind CSS 4 使用 `@tailwindcss/vite`，Typography 透過 CSS 的 `@plugin` 
 
 開發工具使用精確版本，安裝結果由 `package-lock.json` 鎖定。`@astrojs/check` 0.9.10 的 peer dependency 支援 TypeScript 5／6，因此目前固定使用 TypeScript 6.0.3；不要直接升至 TypeScript 7 或使用 `--force` 忽略相容性。
 
+2026-09-13 更新至 Astro 7.3.2、Mermaid 12.0.0、node-html-parser 9.0.4 與 prettier-plugin-astro 1.0.0。TypeScript 7.0.2 暫待檢查工具支援後再升級。間接相依 SVGO 已更新至 4.1.0；Mermaid 的 Chevrotain 相依仍鎖定有漏洞的 lodash-es 4.17.23，因此以 `overrides` 統一使用修補版 4.18.1。上游解除舊版限制後，可重新評估移除 override，並再次執行 audit 與圖表驗證。
+
 升級時同步更新 `package.json` 與 lockfile，再執行上述驗證，以及 `npm outdated`、`npm audit`。GitHub Actions 以完整 commit SHA 鎖定版本，更新時也需核對 release 與對應 SHA。
 
 ## 專案結構

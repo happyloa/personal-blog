@@ -20,12 +20,12 @@ const summary = toPlainTextExcerpt(getPostDescription(post));
 
 <article class="surface surface-hover group p-5 md:p-6">
   <div class="mb-4 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-    <time datetime={isoDate} class="font-mono">{formattedDate}</time>
-    {
-      post.data.tags
-        .slice(0, 3)
-        .map((tag) => <span class="tag-pill px-2 py-0.5 text-2xs">#{tag}</span>)
-    }
+    <time datetime={isoDate} class="font-mono">
+      {formattedDate}
+    </time>
+    {post.data.tags.slice(0, 3).map((tag) => (
+      <span class="tag-pill px-2 py-0.5 text-2xs">#{tag}</span>
+    ))}
   </div>
 
   <Heading class="mb-3 text-xl leading-snug md:text-2xl">
@@ -38,13 +38,9 @@ const summary = toPlainTextExcerpt(getPostDescription(post));
     </a>
   </Heading>
 
-  {
-    summary && (
-      <p class="mb-5 line-clamp-3 text-sm leading-7 text-slate-400">
-        {summary}
-      </p>
-    )
-  }
+  {summary && (
+    <p class="mb-5 line-clamp-3 text-sm leading-7 text-slate-400">{summary}</p>
+  )}
 
   <a
     href={`/posts/${post.id}/`}
