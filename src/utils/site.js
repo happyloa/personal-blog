@@ -23,5 +23,4 @@ export const toJsonLd = (data) =>
 export const navLinks = [
   { href: "/", label: "首頁" },
   { href: "/categories/", label: "分類" },
-  { href: "/tags/", label: "標籤" },
 ];

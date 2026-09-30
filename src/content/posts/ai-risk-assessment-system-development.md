@@ -2,7 +2,6 @@
 title: AI 風險管理措施檢核系統開發紀錄 — FastAPI + React 的權限、版本控制與離線部署
 description: 因工作需要，我把《人工智慧基本法》下的 AI 風險評估流程做成系統。真正費工的不是畫面或技術，而是把權限、版本與資料規則想清楚。
 date: 2026-07-09
-tags: [AI, React, 後端, 架構, 專案開發]
 category: project
 ---
 

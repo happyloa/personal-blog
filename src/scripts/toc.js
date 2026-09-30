@@ -8,7 +8,7 @@ let tocFocusoutHandler;
 let headingObserver;
 
 export function initTOC() {
-  // 清理必須在 early return 之前：換到沒有目錄的頁面（首頁、標籤頁）時，
+  // 清理必須在 early return 之前：換到沒有目錄的頁面（首頁、分類頁）時，
   // 舊頁面的監聽器與 observer 同樣要斷乾淨。
   headingObserver?.disconnect();
   headingObserver = undefined;

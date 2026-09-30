@@ -2,7 +2,6 @@
 title: 德恩生命禮儀官網開發心得 — 資訊架構與易用性設計
 description: 分享殯葬服務官網開發經驗。如何透過資訊架構優化與易用性設計，幫助使用者在急需時快速找到關鍵服務資訊。
 date: 2023-02-20
-tags: [WordPress, UI/UX, 專案開發]
 category: project
 ---
 

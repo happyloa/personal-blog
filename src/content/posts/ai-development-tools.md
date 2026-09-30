@@ -2,7 +2,6 @@
 title: AI 輔助開發工具使用心得 — Claude、Cursor、Antigravity IDE 實戰分享
 description: 分享 Claude、Cursor 等 AI 輔助開發工具的實戰心得。探討如何善用 AI 加速重複性工作，讓工程師專注於更有價值的核心邏輯。
 date: 2025-12-20
-tags: [AI, 工具, 職涯]
 category: career
 ---
 

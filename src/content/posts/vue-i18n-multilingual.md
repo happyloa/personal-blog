@@ -3,7 +3,6 @@ title: Vue i18n 多語系網站開發實作 — 從設定到維護的經驗分�
 description: 完整教學：使用 Vue i18n 開發多語系網站。從基礎設定、動態內容翻譯到 SEO 考量，分享實務上的開發經驗與避坑指南。
 date: 2022-02-15
 updated: 2026-07-28
-tags: [Vue]
 category: learning
 ---
 

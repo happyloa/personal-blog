@@ -27,7 +27,7 @@ function getSitemapMetadata(html) {
 }
 
 /**
- * 使用正式頁面的 metadata，避免另行解析文章或重複計算分類與標籤數量。
+ * 使用正式頁面的 metadata，避免另行解析文章或重複計算分類數量。
  * @returns {import("astro").AstroIntegration}
  */
 export default function contentSitemap() {

@@ -5,7 +5,6 @@ import CategoryCard from "../components/CategoryCard.astro";
 import { categories, getCategoryCounts } from "../utils/categories";
 import { getPublishedPostsSorted } from "../utils/posts";
 import { site } from "../utils/site";
-import { getAllTags } from "../utils/tags";
 
 const posts = await getPublishedPostsSorted();
 const categoryCounts = getCategoryCounts(posts);
@@ -13,7 +12,6 @@ const categoryCounts = getCategoryCounts(posts);
 const visibleCategories = categories.filter(
   (category) => (categoryCounts.get(category.slug) || 0) > 0,
 );
-const topTags = getAllTags(posts).slice(0, 8);
 ---
 
 <BaseLayout title={site.title} description={site.description}>
@@ -51,33 +49,6 @@ const topTags = getAllTags(posts).slice(0, 8);
             count={categoryCounts.get(category.slug) || 0}
             headingLevel="h3"
           />
-        ))}
-      </div>
-    </section>
-
-    <section>
-      <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p class="eyebrow mb-2" lang="en">
-            Tags
-          </p>
-          <h2 class="text-2xl">熱門標籤</h2>
-        </div>
-        <a href="/tags/" class="text-sm font-medium no-underline">
-          標籤索引 →
-        </a>
-      </div>
-
-      <div class="flex flex-wrap gap-2">
-        {topTags.map((tag) => (
-          <a
-            href={`/tags/${tag.slug}/`}
-            class="tag-pill"
-            aria-label={`查看 #${tag.display} 標籤的 ${tag.count} 篇文章`}
-          >
-            #{tag.display}
-            <span class="ml-1 text-slate-400">{tag.count}</span>
-          </a>
         ))}
       </div>
     </section>

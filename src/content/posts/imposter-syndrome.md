@@ -2,7 +2,6 @@
 title: 「我覺得我不夠好」— 工程師與冒名頂替症候群（Imposter Syndrome）
 description: 你是否常覺得自己是「運氣好」才拿到這份工作？害怕被別人發現其實你什麼都不懂？不用擔心，你並不孤單。這篇文章聊聊如何與這種感覺共處。
 date: 2026-02-16
-tags: [職涯]
 category: mindset
 ---
 

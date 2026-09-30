@@ -3,7 +3,6 @@ title: HTML 與 CSS 入門 — 用 Word 文件來比喻網頁的結構與樣式
 description: 用最直覺的 Microsoft Word 比喻，帶你一次搞懂 HTML 的結構與 CSS 的樣式設計，新手入門網頁開發的最佳指南。
 date: 2026-02-06
 updated: 2026-07-28
-tags: [CSS, 新手入門]
 category: web-basics
 ---
 

@@ -2,7 +2,6 @@
 title: 你可能還不知道的現代 CSS 功能 — Nesting、:has() 與 @container
 description: CSS 進化得太快了！這篇文章介紹三個改變遊戲規則的新功能，讓你的 CSS 寫法更強大、更簡潔。
 date: 2026-02-18
-tags: [CSS]
 category: learning
 ---
 

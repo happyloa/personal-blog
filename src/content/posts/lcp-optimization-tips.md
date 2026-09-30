@@ -3,7 +3,6 @@ title: 網站 LCP 優化實戰 — 提升 25% 載入速度的經驗分享
 description: 深入解析 LCP 優化的實戰技巧。分享如何診斷效能瓶頸、優化圖片載入與伺服器回應，成功提升 25% 網站載入速度的經驗。
 date: 2025-02-10
 updated: 2026-07-28
-tags: [效能優化]
 category: tech-deep-dive
 ---
 

@@ -3,7 +3,6 @@ title: 用 CSS 隱藏網頁元素的六種方法 — 完整比較與無障礙考
 description: display:none、visibility:hidden 差在哪？整理 6 種 CSS 隱藏元素的方法，深入比較其特性與無障礙（Accessibility）影響。
 date: 2024-04-20
 updated: 2026-07-28
-tags: [CSS]
 category: learning
 ---
 

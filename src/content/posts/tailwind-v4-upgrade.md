@@ -3,7 +3,6 @@ title: Tailwind CSS v4 升級指南 — 速度更快、體積更小、寫法更�
 description: v4 推出一年後的升級重點整理：設定從 JS 檔改成在 CSS 的 @theme 裡定義變數，舊的 tailwind.config.js 仍可透過 @config 沿用。
 date: 2026-02-19
 updated: 2026-07-28
-tags: [CSS]
 category: learning
 ---
 

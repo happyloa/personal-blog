@@ -3,7 +3,6 @@ title: Git 版本控制入門 — 用遊戲存檔來理解版本管理
 description: Git 就像遊戲存檔一樣，幫你記錄程式碼的每一個進度。本文用 RPG 遊戲的比喻介紹 Commit、Branch、Merge 等核心概念。
 date: 2026-02-08
 updated: 2026-07-28
-tags: [工具, 新手入門]
 category: learning
 ---
 

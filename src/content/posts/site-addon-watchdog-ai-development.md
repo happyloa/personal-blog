@@ -2,7 +2,6 @@
 title: 用 AI 開發 WordPress 安全外掛 — Site Add-on Watchdog 開發分享
 description: 幾乎全程 AI 輔助開發！分享如何利用 AI 協作開發 WordPress 安全外掛 Site Add-on Watchdog，實現自動化資安監控功能。
 date: 2025-12-15
-tags: [WordPress, AI, 資安, 專案開發]
 category: project
 ---
 

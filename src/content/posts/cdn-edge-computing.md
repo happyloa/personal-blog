@@ -2,7 +2,6 @@
 title: CDN 與 Edge Computing — 為什麼有些網站就是比較快？
 description: 你的網站伺服器在美國，為什麼台灣的使用者還能秒開？揭開 CDN 加速的祕密，以及邊緣運算（Edge Computing）如何改變現代網頁開發。
 date: 2026-02-15
-tags: [效能優化, 網路, 架構]
 category: web-basics
 ---
 

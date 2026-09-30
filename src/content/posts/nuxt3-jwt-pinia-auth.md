@@ -3,7 +3,6 @@ title: Nuxt 3 JWT 身份驗證實作筆記 — 搭配 Pinia 與 Cookie 管理登
 description: 實作筆記：如何在 Nuxt 3 專案中用 Pinia 搭配 Cookie 管理 JWT 登入狀態，並處理 SSR 時的登入狀態同步問題。
 date: 2025-03-05
 updated: 2026-07-28
-tags: [Nuxt, Vue]
 category: learning
 ---
 

@@ -2,7 +2,6 @@
 title: 用 Vue 的觀念理解 Laravel：前端工程師的後端入門筆記
 description: 從熟悉的 Vue Router、元件、props、Pinia 與表單出發，對照 Laravel 的路由、Blade、Controller 與 Eloquent，建立理解 PHP 後端的第一張地圖。
 date: 2026-09-10
-tags: [Vue, PHP, Laravel, 後端]
 category: learning
 ---
 

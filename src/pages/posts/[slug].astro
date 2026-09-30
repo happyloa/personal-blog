@@ -9,7 +9,6 @@ import {
 } from "../../utils/posts";
 import { site, toJsonLd } from "../../utils/site";
 import { formatDate, toISODate } from "../../utils/date";
-import { slugifyTag } from "../../utils/tags";
 import { getCategoryBySlug } from "../../utils/categories";
 import { toPlainTextExcerpt } from "../../utils/summary";
 
@@ -53,7 +52,6 @@ const blogPostingSchema = {
   image: ogImageURL.href,
   mainEntityOfPage: canonicalURL.href,
   ...(category && { articleSection: category.name }),
-  ...(post.data.tags.length > 0 && { keywords: post.data.tags.join(", ") }),
 };
 
 const breadcrumbSchema = {
@@ -101,9 +99,6 @@ const breadcrumbSchema = {
     )}
     <meta property="article:author" content={site.author} />
     {category && <meta property="article:section" content={category.name} />}
-    {post.data.tags.map((tag) => (
-      <meta property="article:tag" content={tag} />
-    ))}
     <script
       is:inline
       type="application/ld+json"
@@ -151,20 +146,6 @@ const breadcrumbSchema = {
       </div>
 
       <h1 class="mb-6 text-3xl leading-tight md:text-5xl">{post.data.title}</h1>
-
-      {post.data.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {post.data.tags.map((tag) => (
-            <a
-              class="tag-pill"
-              href={`/tags/${slugifyTag(tag)}/`}
-              aria-label={`查看 #${tag} 標籤文章`}
-            >
-              #{tag}
-            </a>
-          ))}
-        </div>
-      )}
     </header>
 
     <Content />

@@ -3,7 +3,6 @@ title: 網路是怎麼運作的？— 從海底電纜到你的螢幕
 description: 全球 95% 的國際網路流量靠海底電纜傳輸！深入淺出介紹 ISP、伺服器、Request/Response 等網路基礎設施運作原理。
 date: 2026-02-11
 updated: 2026-07-28
-tags: [網路, 新手入門]
 category: web-basics
 ---
 

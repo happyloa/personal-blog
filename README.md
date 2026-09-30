@@ -23,7 +23,7 @@
   - 完整的 Open Graph 與 Twitter Card 設定
   - JSON-LD 結構化資料（WebSite / Person / BlogPosting / BreadcrumbList）
   - 自動生成 `sitemap-index.xml`、`sitemap-0.xml`（文章含 `lastmod`）與 `rss.xml`
-  - 文章數少於 2 篇的分類頁及標籤頁掛 `noindex`；sitemap 讀取正式 HTML 的 robots 與文章日期，確保輸出一致
+  - 文章數少於 2 篇的分類頁掛 `noindex`；sitemap 讀取正式 HTML 的 robots 與文章日期，確保輸出一致
 
 ## 環境需求
 
@@ -90,14 +90,13 @@ src/
 │   └── posts/    # Markdown 檔案
 ├── integrations/ # sitemap 使用正式 HTML metadata 的建置整合
 ├── layouts/      # 頁面佈局 (BaseLayout)
-├── pages/        # 頁面路由 (首頁, 文章內頁, 分類頁, 標籤頁, RSS, 404)
+├── pages/        # 頁面路由 (首頁, 文章內頁, 分類頁, RSS, 404)
 ├── scripts/      # 客戶端腳本 (TOC、Mermaid、背景方格光暈)
 ├── styles/       # 全域樣式與字型設定
-└── utils/        # 工具函式與站台設定 (日期, 分類, 標籤, 摘要, metadata)
+└── utils/        # 工具函式與站台設定 (日期, 分類, 摘要, metadata)
 
 public/
 ├── _headers      # Cloudflare Pages 的安全標頭與快取策略
-├── _redirects    # 舊標籤網址的永久轉址
 ├── images/posts/ # 文章內文圖片
 ├── robots.txt
 ├── favicon.svg
@@ -117,7 +116,6 @@ title: 我的新文章標題
 description: （選填）未填則擷取內文第一個非空行
 date: 2026-01-27
 updated: 2026-03-01 # （選填）內容有實質修訂時填寫，會反映在 sitemap 的 lastmod
-tags: [Astro, 前端] # （選填）
 category: learning # 必填，且只能是下表的六個值之一
 cover: ../../assets/my-post-cover.png # （選填）社群分享圖片，填寫時必須有對應檔案
 draft: false # （選填）設為 true 則不會發布
@@ -149,7 +147,6 @@ draft: false # （選填）設為 true 則不會發布
 - **圖片**：
   - 文章內文圖片放在 `public/images/posts/<slug>/`，在 Markdown 中以絕對路徑引用（例如 `/images/posts/my-post/photo.webp`）。這個路徑**不會**經過 Astro 的圖片優化管線，請自行先壓縮／轉檔（建議 WebP）再上傳，並在 `<img>` 上明確標註 `width`／`height`／`loading="lazy"` 以避免版面位移。
   - frontmatter 的 `cover` 欄位透過 Astro 的 `image()` schema 驗證並取得圖片 metadata，目前僅用於 Open Graph、Twitter Card 與 JSON-LD，不會顯示在文章頂端或卡片，也不會自動縮放／轉檔。請先壓縮圖片，再放在 `src/` 底下（例如自行建立 `src/assets/`）。路徑相對於**文章檔案本身**解析，因此從 `src/content/posts/foo.md` 指到 `src/assets/` 要寫 `../../assets/cover.png`。需要自動轉檔時，另行使用 Astro 的 `<Image />` 或 `getImage()`。
-- **標籤**：系統會自動將標籤轉為小寫並移除特殊符號（slugify），自動生成對應的 `/tags/<tag>/` 頁面。若兩個不同標籤 slugify 後撞在一起（例如 `Vue.js` 與 `VueJS`），build 會直接失敗並指出衝突。
 - **目錄**：文章內頁會自動解析 `h2` 與 `h3` 標題生成目錄。正文請從 `h2` 開始，`h1` 已由文章標題佔用。
 - **Mermaid 圖表**：用 ` ```mermaid ` 圍欄即可，客戶端會自動轉譯。腳本在 `astro:page-load` 檢查頁面，只有存在圖表時才動態載入 Mermaid；套件內部也會按圖表類型載入額外模組。建置仍可能出現大型 chunk 警告，實際下載量與渲染成本取決於套件版本和圖表類型，需以瀏覽器 Network／Performance 實測。
 - **表格**：表格一律包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 裡。這不只是為了窄螢幕捲動——`.prose table` 的垂直間距刻意設為 `my-0`，由外層的 `.table-wrapper` 提供 `my-8` 與邊框、底色；沒包的話表格會緊貼上一段文字、也失去圓角邊框，而且 `≤768px` 的 `white-space: nowrap` 加上 `body` 的 `overflow-x: hidden` 會讓右側欄位在手機上被裁掉且無法捲到。`role` 用 `group` 而非 `region`：`region` 會讓每張表格都變成一個地標，一篇多表格的文章會塞爆螢幕閱讀器的地標清單。

@@ -2,7 +2,6 @@
 title: DNS 深度解析 — 網路世界的地址簿與導航系統
 description: 深入探討 DNS 運作原理，從遞迴查詢到各類紀錄（A、CNAME、MX），以及當 DNS 故障時該如何排查。
 date: 2026-02-12
-tags: [網路, 後端]
 category: web-basics
 ---
 

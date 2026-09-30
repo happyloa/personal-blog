@@ -2,7 +2,6 @@
 title: 藝術銀行 Art Bank 會員系統開發紀錄 — Nuxt 3 + JWT 實戰經驗
 description: 分享藝術銀行會員系統開發經驗，包含 Nuxt 3 SSR 架構選型、JWT + Pinia 登入狀態設計，以及公司戶／個人戶複雜表單的處理心得。
 date: 2025-01-15
-tags: [Nuxt, Vue, 專案開發]
 category: project
 ---
 

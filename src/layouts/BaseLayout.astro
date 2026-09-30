@@ -19,7 +19,7 @@ const currentYear = new Date().getFullYear();
 const currentPath = Astro.url.pathname;
 
 // 主導覽的 active 判定：首頁只在完全相符時算命中，其餘用前綴比對，
-// 讓 /tags/vue/ 這類子頁也能正確標示所屬區塊。
+// 讓分類內頁也能正確標示所屬區塊。
 const isCurrentNav = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath.startsWith(href);
 

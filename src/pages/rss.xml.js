@@ -26,7 +26,6 @@ export async function GET(context) {
       pubDate: post.data.date,
       description: toPlainTextExcerpt(getPostDescription(post)),
       link: `/posts/${post.id}/`,
-      categories: post.data.tags,
     })),
     // atom:link rel="self" 與 lastBuildDate 是 W3C Feed Validator 的建議項目，
     // 前者讓閱讀器知道 feed 的正規位置，後者避免每次抓取都當成有更新。

@@ -2,7 +2,6 @@
 title: DNS 是什麼？— 用門牌號碼來理解網路世界的地址系統
 description: DNS 是網際網路的電話簿，負責把網址翻譯成 IP 位址。本文用門牌號碼和查號台的比喻，帶你輕鬆理解 DNS 運作原理。
 date: 2026-02-07
-tags: [網路, 新手入門]
 category: web-basics
 ---
 

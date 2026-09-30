@@ -3,7 +3,6 @@ title: Figma to Code 工作流程分享
 description: 解析從 Figma 設計稿轉化為 Vue + TypeScript + Tailwind 程式碼的高效工作流程，建立 Design System 以確保設計與開發的一致性。
 date: 2023-06-20
 updated: 2026-07-28
-tags: [UI/UX, 職涯]
 category: tech-deep-dive
 ---
 

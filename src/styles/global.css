@@ -24,8 +24,6 @@
   /* 程式碼區塊底色，刻意介於 base 與 surface 之間，比兩者都更沉一點。 */
   --color-code-surface: #0c0c10;
 
-  /* 比 text-xs（12px）再小一階，用於文章卡片上的標籤。 */
-  --text-2xs: 0.6875rem;
   /* 行內程式碼用相對單位，才會跟著所在段落的字級縮放（prose 與 prose-lg 都適用）。 */
   --text-code: 0.9em;
 
@@ -99,7 +97,7 @@
   }
 }
 
-/* 元件類別放進 @layer components，讓模板上的 utility（px-2、text-2xs…）能正常覆寫。 */
+/* 元件類別放進 @layer components，讓模板上的 utility 能正常覆寫。 */
 @layer components {
   .surface {
     @apply rounded-lg border border-border-soft bg-surface;
@@ -111,11 +109,6 @@
 
   .eyebrow {
     @apply font-mono text-xs font-medium uppercase tracking-eyebrow text-slate-400;
-  }
-
-  .tag-pill {
-    font-family: var(--font-mono);
-    @apply inline-flex items-center rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-slate-400 no-underline transition-colors hover:border-slate-500 hover:bg-surface-soft hover:text-slate-100;
   }
 
   .skip-link {

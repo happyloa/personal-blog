@@ -2,7 +2,6 @@
 title: 網站 SEO 優化攻略 — 從技術面提升搜尋排名的實戰經驗（2026 更新版）
 description: 2026 年最新 SEO 攻略：探討 AI Overviews 帶來的搜尋生態劇變，以及如何透過技術優化與 E-E-A-T 策略提升排名。
 date: 2026-01-30
-tags: [SEO]
 category: tech-deep-dive
 ---
 

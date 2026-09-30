@@ -2,7 +2,6 @@
 title: API 請求卡住怎麼辦？聊聊 Timeout、Retry 與 Circuit Breaker
 description: 當 API 請求卡住時該怎麼辦？本文深入探討 Timeout、Retry 與 Circuit Breaker 三種提升系統韌性的關鍵模式。
 date: 2026-02-03
-tags: [後端, 架構]
 category: tech-deep-dive
 ---
 
