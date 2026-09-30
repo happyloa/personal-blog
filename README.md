@@ -143,7 +143,7 @@ draft: false # （選填）設為 true 則不會發布
 
 ### 撰寫建議
 
-- **站內連結**：一律寫成帶尾斜線的 `/posts/<slug>/`。本站使用 Astro 的 `directory` 輸出格式，少了尾斜線會多一次 308 轉址。
+- **站內連結**：一律寫成帶尾斜線的 `/posts/<slug>/`，與文章頁的 canonical 網址及 sitemap 保持一致。少了尾斜線時是否轉址，取決於部署平台；Astro 本機預覽目前兩種寫法都回傳 200。
 - **圖片**：
   - 文章內文圖片放在 `public/images/posts/<slug>/`，在 Markdown 中以絕對路徑引用（例如 `/images/posts/my-post/photo.webp`）。這個路徑**不會**經過 Astro 的圖片優化管線，請自行先壓縮／轉檔（建議 WebP）再上傳，並在 `<img>` 上明確標註 `width`／`height`／`loading="lazy"` 以避免版面位移。
   - frontmatter 的 `cover` 欄位透過 Astro 的 `image()` schema 驗證並取得圖片 metadata，目前僅用於 Open Graph、Twitter Card 與 JSON-LD，不會顯示在文章頂端或卡片，也不會自動縮放／轉檔。請先壓縮圖片，再放在 `src/` 底下（例如自行建立 `src/assets/`）。路徑相對於**文章檔案本身**解析，因此從 `src/content/posts/foo.md` 指到 `src/assets/` 要寫 `../../assets/cover.png`。需要自動轉檔時，另行使用 Astro 的 `<Image />` 或 `getImage()`。
