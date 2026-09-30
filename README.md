@@ -73,9 +73,11 @@
 
 Tailwind CSS 4 使用 `@tailwindcss/vite`，Typography 透過 CSS 的 `@plugin` 載入。字型使用 Astro 內建 Fonts API，Zod 從 `astro/zod` 匯入。HTML 解析器 `node-html-parser` 僅供 sitemap 建置使用，不會送到瀏覽器。
 
-開發工具使用精確版本，安裝結果由 `package-lock.json` 鎖定。`@astrojs/check` 0.9.10 的 peer dependency 支援 TypeScript 5／6，因此目前固定使用 TypeScript 6.0.3；不要直接升至 TypeScript 7 或使用 `--force` 忽略相容性。
+開發工具使用精確版本，安裝結果由 `package-lock.json` 鎖定。`@astrojs/check` 0.9.10 的 peer dependency 支援 TypeScript 5／6，因此目前固定使用 TypeScript 6.0.3；待官方支援 TypeScript 7 後再升級，不使用 `--force` 忽略相容性。
 
-2026-09-13 更新至 Astro 7.3.2、Mermaid 12.0.0、node-html-parser 9.0.4 與 prettier-plugin-astro 1.0.0。TypeScript 7.0.2 暫待檢查工具支援後再升級。間接相依 SVGO 已更新至 4.1.0；Mermaid 的 Chevrotain 相依仍鎖定有漏洞的 lodash-es 4.17.23，因此以 `overrides` 統一使用修補版 4.18.1。上游解除舊版限制後，可重新評估移除 override，並再次執行 audit 與圖表驗證。
+2026-09-30 更新至 Astro 7.3.5、Prettier 3.9.9、prettier-plugin-astro 1.1.0；其他直接相依套件已是 npm registry 當時的最新版。`npm audit fix` 同時將間接相依 `fast-uri` 更新至 3.1.8。Mermaid 的 Chevrotain 相依仍鎖定舊版 lodash-es，因此保留 `overrides`，統一使用修補版 4.18.1。上游解除舊版限制後，可重新評估移除 override，並再次執行 audit 與圖表驗證。
+
+npm 的安裝腳本審核會對 `esbuild` 顯示警告；專案在 `package.json` 的 `allowScripts` 中僅核准已檢查的 `esbuild@0.28.2`。未來 esbuild 升版時，應先檢查新版腳本，再用 `npm install-scripts approve esbuild` 更新版本鎖定。
 
 升級時同步更新 `package.json` 與 lockfile，再執行上述驗證，以及 `npm outdated`、`npm audit`。GitHub Actions 以完整 commit SHA 鎖定版本，更新時也需核對 release 與對應 SHA。
 
