@@ -6,7 +6,7 @@ updated: 2026-07-28
 category: learning
 ---
 
-最近幾個專案都有碰到會員系統的需求，JWT 驗證機制用了好幾次，這篇來整理一下在 Nuxt 3 專案中實作 JWT 驗證的心得。
+最近幾個專案都有會員系統的需求，也用了好幾次 JWT 驗證。以下整理我在 Nuxt 3 中的實作方式，以及處理登入狀態時要注意的細節。
 
 ## JWT 是什麼
 
@@ -114,7 +114,7 @@ export default defineNuxtPlugin(() => {
 });
 ```
 
-這樣之後打 API 就用 `$api` 而不是 `$fetch`，就會自動帶上 token，401 時也會自動登出導向登入頁。
+之後打 API 時使用 `$api` 取代 `$fetch`，請求就會自動帶上 token；收到 401 時，也會自動登出並導向登入頁。
 
 ## 頁面權限控制
 
@@ -180,7 +180,7 @@ export default defineNuxtPlugin(async () => {
 
 ## 結語
 
-JWT 驗證機制看起來簡單，但實作起來有不少細節要注意。Cookie + Pinia 這個組合在 Nuxt 3 專案中算是蠻標準的做法，既能處理 SSR 的問題，又能讓全站方便存取登入狀態。
+Cookie + Pinia 是 Nuxt 3 專案中常見的登入狀態管理方式：Cookie 保存 token，Pinia 讓全站存取狀態，也能配合 SSR 恢復登入資訊。實作時仍要留意前面提到的 XSS 風險、token 過期與登出清除，不能只確認畫面顯示已登入。
 
 ---
 

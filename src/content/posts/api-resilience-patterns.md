@@ -5,11 +5,9 @@ date: 2026-02-03
 category: tech-deep-dive
 ---
 
-最近在研究一個問題：**當 API 請求卡住、遲遲沒有回應的時候，我們該怎麼處理？**
+最近在研究 API 請求遲遲沒有回應時該怎麼處理。畫面一直 Loading，使用者不知道還要等多久；在 Production 環境裡，等待中的請求也可能持續佔用資源，影響其他功能。
 
-這個問題看起來很基本，但仔細想想，在 Production 環境中，這可是關乎整個應用程式穩定性的大事。使用者可不會乖乖等你的 Loading 轉圈圈轉到天荒地老。
-
-今天就來聊聊三個處理 API 不穩定的關鍵策略：**Timeout**、**Retry with Backoff** 和 **Circuit Breaker**。
+我整理了 Timeout、Retry with Backoff 和 Circuit Breaker 的做法，分別處理等待太久、暫時失敗和服務持續故障的情況。
 
 ## 問題在哪？
 
@@ -25,7 +23,7 @@ category: tech-deep-dive
 
 ## 第一道防線：Timeout（超時設定）
 
-最基本但最重要的設定。**永遠不要讓一個請求無限等待**。
+先限制單次請求的等待時間，避免它一直卡著。
 
 Timeout 的概念很簡單：設定一個時間限制，如果在這個時間內沒有收到回應，就主動放棄這次請求。
 
@@ -64,7 +62,7 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 5000) {
 
 ## 第二道防線：Retry with Backoff（重試機制）
 
-有時候請求失敗只是暫時的——可能是網路抖動、對方伺服器正好在重啟。這時候「再試一次」可能就會成功。
+請求失敗有時只是網路抖動，或對方伺服器剛好在重啟，稍後再試就可能成功。
 
 但重試不能亂試，要有策略：
 
@@ -111,16 +109,14 @@ function sleep(ms) {
 
 ### 什麼情況該重試？
 
-- ✅ 網路錯誤（Network Error）
-- ✅ 5xx 錯誤（Server Error）
-- ✅ Timeout
-- ❌ 4xx 錯誤（Client Error）—— 這是你的問題，重試也沒用
-- ❌ 401 認證失效 —— 通常是 Token 過期，可以先刷新 Token 再重試一次
-- ❌ 403 權限不足 —— 代表身分沒問題但沒有權限，換 Token 通常沒用，不建議直接重試，需要調整權限或走其他流程
+- 網路錯誤（Network Error）、5xx 錯誤（Server Error）和 Timeout 可以考慮重試。
+- 4xx 錯誤（Client Error）需要先處理請求本身的問題，直接重試通常沒有用。
+- 401 認證失效通常是 Token 過期，可以先刷新 Token 再重試一次。
+- 403 權限不足代表身分沒問題但沒有權限，換 Token 通常沒用，需要調整權限或走其他流程。
 
 ## 第三道防線：Circuit Breaker（斷路器）
 
-這是最進階但也最重要的模式。靈感來自電路的保險絲——當電流異常時，保險絲會斷開來保護整個電路。
+Circuit Breaker 的靈感來自電路的保險絲。電流異常時，保險絲會斷開；服務持續失敗時，斷路器則暫停呼叫，保護系統資源。
 
 ### 為什麼需要 Circuit Breaker？
 
@@ -217,7 +213,7 @@ async function processPayment(data) {
 }
 ```
 
-要特別注意的是，像扣款這種**非冪等（non-idempotent）**操作，重試前務必確認 API 有支援 Idempotency Key，否則 Timeout 造成的重試可能讓使用者被重複扣款——上面範例特地帶上 `Idempotency-Key`，就是為了讓伺服器端能辨識重複請求、避免這個問題。
+像扣款這種非冪等（non-idempotent）操作，重試前務必確認 API 支援 Idempotency Key，否則 Timeout 後重試可能造成重複扣款。上面範例帶上 `Idempotency-Key`，讓伺服器端能辨識重複請求。
 
 ## 實務上的整合
 
@@ -241,11 +237,9 @@ flowchart LR
 
 ## 結語
 
-處理「API 請求卡住」這個問題，其實反映的是一種思維方式：**在分散式系統中，任何外部依賴都可能失敗，我們必須假設它會失敗，並優雅地處理這些失敗**。
+外部服務總有失敗的時候，我會把這件事當成設計時就要處理的情境。Timeout 限制等待時間，Backoff 讓重試有間隔，Circuit Breaker 則在持續故障時停止送出請求。
 
-這三個模式——Timeout、Retry with Backoff、Circuit Breaker——是建構穩健系統的基本功。雖然一開始實作可能覺得麻煩，但當你的服務在某個第三方 API 掛掉時還能正常運作（至少是優雅降級），你會很慶幸有做這些防護的 😌
-
-希望這篇對你有幫助，下次遇到 API 不穩定的情況，就知道該怎麼處理了！
+實作起來需要多花一些工，但第三方 API 掛掉時，至少能讓自己的服務快速回報錯誤或降級，保留資源給其他功能。
 
 ---
 

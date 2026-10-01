@@ -7,7 +7,7 @@ category: web-basics
 
 當你在台灣打開一個架設在美國紐約的網站，理論上光是訊號來回跑一趟就要花上約 200 毫秒（ms）。再加上伺服器處理時間、傳輸圖片的時間，網頁載入可能要好幾秒。
 
-但為什麼很多國外的大型網站（如 Facebook, Netflix）在台灣開啟還是飛快？答案就是 **CDN（Content Delivery Network）**。
+Facebook、Netflix 這類大型網站在台灣也能快速開啟，其中一個原因就是使用了 CDN（Content Delivery Network）。
 
 ## CDN 是什麼？
 
@@ -43,7 +43,7 @@ CDN 是由一群分佈在世界各地的伺服器組成的網路。它們的功�
 2. **身分驗證**：在邊緣節點驗證 JWT Token，如果不合法直接擋掉，減輕源站負擔。
 3. **個人化內容**：根據使用者的地理位置（GeoIP），在邊緣節點直接修改回應內容（例如顯示當地貨幣）。
 
-這就是為什麼現在很流行 **Serverless** 和 **Edge Functions**（如 Vercel Edge Middleware, Cloudflare Workers）。它們讓運算發生在離使用者最近的地方，達到極致的效能。
+Serverless 和 Edge Functions（如 Vercel Edge Middleware, Cloudflare Workers）就能用在這些情境，讓程式在靠近使用者的節點執行，縮短往返源站的時間。
 
 ## 為什麼你需要 CDN？
 
@@ -52,7 +52,7 @@ CDN 是由一群分佈在世界各地的伺服器組成的網路。它們的功�
 3. **安全性**：CDN 通常提供 **DDoS 防護**和 **WAF（Web Application Firewall）**，幫你擋下惡意流量，保護源站。
 4. **成本**：CDN 的頻寬費用通常比雲端主機（如 AWS EC2）便宜。
 
-說真的，現在做網站如果沒上 CDN，光是載入速度就會被使用者嫌到不行。不管你是為了 SEO 還是讓使用者不要等到離開，花點時間設定 CDN 絕對是最划算的一件事。
+如果網站載入慢，可以先檢查圖片和靜態檔案能不能透過 CDN 提供。讓使用者少等一點，對閱讀體驗和 SEO 都有幫助，也值得花時間設定。
 
 ---
 

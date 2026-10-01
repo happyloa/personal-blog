@@ -6,7 +6,7 @@ updated: 2026-07-28
 category: learning
 ---
 
-做前端這幾年，Vue 和 React 都有碰過。一開始是從 Vue 入門，後來工作上也接觸了 React 專案。這篇來分享一下在兩個框架之間轉換的心得，以及實際開發時感受到的差異。
+我做前端是從 Vue 入門，後來工作上也接觸了 React 專案。換框架時，有些概念可以沿用，有些習慣得重新適應。以下整理我實際開發時感受到的差異。
 
 ## 為什麼要學 React
 
@@ -56,7 +56,7 @@ function MyComponent() {
 
 剛開始看 JSX 會覺得很亂，怎麼 HTML 跟 JavaScript 攪在一起。但寫久了發現，這種寫法其實很靈活，複雜的條件渲染反而比 `v-if` 直覺。
 
-仔細想想，**React 本質上其實就是 JavaScript 加上 [JSX](https://react.dev/learn/writing-markup-with-jsx#the-rules-of-jsx) 語法而已**。它沒有像 Vue 那樣有額外的模板語法（`v-if`、`v-for`、`v-model`），所有的邏輯都是用原生 JavaScript 來寫。這也是為什麼學 React 之前要先把 JavaScript 基礎打好——你需要熟悉 `map`、`filter`、三元運算子、解構賦值這些東西，因為 React 就是拿這些來處理 UI 邏輯的。
+React 使用 JavaScript 搭配 [JSX](https://react.dev/learn/writing-markup-with-jsx#the-rules-of-jsx) 描述 UI。它沒有 Vue 的模板指令（`v-if`、`v-for`、`v-model`），這些邏輯要用 JavaScript 來寫。因此，學 React 前需要熟悉 `map`、`filter`、三元運算子和解構賦值，寫 UI 時會經常用到。
 
 ## 狀態管理的差異
 
@@ -103,7 +103,7 @@ Vue 和 React 的生命週期可以這樣對應：
 
 </div>
 
-React 把所有副作用都用 `useEffect` 來處理，一開始會覺得有點不直覺。但習慣之後，其實邏輯蠻清楚的——dependency array 決定什麼時候要重新執行。
+React 用 `useEffect` 處理副作用，我一開始不太習慣。後來理解 dependency array 如何影響重新執行的時機，才比較知道該怎麼安排這些邏輯。
 
 ### 詳細的生命週期對照與陷阱
 
@@ -123,7 +123,7 @@ useEffect(() => {
 }, []); // 因為 dependency 是空的
 ```
 
-這真的要花點時間適應，Vue 的響應式系統太聰明了，幫我們處理掉很多這種底層問題。
+這花了我一些時間適應。以前習慣透過 Vue 的響應式系統讀取最新值，換到 React 後，就得留意 closure 和依賴設定。
 
 ## 心智模型的轉變：Mutable vs Immutable
 
@@ -282,9 +282,9 @@ if (isLoggedIn) {
 
 ## 結語
 
-Vue 和 React 都是很棒的框架，沒有誰比較好的問題。多學一個框架可以拓展視野，也能增加求職的競爭力。
+兩個框架各有適合的使用情境，我會依專案需求選擇。多學一個框架，也讓我能用不同方式理解狀態管理與 UI 開發，求職時多一些選擇。
 
-如果你跟我一樣是 Vue 起家的，不用怕學 React。核心概念很類似，主要是語法和一些設計理念的差異。適應期過了之後，就能兩邊都寫了。
+如果你也從 Vue 起家，可以先沿用熟悉的元件概念，再把時間放在 JSX、Immutable 和 Hooks 上。這幾個差異理解之後，在兩個框架之間切換就會順很多。
 
 ---
 

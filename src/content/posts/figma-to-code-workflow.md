@@ -6,11 +6,11 @@ updated: 2026-07-28
 category: tech-deep-dive
 ---
 
-做前端的人一定會遇到切版這件事——把設計師的設計稿變成真正可以跑的網頁。這篇來分享一下我從 Figma 到程式碼的工作流程，包含 Design System 的建立、User Flow 的規劃，以及如何用 Vue + TypeScript + Tailwind 來實作，確保設計與開發的一致性。
+切版時，我會先整理 Figma 裡的 Design System 和 User Flow，再用 Vue + TypeScript + Tailwind 把設計稿做成網頁。這樣比較容易讓元件、樣式和互動跟設計對得上，後續也能持續維護。
 
 ## 為什麼 Figma 是首選
 
-現在業界最常用的設計工具大概就是 Figma 了。它有幾個對前端工程師很友善的特點：
+Figma 是業界常用的設計工具，對前端工程師來說，這幾個功能很方便：
 
 1. **瀏覽器就能開**：不用裝軟體，收到連結就能看設計稿
 2. **即時同步**：設計師改了什麼馬上就能看到
@@ -20,7 +20,7 @@ category: tech-deep-dive
 
 ## Design System 的建立與維護
 
-Design System 是確保設計一致性的關鍵。在 Figma 裡面，通常會包含這些內容：
+把共用樣式和元件整理進 Design System，設計與開發就能用同一套規則。在 Figma 裡，我會確認這些內容：
 
 ### Color Styles
 
@@ -265,11 +265,9 @@ Icon 通常用 SVG，照片用 WebP 或 JPG。如果需要響應式圖片，可�
 
 ## 結語
 
-從 Figma 到程式碼不只是把設計稿複製成網頁，而是要建立一套能夠持續維護的系統。
+我會把 Figma 的樣式與元件對應到程式碼裡，搭配 TypeScript 的型別檢查和 Tailwind 的 utility class，讓設計調整時比較容易同步修改。
 
-有了完整的 Design System，搭配 TypeScript 的型別檢查和 Tailwind 的 utility class，可以確保設計和開發的一致性，也讓後續維護更輕鬆。
-
-多跟設計師溝通、熟悉 Figma 的操作、建立好的工作流程，設計到開發的銜接就會越來越順暢。
+實作過程也要持續和設計師溝通，熟悉 Figma 操作，尤其要確認互動狀態與成本較高的效果，讓設計與開發比較容易銜接。
 
 ---
 

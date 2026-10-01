@@ -9,7 +9,7 @@ category: learning
 
 例如看到 Route，我會想到 Vue Router；看到 Blade component，我會想到 Vue 元件；看到 Model，則很容易聯想到平常放資料的 Pinia store。
 
-這些聯想很有幫助，但有幾個地方也容易誤會。這篇就用我熟悉的 Vue 開發方式當起點，整理一張理解 Laravel 的地圖：**先借用相似的概念，再看清楚它們各自負責的工作。**
+這些聯想很有幫助，但有幾個地方也容易誤會。我想從熟悉的 Vue 開發方式出發，用相似的概念理解 Laravel，再釐清它們各自負責的工作。
 
 ## 先定位：Vue 與 Laravel 在同一個網站裡做什麼？
 
@@ -38,7 +38,7 @@ Laravel 也可以直接產生 HTML，不一定只提供 API。這張圖選的是
 
 ## 先放一張觀念對照表
 
-我會用下面這張表找入口，而不是把左右兩邊當成完全一樣的東西。
+下面這張表是我理解 Laravel 的起點。左右兩邊有相似之處，職責卻不完全相同。
 
 <div class="table-wrapper" tabindex="0" role="group" aria-label="Vue 與 Laravel 觀念對照表（可水平捲動）">
 

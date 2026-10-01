@@ -5,7 +5,7 @@ date: 2025-12-15
 category: project
 ---
 
-前陣子開發了一個 WordPress 安全外掛——[Site Add-on Watchdog](https://tw.wordpress.org/plugins/site-add-on-watchdog/)，主要功能是自動監控網站上安裝的外掛有沒有安全漏洞。這個專案比較特別的地方是，幾乎全程都是用 AI 輔助開發，從需求分析到程式碼撰寫都是跟 AI 協作完成的。
+前陣子開發了 WordPress 安全外掛 [Site Add-on Watchdog](https://tw.wordpress.org/plugins/site-add-on-watchdog/)，用來自動監控網站已安裝的外掛有沒有安全漏洞。這次從需求分析到程式碼撰寫，幾乎全程都與 AI 協作，想記下這段開發經驗。
 
 ## 為什麼要做這個外掛
 
@@ -23,7 +23,7 @@ WordPress 的外掛生態系很豐富，但也因此埋了不少資安隱患。�
 - 比對外掛版本與 Changelog 中的安全修補
 - 整合 WPScan API 即時識別 CVE 漏洞
 
-**企業級通知系統**
+**通知系統**
 
 - 支援 Webhooks 串接
 - 可通知到 Slack、Discord、Microsoft Teams
@@ -37,7 +37,7 @@ WordPress 的外掛生態系很豐富，但也因此埋了不少資安隱患。�
 
 ## AI 輔助開發的體驗
 
-這個專案我全程使用 Claude 和 Google Antigravity IDE 來輔助開發。說實話，這個開發模式跟以前完全不一樣。
+這個專案全程使用 Claude 和 Google Antigravity IDE 輔助開發，和我以前的開發方式差很多。
 
 ### 需求拆解階段
 
@@ -54,7 +54,7 @@ WordPress 的外掛生態系很豐富，但也因此埋了不少資安隱患。�
 
 WordPress 外掛開發有一套自己的規範，像是 Hook 機制、設定頁面的寫法、資料庫操作等等。老實說我之前沒有從零開始寫過 WordPress 外掛，很多細節都不熟。
 
-這時候 AI 就很有幫助了。我描述我要實現的功能，它會給我符合 WordPress Plugin Handbook 規範的程式碼。不只是可以動的程式碼，而是符合最佳實踐的寫法。這讓我省去很多查文件的時間。
+這時 AI 幫了不少忙。我描述想實現的功能，它會提供依照 WordPress Plugin Handbook 規範撰寫的程式碼，也會處理相關的慣用寫法，省下不少查文件的時間。
 
 ### 除錯階段
 
@@ -70,13 +70,13 @@ WordPress 外掛開發有一套自己的規範，像是 Hook 機制、設定頁�
 
 ### Webhook 通知機制
 
-通知系統設計成 Webhook 的形式，這樣彈性比較大。使用者可以自己設定要通知到哪個平台——Slack、Discord、Teams 都可以，甚至可以串到自己的系統。
+通知系統採用 Webhook，使用者可以設定要通知到 Slack、Discord、Teams，或串接自己的系統。
 
 Webhook 的好處是不用在外掛裡面實作每個平台的 API，只要發送標準的 HTTP 請求就好。接收端怎麼處理是他們的事。
 
 ### 排程機制
 
-安全掃描不能手動執行，要能夠自動定期跑才有意義。這邊用 WordPress 內建的 WP-Cron 來處理排程。
+為了減少手動檢查，安全掃描需要定期執行。這裡用 WordPress 內建的 WP-Cron 處理排程。
 
 WP-Cron 有個特性是它不是真正的 cron job，而是在有人訪問網站時才會觸發。這對流量低的網站可能不太準時，但對於安全掃描來說，差幾個小時通常不是大問題。
 
@@ -86,7 +86,7 @@ WP-Cron 有個特性是它不是真正的 cron job，而是在有人訪問網站
 
 ### AI 能做什麼
 
-AI 的強項是快速產生符合規範的程式碼。像是 WordPress 的 Hook 怎麼寫、設定頁面的 HTML 結構、AJAX 請求的處理方式，這些有固定套路的東西，AI 都能快速給出正確的答案。
+這次開發時，AI 在 WordPress Hook、設定頁面的 HTML 結構、AJAX 請求處理等有固定寫法的部分，能快速提供符合規範的程式碼。
 
 另外，AI 對於閱讀和理解文件也很擅長。我只要說「我要用 WPScan API 查詢外掛漏洞」，它就能幫我寫出正確的 API 呼叫方式。
 
@@ -100,7 +100,7 @@ AI 的強項是快速產生符合規範的程式碼。像是 WordPress 的 Hook 
 
 Site Add-on Watchdog 已經上架到 WordPress 官方外掛庫了，歡迎有需要的人下載使用。有任何問題或建議也歡迎回報。
 
-這次的開發經驗讓我體會到，AI 輔助開發不是取代工程師，而是讓工程師可以更專注在重要的事情上。繁瑣的套路程式碼交給 AI，自己專心思考架構和業務邏輯。
+這次開發讓我更清楚自己和 AI 的分工：讓 AI 協助撰寫重複性高的程式碼，我則負責理解、檢查，並決定架構與業務邏輯。
 
 ---
 
