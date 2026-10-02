@@ -1,171 +1,115 @@
-# 個人部落格（Astro 7 + Tailwind 4）
+# 個人部落格
 
-線上網址：**<https://blog.worksbyaaron.com>**
+線上網址：<https://blog.worksbyaaron.com>
 
-以 Astro 7 建置的靜態部落格，文章內容來自 `src/content/posts` 的 Markdown 檔，並運用 Tailwind CSS 4（透過 Vite plugin）進行樣式客製化。整合了目錄（TOC）、Mermaid 圖表、RSS、Sitemap 與結構化資料，打造高效能且 SEO 友善的個人網站。
+Astro 7 + Tailwind CSS 4 靜態部落格，文章以 Markdown 管理。支援分類、閱讀時間、文章目錄、Mermaid、RSS、Sitemap，以及 Open Graph、Twitter Card 和 JSON-LD。
 
-字型採混合策略：
+工具與客戶端腳本使用 JavaScript + JSDoc，部分 `.astro` 元件使用 TypeScript 宣告 Props 型別。
 
-- **拉丁字型**（Inter / Outfit / JetBrains Mono）透過 Astro 內建的 Fonts API 於 build 時下載並自架，毋須安裝 `@fontsource` 套件。
-- **中文思源黑體**（Noto Sans TC）走外部 Google Fonts `<link>`，讓中文字型 CSS 可跨頁快取。首次建置拉丁字型需要連線 Google Fonts；讀者端載入中文字型也需要連線 Google，無法載入時會使用系統字型。
+## 開發
 
-## 主要特色
+需要 Node.js 22.12 以上、npm 10 以上；建議使用與 CI 相同的 Node.js 24。
 
-- **核心架構**：Astro 7 + Tailwind CSS 4；工具與客戶端腳本使用 JavaScript + JSDoc，部分 `.astro` 元件使用 TypeScript 的 Props 型別宣告
-- **內容管理**：使用 Content Collections 管理 Markdown 文章，具備 Zod 資料驗證
-- **效能優化**：靜態生成（SSG）、字型自架、RSS 與 Sitemap 自動輸出
-- **閱讀體驗**：
-  - 自動生成目錄（TOC），支援桌面版固定目錄與行動版彈出選單
-  - 閱讀時間估算；未填 description 時，使用內文第一個非空行轉為純文字摘要
-  - Mermaid 圖表支援
-  - 簡潔深色介面，適合長時間閱讀與維護
-- **SEO 與分享**：
-  - 完整的 Open Graph 與 Twitter Card 設定
-  - JSON-LD 結構化資料（WebSite / Person / BlogPosting / BreadcrumbList）
-  - 自動生成 `sitemap-index.xml`、`sitemap-0.xml`（文章含 `lastmod`）與 `rss.xml`
-  - 文章數少於 2 篇的分類頁掛 `noindex`；sitemap 讀取正式 HTML 的 robots 與文章日期，確保輸出一致
+```bash
+npm ci
+npm run dev
+```
 
-## 環境需求
+開發網址預設為 `http://localhost:4321`。
 
-- Node.js 22.12 以上（Astro 7 要求，建議使用 LTS 版本）
-- npm 10 以上
+| 指令                   | 用途                                   |
+| ---------------------- | -------------------------------------- |
+| `npm run build`        | 產生靜態網站至 `dist/`，不包含型別檢查 |
+| `npm run preview`      | 預覽建置結果                           |
+| `npm run check`        | Astro 型別與 JavaScript JSDoc 檢查     |
+| `npm run format`       | 使用 Prettier 格式化                   |
+| `npm run format:check` | 檢查格式，不修改檔案                   |
 
-## 本地開發流程
-
-1. **安裝相依套件**
-
-   ```bash
-   npm ci
-   ```
-
-2. **啟動開發伺服器**
-
-   ```bash
-   npm run dev
-   ```
-
-   預設埠號為 `4321`，支援熱重新整理（HMR）。
-
-3. **建置與預覽**
-
-   ```bash
-   npm run build   # 產生靜態檔案至 dist 目錄
-   npm run preview # 預覽 build 後的結果
-   ```
-
-4. **格式化**
-
-   ```bash
-   npm run format       # 用 Prettier 自動排版
-   npm run format:check # 只檢查、不修改，CI 會跑這個
-   ```
-
-5. **驗證**
-
-   ```bash
-   npm run check # Astro 型別與 JavaScript JSDoc 檢查
-   npm run build # 正式靜態建置；此指令本身不執行型別檢查
-   ```
-
-   GitHub Actions 使用 Node 24，執行 `npm ci`、格式檢查、型別檢查與 build。專案保持簡單，不另維護自動化測試套件；頁面互動與視覺效果以瀏覽器手動確認。
-
-### 套件配置與更新
-
-Tailwind CSS 4 使用 `@tailwindcss/vite`，Typography 透過 CSS 的 `@plugin` 載入。字型使用 Astro 內建 Fonts API，Zod 從 `astro/zod` 匯入。HTML 解析器 `node-html-parser` 僅供 sitemap 建置使用，不會送到瀏覽器。
-
-開發工具使用精確版本，安裝結果由 `package-lock.json` 鎖定。`@astrojs/check` 0.9.10 的 peer dependency 支援 TypeScript 5／6，因此目前固定使用 TypeScript 6.0.3；待官方支援 TypeScript 7 後再升級，不使用 `--force` 忽略相容性。
-
-2026-09-30 更新至 Astro 7.3.5、Prettier 3.9.9、prettier-plugin-astro 1.1.0；其他直接相依套件已是 npm registry 當時的最新版。`npm audit fix` 同時將間接相依 `fast-uri` 更新至 3.1.8。Mermaid 的 Chevrotain 相依仍鎖定舊版 lodash-es，因此保留 `overrides`，統一使用修補版 4.18.1。上游解除舊版限制後，可重新評估移除 override，並再次執行 audit 與圖表驗證。
-
-npm 的安裝腳本審核會對 `esbuild` 顯示警告；專案在 `package.json` 的 `allowScripts` 中僅核准已檢查的 `esbuild@0.28.2`。未來 esbuild 升版時，應先檢查新版腳本，再用 `npm install-scripts approve esbuild` 更新版本鎖定。
-
-升級時同步更新 `package.json` 與 lockfile，再執行上述驗證，以及 `npm outdated`、`npm audit`。GitHub Actions 以完整 commit SHA 鎖定版本，更新時也需核對 release 與對應 SHA。
+GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查與建置。目前沒有自動化測試套件，互動與視覺需用瀏覽器確認。
 
 ## 專案結構
 
-```bash
+```text
 src/
-├── components/   # UI 元件 (PostCard, CategoryCard, TableOfContents)
-├── content/      # 文章內容 (Content Collections)
-│   └── posts/    # Markdown 檔案
-├── integrations/ # sitemap 使用正式 HTML metadata 的建置整合
-├── layouts/      # 頁面佈局 (BaseLayout)
-├── pages/        # 頁面路由 (首頁, 文章內頁, 分類頁, RSS, 404)
-├── scripts/      # 客戶端腳本 (TOC、Mermaid、背景方格光暈)
-├── styles/       # 全域樣式與字型設定
-└── utils/        # 工具函式與站台設定 (日期, 分類, 摘要, metadata)
-
-public/
-├── _headers      # Cloudflare Pages 的安全標頭與快取策略
-├── images/posts/ # 文章內文圖片
-├── robots.txt
-├── favicon.svg
-└── og-default.png
-
+├── content.config.js # 文章 schema 與 loader
+├── content/posts/    # Markdown 文章
+├── components/       # 卡片、文章目錄
+├── layouts/          # 共用佈局與頁面 metadata
+├── pages/            # 首頁、文章、分類、RSS、404
+├── integrations/     # 從建置後 HTML 取得 sitemap metadata
+├── scripts/          # TOC、Mermaid、背景光暈
+├── styles/           # 全域樣式、字型、Typography
+└── utils/            # 站台設定、分類、日期、摘要
+public/               # 圖片、favicon、robots.txt、部署標頭
 ```
 
-## 新增文章指南
+站台網址設定在 [`astro.config.mjs`](astro.config.mjs)，名稱、作者與預設分享圖片設定在 [`src/utils/site.js`](src/utils/site.js)。
 
-文章直接放在 `src/content/posts`，每個 `.md` 檔案對應一篇文章，檔名即為網址 slug（請用全小寫英數與連字號）。目前 loader 僅讀取這一層的 Markdown，不支援巢狀文章目錄或 MDX。
+## 新增文章
 
-### Frontmatter 格式
+在 `src/content/posts/` 新增 `.md` 檔案，檔名使用小寫英數與連字號。`my-post.md` 對應 `/posts/my-post/`。Loader 僅讀取這一層的 Markdown，不支援巢狀目錄或 MDX。
 
 ```markdown
 ---
-title: 我的新文章標題
-description: （選填）未填則擷取內文第一個非空行
-date: 2026-01-27
-updated: 2026-03-01 # （選填）內容有實質修訂時填寫，會反映在 sitemap 的 lastmod
-category: learning # 必填，且只能是下表的六個值之一
-cover: ../../assets/my-post-cover.png # （選填）社群分享圖片，填寫時必須有對應檔案
-draft: false # （選填）設為 true 則不會發布
+title: 我的新文章
+date: 2026-10-02
+category: learning
 ---
 
-這裡開始撰寫正文內容...
+正文從這裡開始。
 ```
 
-完整的 schema 定義在 [`src/content.config.js`](src/content.config.js)。
+`title`、`date`、`category` 必填，其他欄位如下。完整定義見 [`src/content.config.js`](src/content.config.js)。
 
-### 分類一覽
+| 選填欄位      | 用途                                                          |
+| ------------- | ------------------------------------------------------------- |
+| `description` | 摘要；未填時擷取正文第一個非空行，轉為純文字                  |
+| `updated`     | 實質修訂日期，用於頁面更新時間、metadata 與 sitemap `lastmod` |
+| `cover`       | 分享圖片；路徑相對於文章檔案，需有對應圖片                    |
+| `draft`       | 預設 `false`；設為 `true` 時不發布，也不列入 RSS 與 Sitemap   |
 
-`title`、`date`、`category` 都是必填。`category` 只能填以下六個 slug：
+### 分類
 
-| slug             | 顯示名稱 | 說明                                       |
-| ---------------- | -------- | ------------------------------------------ |
-| `learning`       | 學習筆記 | 技術學習、課程回顧、技巧整理               |
-| `tech-deep-dive` | 技術探索 | 深入原理、系統設計、效能優化               |
-| `career`         | 職涯隨筆 | 工作經驗、遠端工作、職涯分享               |
-| `project`        | 專案紀錄 | 開發過程、踩坑記錄、技術選型               |
-| `web-basics`     | 網頁基礎 | 用生活化比喻，帶你搞懂網頁與網路的核心觀念 |
-| `mindset`        | 心理     | 心理調適、軟實力與個人成長                 |
+| slug             | 名稱     |
+| ---------------- | -------- |
+| `learning`       | 學習筆記 |
+| `tech-deep-dive` | 技術探索 |
+| `career`         | 職涯隨筆 |
+| `project`        | 專案紀錄 |
+| `web-basics`     | 網頁基礎 |
+| `mindset`        | 心理     |
 
-新增分類只需更新 [`src/utils/categories.js`](src/utils/categories.js) 的 `categories` 陣列，填入唯一的 slug、名稱、說明與圖示。內容 schema 與分類路由共用此定義；變更分類後也請同步更新上表。
+新增分類時，更新 [`src/utils/categories.js`](src/utils/categories.js) 的 slug、名稱、說明與圖示，並同步上表。Schema 與分類路由共用這份定義。少於 2 篇文章的分類頁會設為 `noindex`，並排除於 Sitemap。
 
-### 撰寫建議
+### 內容格式
 
-- **站內連結**：一律寫成帶尾斜線的 `/posts/<slug>/`，與文章頁的 canonical 網址及 sitemap 保持一致。少了尾斜線時是否轉址，取決於部署平台；Astro 本機預覽目前兩種寫法都回傳 200。
-- **圖片**：
-  - 文章內文圖片放在 `public/images/posts/<slug>/`，在 Markdown 中以絕對路徑引用（例如 `/images/posts/my-post/photo.webp`）。這個路徑**不會**經過 Astro 的圖片優化管線，請自行先壓縮／轉檔（建議 WebP）再上傳，並在 `<img>` 上明確標註 `width`／`height`／`loading="lazy"` 以避免版面位移。
-  - frontmatter 的 `cover` 欄位透過 Astro 的 `image()` schema 驗證並取得圖片 metadata，目前僅用於 Open Graph、Twitter Card 與 JSON-LD，不會顯示在文章頂端或卡片，也不會自動縮放／轉檔。請先壓縮圖片，再放在 `src/` 底下（例如自行建立 `src/assets/`）。路徑相對於**文章檔案本身**解析，因此從 `src/content/posts/foo.md` 指到 `src/assets/` 要寫 `../../assets/cover.png`。需要自動轉檔時，另行使用 Astro 的 `<Image />` 或 `getImage()`。
-- **目錄**：文章內頁會自動解析 `h2` 與 `h3` 標題生成目錄。正文請從 `h2` 開始，`h1` 已由文章標題佔用。
-- **Mermaid 圖表**：用 ` ```mermaid ` 圍欄即可，客戶端會自動轉譯。腳本在 `astro:page-load` 檢查頁面，只有存在圖表時才動態載入 Mermaid；套件內部也會按圖表類型載入額外模組。建置仍可能出現大型 chunk 警告，實際下載量與渲染成本取決於套件版本和圖表類型，需以瀏覽器 Network／Performance 實測。
-- **表格**：表格一律包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 裡。這不只是為了窄螢幕捲動——`.prose table` 的垂直間距刻意設為 `my-0`，由外層的 `.table-wrapper` 提供 `my-8` 與邊框、底色；沒包的話表格會緊貼上一段文字、也失去圓角邊框，而且 `≤768px` 的 `white-space: nowrap` 加上 `body` 的 `overflow-x: hidden` 會讓右側欄位在手機上被裁掉且無法捲到。`role` 用 `group` 而非 `region`：`region` 會讓每張表格都變成一個地標，一篇多表格的文章會塞爆螢幕閱讀器的地標清單。
+- 正文從 `h2` 開始；文章標題使用 `h1`，目錄收錄 `h2`、`h3`。
+- 站內文章連結使用帶尾斜線的 `/posts/<slug>/`，與 canonical、RSS 和 Sitemap 一致。
+- Mermaid 使用 ` ```mermaid ` 圍欄；頁面有圖表時才載入並渲染。
+- 表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中，提供水平捲動、鍵盤操作與樣式。
+- 內文圖片放在 `public/images/posts/<slug>/`，以 `/images/posts/<slug>/photo.webp` 引用。請先壓縮，並為 `<img>` 加上 `width`、`height`、`loading="lazy"`；這些圖片不會自動優化。
+- `cover` 只用於 Open Graph、Twitter Card 與 JSON-LD，不顯示在文章頂端或卡片。可自行建立 `src/assets/` 放圖片，欄位填 `../../assets/cover.webp`。Schema 會取得圖片 metadata，不會自動縮放或轉檔。
+
+## 字型與套件維護
+
+Inter、Outfit、JetBrains Mono 透過 Astro Fonts API 在建置時下載並自架；首次建置需連線 Google Fonts。Noto Sans TC 使用外部 Google Fonts，讀者端無法載入時會回退系統字型。
+
+Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。`node-html-parser` 只用於 sitemap 建置。
+
+套件版本以 `package.json` 與 `package-lock.json` 為準。升級時同步更新兩者，確認 `@astrojs/check` 與 TypeScript 相容，再執行格式檢查、型別檢查、建置、`npm outdated` 與 `npm audit`。
+
+維護時留意：
+
+- `overrides` 的 `lodash-es` 用來修補 Mermaid 間接相依；移除前確認上游已解除限制，並重新執行 audit 與圖表驗證。
+- `allowScripts` 僅核准指定版本的 `esbuild` 安裝腳本；升版時先審核新版腳本，再更新核准版本。
+- GitHub Actions 使用完整 commit SHA；更新時核對 release 與 SHA。
 
 ## 部署
 
-本專案為靜態輸出（Astro 預設的 `static` 模式），實際部署在 **Cloudflare Pages**。
+Cloudflare Pages 的建置指令為 `npm run build`，輸出目錄為 `dist/`；也可將本機建置結果上傳。
 
-```bash
-npm run build
-```
-
-建置完成後，將 `dist` 資料夾內容上傳即可。
-
-> **注意**：[`public/_headers`](public/_headers) 承載了整站的 CSP、HSTS 等安全標頭與 `/_astro/*` 的 immutable 快取策略。這是 Cloudflare Pages 與 Netlify 的專屬格式，**Vercel 不會讀取這個檔案**。若改用 Vercel，必須把內容改寫成 `vercel.json` 的 `headers` 設定，否則所有安全標頭與快取策略都會失效。
+[`public/_headers`](public/_headers) 設定安全標頭與靜態資源快取。改用其他部署平台時，需確認是否支援這個格式；例如 Vercel 必須改寫為 `vercel.json` 的 `headers` 設定。
 
 ## 授權
 
-- **程式碼**：MIT License
-- **文章內容**（`src/content/` 與 `public/images/`）：[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant)
-
-詳見 [LICENSE](LICENSE)。
+程式碼採 MIT；`src/content/` 與 `public/images/` 採 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant)。詳見 [LICENSE](LICENSE)。
