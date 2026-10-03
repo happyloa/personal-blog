@@ -45,7 +45,7 @@ sequenceDiagram
 
 ### A 與 AAAA 紀錄
 
-- **A（Address）**：將域名指向 **IPv4** 位址（例如 `142.250.1.1`，也就是前面提到的 google.com 其中一個 IP）。這是最基本的紀錄。
+- **A（Address）**：將域名指向 IPv4 位址，例如 `142.250.1.1`。這裡只是示意，實際位址應以當下的查詢結果為準。
 - **AAAA**：將域名指向 **IPv6** 位址。隨著 IPv4 枯竭，這越來越重要。
 
 ### CNAME（Canonical Name）
@@ -53,7 +53,7 @@ sequenceDiagram
 將一個域名指向**另一個域名**，而不是 IP。
 
 - 例子：`blog.example.com` -> `example.com`
-- 用途：當 IP 變更時，只需要改 `example.com` 的 A 紀錄，其他 CNAME 會自動指向新的 IP。適合用於子網域或指向 CDN（如 Heroku, Vercel）。
+- 用途：當 IP 變更時，可以集中修改 `example.com` 的 A 紀錄，其他 CNAME 會在重新查詢後取得新結果。子網域、CDN 或託管平台（如 Heroku、Vercel）常會用到，但 CNAME 本身不會讓瀏覽器跳轉網址。
 
 ### MX（Mail Exchanger）
 
@@ -65,7 +65,7 @@ sequenceDiagram
 
 原本是用來放任意文字說明，現在主要用於**驗證與安全性**。
 
-- **SPF（Sender Policy Framework）**：防止別人偽造你的網域寄信。
+- **SPF（Sender Policy Framework）**：列出哪些伺服器可以代表網域寄信，讓收件端檢查。它有驗證範圍的限制，不能單靠 SPF 就擋住所有冒名郵件。
 - **網域所有權驗證**：Google Search Console 或 SSL 憑證驗證時常會要求加一筆 TXT 紀錄。
 
 ## DNS 故障排查（Troubleshooting）
@@ -86,12 +86,14 @@ nslookup google.com
 
 如果你剛修改了 DNS 設定但沒生效，可能是因為 **TTL** 還沒過期。TTL 決定了 DNS 紀錄在快取中存活多久。
 
-- **TTL = 3600（1 小時）**：修改後，世界各地的 DNS 伺服器最多可能需要 1 小時才會更新。
-- **建議**：在計畫遷移主機或修改 DNS 前，先把 TTL 調低（例如 300 秒），可以減少轉換時的空窗期。
+- **TTL = 3600（1 小時）**：解析器取得記錄後，通常可快取 1 小時。這不保證修改後全球會在 1 小時內全部更新，還要看舊記錄的 TTL 和解析器行為。
+- **建議**：遷移前先把 TTL 調低（例如 300 秒），並等原本的快取週期過去，再切換主機。到切換當下才調低，已被快取的舊 TTL 不會跟著縮短。
 
 ### 3. DNS 污染與劫持
 
-有時候 DNS 會被惡意竄改，將你導向釣魚網站。這就是為什麼現代瀏覽器推動 **DoH（DNS over HTTPS）**，將 DNS 查詢加密，防止中間人監聽或竄改。
+DNS 結果遭到竄改時，可能把你導向錯誤的網站。DoH（DNS over HTTPS）會加密裝置到所選解析器之間的查詢，減少這段路程被監聽或竄改的機會。不過，你仍需要信任該解析器；DoH 不等於 DNS 記錄本身的真偽驗證。
+
+如果想看原始定義，[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html)有 DNS 記錄和 TTL 的規則，[RFC 8484](https://www.rfc-editor.org/rfc/rfc8484.html)則說明 DoH 與它的安全範圍。
 
 ## 結語
 

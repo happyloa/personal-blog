@@ -8,7 +8,7 @@ category: tech-deep-dive
 
 切版時，我會先整理 Figma 裡的 Design System 和 User Flow，再用 Vue + TypeScript + Tailwind 把設計稿做成網頁。這樣比較容易讓元件、樣式和互動跟設計對得上，後續也能持續維護。
 
-## 為什麼 Figma 是首選
+## 我常用的 Figma 功能
 
 Figma 是業界常用的設計工具，對前端工程師來說，這幾個功能很方便：
 
@@ -182,7 +182,7 @@ const buttonClasses = computed(() => {
 </template>
 ```
 
-用 TypeScript 的好處是，variant 和 size 只能傳入定義好的值，降低出錯的機會。
+TypeScript 會在型別檢查時提醒 variant 和 size 是否符合定義。不過，API 或使用者輸入的資料仍需要執行時驗證，型別宣告本身不會擋下錯誤資料。
 
 ### 元件文件化
 
@@ -239,17 +239,17 @@ Figma 的 Dev Mode 是專門給工程師的檢視模式。切換到 Dev Mode 後
 
 在 Figma 裡面，選取要匯出的元素，在右側 Export 區塊可以設定：
 
-- 格式（PNG、JPG、SVG、WebP）
+- 格式（PNG、JPG、SVG、PDF）
 - 倍率（1x、2x、3x）
 - 尺寸
 
-Icon 通常用 SVG，照片用 WebP 或 JPG。如果需要響應式圖片，可以匯出多個尺寸。
+Icon 通常用 SVG，照片可以匯出成 JPG 或 PNG，再視需要轉成 WebP。如果需要響應式圖片，可以準備多個尺寸。
 
 ## 實務上的經驗
 
 ### Mobile First
 
-現在大多數專案都是 Mobile First，從小螢幕開始做起。在 Figma 裡面先看手機版的設計，把手機版切好，再用 Media Query 往大螢幕擴展。
+如果是手機使用者較多的網站，我通常先看手機版設計，完成小螢幕的版面，再用 Media Query 往大螢幕擴展。後台或桌面操作為主的產品，則會依主要使用情境安排。
 
 ### 先做結構再做樣式
 

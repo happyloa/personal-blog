@@ -29,7 +29,7 @@ Cursor 是一個內建 AI 功能的 IDE，基於 VS Code 改造。它可以直�
 
 ### Google Antigravity IDE
 
-這是 Google 推出的 AI 開發環境，原本主打 Gemini 模型，但現在也支援其他模型（像是 Claude Opus 4.5）。
+這是 Google 推出的 AI 開發環境。我使用當時，除了 Gemini，也能選其他模型，像是 Claude Opus 4.5。模型清單會更新，這裡記錄的是當時的用法。
 
 它可以讀取整個專案的 context，建議比較容易接上既有的風格和結構。做複雜專案時，我通常用速度較快的 Gemini 做 Code Generation，架構設計或 Refactoring 則交給我覺得邏輯較強的 Claude。
 
@@ -39,7 +39,7 @@ Cursor 是一個內建 AI 功能的 IDE，基於 VS Code 改造。它可以直�
 
 [Site Add-on Watchdog](https://tw.wordpress.org/plugins/site-add-on-watchdog/) 是我開發的一個 WordPress 安全外掛，這個專案全程都是用 AI 輔助開發的。
 
-開發這個外掛的時候，我對 WordPress 外掛開發不是特別熟。但透過 Claude 和 Antigravity IDE，我可以快速了解 WordPress Plugin Handbook 的規範，產生符合最佳實踐的程式碼。
+開發這個外掛時，我對 WordPress 外掛開發不是特別熟。Claude 和 Antigravity IDE 幫我理解 WordPress Plugin Handbook 的規範、產生實作草稿，再由我確認是否符合專案需求。
 
 AI 在這個專案中幫了很多忙：
 
@@ -94,7 +94,7 @@ AI 不知道你的專案背景，給的資訊越完整，回答越準確。描�
 
 **敏感資訊不要丟進去**
 
-公司的 API key、內部系統的程式碼，這些敏感資訊不要隨便丟給 AI。雖然大部分工具都說不會用來訓練，但還是要小心。
+公司的 API key、內部系統程式碼等敏感資訊，不要隨便貼給 AI。使用前要確認公司的規範，以及工具對資料保存、訓練使用的條款，不能把某個工具的設定套到所有服務上。
 
 **基礎知識還是要有**
 

@@ -12,7 +12,7 @@ category: learning
 
 老實說，Vue 用得很順手的時候，一開始對學 React 沒有太大的動力。但後來發現幾個現實的考量：
 
-1. **工作機會**：看職缺的時候，React 的需求量確實比 Vue 多，而且很多外商缺也都是用 React
+1. **工作機會**：當時我看的職缺裡，React 的需求比較多，也有不少外商職缺使用 React
 2. **生態系**：React 的社群資源和第三方套件非常豐富
 3. **技術視野**：多學一個框架可以用不同角度思考問題
 
@@ -84,7 +84,7 @@ const increment = () => {
 };
 ```
 
-主要差異是 Vue 的 `ref` 是響應式的，改值直接 `.value = xxx`。React 的 `useState` 要用 setter function，而且是不可變的（immutable）。
+Vue 的 `ref` 是響應式的，可以透過 `.value = xxx` 更新。React 的 `useState` 則要透過 setter 告知更新；物件和陣列應視為不可變資料，建立新值再交給 React。
 
 一開始常常忘記用 `setCount`，直接寫 `count++`，然後畫面就不會更新。這個習慣要適應一下。
 
@@ -96,10 +96,10 @@ Vue 和 React 的生命週期可以這樣對應：
 
 | Vue 3         | React                             | 常見陷阱／心智模型落差                                                                                                              |
 | ------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `onMounted`   | `useEffect(() => {}, [])`         | Vue 只跑一次；React 在 StrictMode 開發環境會跑兩次（這是正常的！）                                                                  |
+| `onMounted`   | `useEffect(() => {}, [])`         | Vue 每次掛載時執行；React 在根節點啟用 StrictMode 的開發環境，會額外做一次 setup → cleanup → setup，檢查清理是否正確                |
 | `onUpdated`   | `useEffect(() => {})`             | 注意：這個寫法沒有 dependency array，第一次 render（也就是 mount）也會先執行一次，和 Vue 的 `onUpdated`（明確不含初次掛載）並不對等 |
 | `onUnmounted` | `useEffect` 的 cleanup function   | 容易忘記 cleanup，導致 event listener 重複綁定                                                                                      |
-| `watch`       | `useEffect` 搭配 dependency array | Vue 的 watch 預設是 lazy 的；useEffect 在 render 完一定會至少跑一次                                                                 |
+| `watch`       | `useEffect` 搭配 dependency array | Vue 的 watch 預設不立即執行；React 的 Effect 在客戶端掛載後執行，也會在依賴改變後執行，不在伺服器渲染時執行                         |
 
 </div>
 
@@ -133,7 +133,7 @@ useEffect(() => {
 Vue 的 data 是 mutable 的。你想改標題？`title.value = 'New'`。Vue 的 Reactivity system 會攔截這個 setter，然後去更新畫面。這很直覺，跟我們寫傳統 JS 物件導向一樣。
 
 **React 的世界觀：你不能修改我，你要創造一個新的我。**
-React 的 state 是 immutable 的。你想改標題？你不能改舊的 `title`，你要呼叫 `setTitle('New')`，這會告訴 React：「嘿，用這個新值重新畫一次 component」。
+React 預期你把 state 當成 immutable 資料。要更新 `title`，就呼叫 `setTitle('New')`，讓 React 在下一次 render 使用新值。
 
 這個差異導致了寫 code 習慣的不同：
 
@@ -142,7 +142,7 @@ React 的 state 是 immutable 的。你想改標題？你不能改舊的 `title`
 - **Vue**: `obj.prop = 1`
 - **React**: `setObj({ ...obj, prop: 1 })`
 
-習慣 React 的 Immutable 模式後，你會發現 data flow 變得很容易預測。因為資料不會莫名其妙被改掉，一定是有某個 `setXXX` 被呼叫了。這在大型專案除錯時非常有幫助。
+把 state 當成不可變資料處理，再透過 `setXXX` 更新，比較容易追蹤資料怎麼改變。不過 React 不會自動把所有物件凍結；如果仍直接修改原物件，就可能破壞這個約定。
 
 ## Next.js vs Nuxt
 
@@ -256,7 +256,7 @@ if (isLoggedIn) {
 **Vue 的優點：**
 
 - 學習曲線較平緩
-- 官方工具鏈完整（Vite、Pinia、Vue Router 都是官方出品）
+- 工具搭配方便：Vite 可用於多種框架，Pinia 和 Vue Router 則是 Vue 官方維護的狀態管理與路由工具
 - 模板語法對設計師比較友善
 
 **React 的優點：**

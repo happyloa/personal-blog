@@ -10,7 +10,7 @@ category: learning
 
 ## JWT 是什麼
 
-JWT（JSON Web Token）是一種用來驗證使用者身份的機制。流程大概是這樣：
+JWT（JSON Web Token）是一種攜帶資料的格式，常用在登入驗證流程中。這裡討論的是帶有簽章的 JWT，後端仍要驗證簽章、有效期限等條件，不能只讀取裡面的資料就信任它。流程大概是這樣：
 
 1. 使用者輸入帳號密碼登入
 2. 後端驗證成功後，產生一組 JWT 回傳給前端
@@ -18,7 +18,7 @@ JWT（JSON Web Token）是一種用來驗證使用者身份的機制。流程大
 4. 之後每次打 API 都帶上這個 token
 5. 後端收到請求時，驗證 token 是否有效
 
-JWT 的好處是後端不用維護 session，每個請求都是獨立的，比較好做水平擴展。
+後端可以驗證 JWT 而不逐次讀取 session，這對水平擴展有幫助。不過，如果需要立即撤銷登入、確認最新權限，仍可能查詢資料庫或保存伺服器端狀態，要看系統怎麼設計。
 
 ```mermaid
 sequenceDiagram
@@ -47,9 +47,9 @@ sequenceDiagram
 
 ## Cookie + Pinia 雙層管理
 
-實務上最常見的做法是 **Cookie 存 token，Pinia 管理狀態**。
+這份範例採用 Cookie 存 token、Pinia 管理畫面狀態的做法。
 
-Cookie 負責持久化儲存，這樣重新整理頁面或關掉瀏覽器再開，token 還會在。Pinia 則是讓全站都可以方便地存取登入狀態，不用每次都去讀 cookie。
+Cookie 可以讓重新整理後的請求帶上 token，是否在關閉瀏覽器後保留，要看有效期限設定。Pinia 則讓元件方便地共用登入狀態，但畫面上顯示已登入，不代表伺服器已確認 token 有效。
 
 ```typescript
 // stores/auth.ts
@@ -140,6 +140,8 @@ definePageMeta({
 });
 ```
 
+頁面 middleware 只能處理導頁和使用體驗。API 仍要在伺服器端驗證登入與資料權限，不能因為前端藏了頁面，就省略後端檢查。
+
 ## 初始化登入狀態
 
 頁面載入時要恢復登入狀態，可以在 plugin 處理：
@@ -164,6 +166,8 @@ export default defineNuxtPlugin(async () => {
 });
 ```
 
+初始化範例為了簡化，把取得使用者資料時的所有錯誤都當成登出。正式使用時，要區分認證失效、網路中斷和伺服器暫時故障，避免只是 API 暫時連不上，就清掉仍有效的登入狀態。
+
 ## 實務經驗
 
 做過幾個專案後，有一些經驗：
@@ -172,11 +176,13 @@ export default defineNuxtPlugin(async () => {
 
 2. **useCookie 存 token 一樣有 XSS 風險**：範例裡的 `auth_token` cookie 沒有設定 `httpOnly`，因為前端還要用 `authStore.token` 組出 `Authorization` header，架構上本來就無法設成 httpOnly。也就是說網站一旦被注入惡意 script，這顆 cookie 照樣能被讀走，風險其實跟存在 localStorage 差不多，只是多了「SSR 或重新整理頁面時不用等 client 端恢復」的方便。如果前後端在同一個網域，更安全的做法是讓後端直接發 httpOnly Cookie，前端不主動讀 token，改由 Server 端轉發 API 請求
 
-3. **設定合理的過期時間**：太長有安全風險，太短使用者體驗差。通常 access token 設幾小時到一天，搭配 refresh token 來延長登入狀態，而不是像本文範例直接用單一長效 token
+3. **設定合理的過期時間**：依資料敏感程度和登入需求決定，不要把某個時長當成通用標準。需要延長登入時，可以搭配 refresh token 與撤銷機制；本文的單一長效 token 是簡化範例，不宜直接套用到正式系統
 
 4. **登出要確實清除**：cookie 要清，store 也要清
 
 5. **錯誤處理要完整**：網路斷線、token 過期、權限不足，這些情況都要跟使用者說清楚
+
+Cookie 的傳送方式、有效期限和安全屬性，可以對照 [OWASP 的 Session Management 指引](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)。選擇 HttpOnly Cookie 時，仍需要防範 XSS 觸發操作，以及依架構處理 CSRF，不能只靠一個屬性。
 
 ## 結語
 

@@ -26,7 +26,7 @@ category: learning
 - 不佔據任何空間
 - **無法被螢幕閱讀器讀取**
 - 無法被 Tab 鍵聚焦
-- 無法套用 CSS transition 動畫
+- 單靠上面的寫法，不會產生漸變動畫；新版 CSS 可以搭配離散轉場和起始樣式處理顯示／隱藏，需另外確認瀏覽器支援
 
 **適用場景：** 需要完全隱藏某個區塊，例如 Tab 切換時隱藏非當前的內容、手機版隱藏桌面版專用的元素。
 
@@ -91,7 +91,7 @@ category: learning
 
 **適用場景：** 需要動畫效果的顯示/隱藏，例如 hover 時的淡入效果、Toast 通知的淡出動畫。
 
-**注意：** 如果不想讓透明元素被互動，需要搭配 `pointer-events: none;`：
+如果要避免透明元素被滑鼠點擊，可以搭配 `pointer-events: none;`。但它不會取消 Tab 聚焦，也不會把內容從螢幕閱讀器中移除：
 
 ```css
 .transparent-no-interaction {
@@ -136,7 +136,7 @@ category: learning
 }
 ```
 
-這是 Tailwind CSS（`sr-only` utility）目前使用的寫法；Bootstrap 5+ 稱為 `.visually-hidden`（Bootstrap 4 稱為 `.sr-only`），兩者現行版本都已改用 `clip-path` 而非較舊的 `clip: rect(...)`。
+這是常見的視覺隱藏模式。Tailwind CSS 提供 `sr-only` utility；Bootstrap 5+ 稱為 `.visually-hidden`（Bootstrap 4 稱為 `.sr-only`）。各版本實作不完全相同，可能使用 `clip-path` 或較舊的 `clip: rect(...)`，要以實際載入的版本為準。
 
 ## 6. clip-path — 裁切成不可見
 
@@ -174,6 +174,8 @@ category: learning
 
 </div>
 
+這張表以單獨使用上述基本寫法為準；顯示／隱藏的離散轉場需要額外設定。移出螢幕的元素沒有消失，仍可能接受程式操作或鍵盤聚焦。
+
 ＊`visibility: collapse` 是否「不佔空間」依元素類型與瀏覽器而異：table 列/欄一律不佔空間；Flex 項目僅 Firefox 完整支援，Chrome/Edge/Safari 大多仍佔據空間；Grid 子項目則一律等同 `visibility: hidden`，仍佔據空間（詳見上方第 3 節說明）。
 
 ## 無障礙（Accessibility）考量
@@ -191,6 +193,8 @@ category: learning
 - 圖示按鈕的文字標籤（視覺上只顯示圖示，但螢幕閱讀器需要念出按鈕功能）
 - 跳轉連結（Skip to main content）
 - 表單欄位的額外說明
+
+如果是讓鍵盤使用者跳到主內容的連結，還要加上「取得焦點時顯示」的樣式，讓使用者知道自己目前選到了哪個連結。
 
 ```html
 <button>
