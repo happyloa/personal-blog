@@ -96,3 +96,4 @@ category: web-basics
 站內相關文章：
 
 - [DNS 深度解析](/posts/dns-deep-dive/)
+- [從商品列表到建立訂單，API 要怎麼設計？](/posts/api-design-products-orders/)
