@@ -6,7 +6,7 @@ export const site = {
   author: "Aaron",
   githubUrl: "https://github.com/happyloa",
   cakeUrl: "https://www.cake.me/aaron-yumin",
-  defaultOgImage: "/og-default.png",
+  defaultOgImage: "/og-default.png?v=f88b7a1cd5",
 };
 
 /**
