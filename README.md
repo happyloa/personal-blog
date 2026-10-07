@@ -17,15 +17,16 @@ npm run dev
 
 開發網址預設為 `http://localhost:4321`。
 
-| 指令                   | 用途                                   |
-| ---------------------- | -------------------------------------- |
-| `npm run build`        | 產生靜態網站至 `dist/`，不包含型別檢查 |
-| `npm run preview`      | 預覽建置結果                           |
-| `npm run check`        | Astro 型別與 JavaScript JSDoc 檢查     |
-| `npm run format`       | 使用 Prettier 格式化                   |
-| `npm run format:check` | 檢查格式，不修改檔案                   |
+| 指令                        | 用途                                         |
+| --------------------------- | -------------------------------------------- |
+| `npm run build`             | 產生靜態網站至 `dist/`，不包含型別檢查       |
+| `npm run preview`           | 預覽建置結果                                 |
+| `npm run check`             | Astro 型別與 JavaScript JSDoc 檢查           |
+| `npm run test:dependencies` | 驗證 KaTeX 與 selector parser 的修補及相容性 |
+| `npm run format`            | 使用 Prettier 格式化                         |
+| `npm run format:check`      | 檢查格式，不修改檔案                         |
 
-GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查與建置。目前沒有自動化測試套件，互動與視覺需用瀏覽器確認。
+GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查、相依套件回歸測試、建置與 `npm audit`。互動與視覺仍需用瀏覽器確認。
 
 ## 專案結構
 
@@ -98,9 +99,12 @@ Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。
 
 套件版本以 `package.json` 與 `package-lock.json` 為準。升級時同步更新兩者，確認 `@astrojs/check` 與 TypeScript 相容，再執行格式檢查、型別檢查、建置、`npm outdated` 與 `npm audit`。
 
+目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.10 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
+
 維護時留意：
 
 - `overrides` 的 `lodash-es` 用來修補 Mermaid 間接相依；移除前確認上游已解除限制，並重新執行 audit 與圖表驗證。
+- Mermaid 的 KaTeX 固定為 0.19.0，修補原型污染可能繞過 `trust` 限制的問題（[GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7)）。Typography 的 `postcss-selector-parser` 固定為 7.1.6，修補平面選擇器解析的 CPU 耗盡問題（[GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)）。上游採用安全版本後可移除對應 override，並執行 `npm run test:dependencies`、建置與圖表驗證。
 - `allowScripts` 僅核准指定版本的 `esbuild` 安裝腳本；升版時先審核新版腳本，再更新核准版本。
 - GitHub Actions 使用完整 commit SHA；更新時核對 release 與 SHA。
 

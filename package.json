@@ -14,19 +14,26 @@
     "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "astro check --tsconfig jsconfig.json"
+    "check": "astro check --tsconfig jsconfig.json",
+    "test:dependencies": "node --test tests/dependencies.test.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.5",
-    "mermaid": "^12.0.0",
+    "astro": "^7.3.6",
+    "mermaid": "^12.1.0",
     "tailwindcss": "^4.3.3"
   },
   "overrides": {
-    "lodash-es": "4.18.1"
+    "lodash-es": "4.18.1",
+    "mermaid": {
+      "katex": "0.19.0"
+    },
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "7.1.6"
+    }
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
