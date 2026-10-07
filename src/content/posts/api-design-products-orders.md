@@ -15,12 +15,16 @@ category: tech-deep-dive
 
 假設網站先做四件事：
 
+<div class="table-wrapper" tabindex="0" role="group" aria-label="使用者操作與 API 對照（可水平捲動）">
+
 | 使用者要做的事         | API                 |
 | ---------------------- | ------------------- |
 | 看商品列表、篩選分類   | `GET /products`     |
 | 看一個商品的詳細資料   | `GET /products/101` |
 | 送出購買內容，建立訂單 | `POST /orders`      |
 | 查看自己的一筆訂單     | `GET /orders/9001`  |
+
+</div>
 
 這裡把商品和訂單當成「資源」，也就是 API 操作的對象。網址指出對象，HTTP 方法說明動作。[Microsoft 的 API 設計指南](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design#organize-the-api-design-around-resources)也從這個方向談起。
 
@@ -130,6 +134,8 @@ Content-Type: application/json
 
 數量填錯、商品售完和伺服器故障，畫面的處理方式不同。我會把常見錯誤一起寫進文件：
 
+<div class="table-wrapper" tabindex="0" role="group" aria-label="錯誤狀況與回應方式（可水平捲動）">
+
 | 情況                 | 這個範例的狀態碼 | 畫面可以怎麼處理     |
 | -------------------- | ---------------- | -------------------- |
 | JSON 格式壞掉        | `400`            | 檢查送出的資料       |
@@ -137,6 +143,8 @@ Content-Type: application/json
 | 商品庫存不足         | `409`            | 請使用者調整購買內容 |
 | 訂單不存在或不能查看 | `404`            | 顯示找不到訂單       |
 | 伺服器發生非預期錯誤 | `500`            | 告知暫時無法完成     |
+
+</div>
 
 這是範例的選擇；狀態碼的意思可以查 [HTTP 規格](https://www.rfc-editor.org/rfc/rfc9110.html#name-client-error-4xx)。像 `409` 表示和資源目前的狀態衝突，`422` 則適合格式能讀、內容卻無法處理的情況。
 
