@@ -19,7 +19,7 @@ category: tech-deep-dive
 2. **資源被佔用**：等待中的請求可能佔用連線、記憶體或其他資源，具體影響取決於架構；非同步等待不一定會卡住一條執行緒
 3. **連鎖反應**：一個服務卡住，可能拖垮整個系統
 
-所以，我們需要一套「韌性」（Resilience）機制來應對這種情況。
+處理這些情況時，可以從等待上限、重試條件，以及持續故障時要不要停止呼叫來安排「韌性」（Resilience）機制。
 
 ## 第一道防線：Timeout（超時設定）
 
@@ -73,10 +73,14 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 5000) {
 每次重試之間的等待時間要越來越長。為什麼？因為如果對方伺服器真的有問題，你瘋狂重試只會讓它更慘（雪上加霜）。
 
 ```javascript
-async function fetchWithRetry(url, options = {}, maxRetries = 3) {
+async function fetchWithRetry(url, options = {}, maxAttempts = 3) {
+  if (!Number.isInteger(maxAttempts) || maxAttempts < 1) {
+    throw new RangeError("maxAttempts must be a positive integer");
+  }
+
   let lastError;
 
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       const response = await fetchWithTimeout(url, options, 5000);
 
@@ -91,7 +95,7 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
       console.warn(`Attempt ${attempt + 1} failed:`, error.message);
 
       // 最後一次就不用等了
-      if (attempt < maxRetries - 1) {
+      if (attempt < maxAttempts - 1) {
         // Exponential Backoff: 1秒, 2秒, 4秒...
         const delay = Math.pow(2, attempt) * 1000;
         // 加一點隨機性，避免多個請求同時重試（Thundering Herd）
@@ -101,7 +105,7 @@ async function fetchWithRetry(url, options = {}, maxRetries = 3) {
     }
   }
 
-  throw new Error(`Failed after ${maxRetries} retries: ${lastError.message}`);
+  throw new Error(`Failed after ${maxAttempts} attempts: ${lastError.message}`);
 }
 
 function sleep(ms) {
@@ -109,11 +113,13 @@ function sleep(ms) {
 }
 ```
 
+`maxAttempts` 是總嘗試次數，包含第一次請求。預設值 3 代表最多送出 3 次，中間最多等待 2 次；如果想要「失敗後再試 3 次」，總次數就要設為 4。
+
 ### 什麼情況該重試？
 
 - 網路錯誤（Network Error）、5xx 錯誤（Server Error）和 Timeout 可以考慮重試。
 - 多數 4xx 錯誤（Client Error）需要先處理請求本身的問題，直接重試通常沒有用。429 限流則可能需要依伺服器告知的時間稍後再試。
-- 401 認證失效通常是 Token 過期，可以先刷新 Token 再重試一次。
+- 401 表示缺少有效的認證，可能是 Token 過期，也可能是憑證無效。若系統有換發機制，可以先嘗試刷新 Token 再重試一次；否則應回到登入流程，避免一直重送同一份憑證。
 - 403 代表伺服器拒絕存取，可能和權限或其他存取限制有關。單純重送請求通常沒用，需要先釐清拒絕原因。
 
 上面的程式碼把 5xx 都列入重試，是簡化示範。正式使用時要區分錯誤類型，確認操作能否安全重送，也要把等待間隔算進整體時間上限。
@@ -223,7 +229,7 @@ async function processPayment(data) {
 
 ## 實務上的整合
 
-在真實世界的應用中，這三個機制通常會一起使用，形成層層防護：
+整合時，先限制每次請求的等待時間，失敗後依條件重試；服務持續故障時，斷路器會暫停新的呼叫。下面用流程圖整理它們各自處理的情況：
 
 ```mermaid
 flowchart LR

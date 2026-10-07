@@ -21,13 +21,42 @@ category: tech-deep-dive
 
 ## 為什麼選 Vitest？
 
-以前 Vue 專案大多用 Jest，但 Jest 的設定真的很繁瑣，尤其是遇到 TypeScript 和 ESM 的時候。
+我以前用 Jest 測 Vue 專案，設定 TypeScript 和 ESM 時花了不少時間。
 
-Vitest 基於 Vite，可以直接讀取 `vite.config.ts`，沿用 alias 和 plugins 等設定，對既有的 Vite 專案很方便。測試檔案可以平行執行，預設使用多行程 fork，也能切換成 threads。watch 模式會依檔案變更重跑相關測試。許多 API 和 Jest 相近，但移轉時仍要核對 mock 與環境設定。
+Vitest 基於 Vite，可以讀取 `vite.config.ts`，沿用 alias 和 plugins 等設定，對既有的 Vite 專案很方便。測試檔案可以平行執行，也能選擇 forks 或 threads 等 pool。watch 模式會依檔案變更重跑相關測試。許多 API 和 Jest 相近，但移轉時仍要核對 mock 與環境設定。
+
+### 先準備測試環境
+
+下面使用 Vue 3、Vitest 5、Vite 8、Vue Test Utils 2 與 jsdom 30。這組範例以 Node.js 24.15 以上的 24.x 執行環境驗證；如果沿用舊專案，先確認各套件要求的 Node 與 Vite 版本。
+
+在已有 Vue 3 的專案中安裝測試依賴：
+
+```bash
+npm install -D vitest@5 vite@8 @vitejs/plugin-vue@6 @vue/test-utils@2 jsdom@30
+```
+
+Vue 單檔元件需要 plugin 才能編譯，`mount` 也需要 DOM 環境。Vitest 預設使用 Node，這裡改成 jsdom：
+
+```typescript
+// vitest.config.ts
+import { defineConfig } from "vitest/config";
+import vue from "@vitejs/plugin-vue";
+
+export default defineConfig({
+  plugins: [vue()],
+  test: {
+    environment: "jsdom",
+  },
+});
+```
+
+如果專案原本已在 `vite.config.ts` 設定 alias 或 plugins，獨立的 `vitest.config.ts` 不會自動把那些設定合併進來，要自行共用或用 `mergeConfig` 合併。可對照 [Vitest 環境設定](https://vitest.dev/guide/environment)與 [Vue Test Utils 安裝說明](https://test-utils.vuejs.org/installation/)。
+
+把下面的範例檔案建好後，執行 `npx vitest run` 跑一次；開發時用 `npx vitest` 進入 watch 模式。
 
 ## 實戰：從單元測試開始
 
-單元測試（Unit Test）是成本最低、回饋最快的測試。通常適合拿來測純邏輯的 Utility Functions。
+單元測試（Unit Test）通常跑得快，適合先拿純邏輯的 Utility Functions 練習。
 
 假設我們有一個格式化金額的函式：
 
@@ -117,7 +146,7 @@ describe("Counter", () => {
 
 ## 該寫多少測試？測試金字塔原則
 
-常常有人糾結要寫多少測試。我的建議是遵循測試金字塔的原則：
+我會用測試金字塔安排檢查範圍，而不要求每個專案都達到同一個比例：
 
 1. **Unit Tests（底層）**：寫最多，針對工具函式、複雜邏輯。跑得快、好維護。
 2. **Integration Tests（中層）**：針對元件互動、API 串接。確保各個零件組起來能動。
@@ -125,7 +154,7 @@ describe("Counter", () => {
 
 ## 結語
 
-導入測試一開始會有陣痛期，覺得開發變慢了。但把時間軸拉長來看，它省下的是無數次「手動回測」和「線上救火」的時間。
+導入測試一開始要花時間設定環境、找出值得檢查的行為。對需要持續維護的專案，我會先把常用流程與曾經出錯的情況留下來，減少每次修改都重做同一輪手動回測的負擔。
 
 如果還沒開始，可以先挑一個 Utility function，寫下正常輸入和邊界情況的預期結果。我自己看到終端機裡的測試通過，確實會安心不少😌
 

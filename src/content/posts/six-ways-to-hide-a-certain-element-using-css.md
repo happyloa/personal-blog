@@ -64,7 +64,7 @@ category: learning
 **特性：**
 
 - 在 `<table>` 的列（`<tr>`）或欄（`<col>`）：規範定義為隱藏且不佔空間
-- 在 Flexbox 子項目：規範定義為隱藏且不佔用主軸空間，但**目前僅 Firefox 完整實作**；Chrome/Edge（Chromium）與 Safari 大多仍把它當成 `visibility: hidden` 處理（仍會佔據空間），正式環境使用前請先實測目標瀏覽器
+- 在 Flexbox 子項目：規範定義為隱藏且不佔用主軸空間，但瀏覽器實作可能不完整，有些仍會保留空間。正式環境使用前，請實測目標瀏覽器的排版結果
 - 在 Grid 子項目：**規範並未給予特例**，等同於 `visibility: hidden`，仍會佔據原本的空間
 - 在其他元素：等同於 `visibility: hidden`
 
@@ -176,7 +176,7 @@ category: learning
 
 這張表以單獨使用上述基本寫法為準；顯示／隱藏的離散轉場需要額外設定。移出螢幕的元素沒有消失，仍可能接受程式操作或鍵盤聚焦。
 
-＊`visibility: collapse` 是否「不佔空間」依元素類型與瀏覽器而異：table 列/欄一律不佔空間；Flex 項目僅 Firefox 完整支援，Chrome/Edge/Safari 大多仍佔據空間；Grid 子項目則一律等同 `visibility: hidden`，仍佔據空間（詳見上方第 3 節說明）。
+＊`visibility: collapse` 的空間處理依元素類型與瀏覽器而異。規範要求 table 列／欄收合後移除對應空間，但跨列儲存格與部分瀏覽器實作仍可能有差異，不能一概保證版面結果。Flex 的主軸收合也要確認瀏覽器支援；Grid 則按 `visibility: hidden` 處理。可對照 [MDN 的實作注意事項](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/visibility#notes)，並測試實際表格內容。
 
 ## 無障礙（Accessibility）考量
 
@@ -228,9 +228,7 @@ category: learning
 
 ## 結語
 
-同樣是隱藏元素，不同寫法對版面、互動和輔助科技的影響都不一樣。確認使用情境後再選擇，才能避免留下空白、讓使用者誤點，或把需要被讀取的內容一併藏起來。
-
-下次要隱藏元素時，先想一想：
+選擇寫法前，先確認：
 
 1. 這個元素需要被螢幕閱讀器讀到嗎？
 2. 需要保留空間嗎？

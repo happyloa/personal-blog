@@ -14,16 +14,19 @@ category: learning
 
 ## Vue i18n 基本設定
 
-[Vue i18n](https://vue-i18n.intlify.dev/) 是 Vue 生態系中最常用的多語系套件。安裝完之後，基本的設定長這樣：
+[Vue i18n](https://vue-i18n.intlify.dev/) 是 Vue 常用的多語系套件。下面以 Vue 3、Vue i18n 11 的 Composition API 模式為例；Nuxt 搭配 `@nuxtjs/i18n` 時，則應依模組設定整合，不必再照純 Vue 專案的入口註冊方式做一次。
+
+在 Vue 3 專案中安裝 `vue-i18n@11`，先建立 i18n instance：
 
 ```javascript
 // i18n/index.js
 import { createI18n } from "vue-i18n";
-import zhTW from "./locales/zh-TW.json";
-import en from "./locales/en.json";
+import zhTW from "../locales/zh-TW.json";
+import en from "../locales/en.json";
 
 const i18n = createI18n({
   legacy: false,
+  globalInjection: true,
   locale: "zh-TW",
   fallbackLocale: "en",
   messages: {
@@ -35,7 +38,20 @@ const i18n = createI18n({
 export default i18n;
 ```
 
-翻譯檔案就是一般的 JSON。下方頂端的註解用來標示檔案位置，實際存成 JSON 時要移除；後面的翻譯範例也一樣，JSON 本身不接受註解。
+這份檔案放在 `src/i18n/index.js`，翻譯檔案則放在 `src/locales/`。還要在入口 `src/main.js` 把 instance 註冊到 app，元件裡才有 `$t` 與 `useI18n` 可用：
+
+```javascript
+// main.js
+import { createApp } from "vue";
+import App from "./App.vue";
+import i18n from "./i18n";
+
+createApp(App).use(i18n).mount("#app");
+```
+
+註冊必須在 `mount` 之前完成，順序可對照[官方入門文件](https://vue-i18n.intlify.dev/guide/essentials/started#registering-the-i18n-plugin)。
+
+翻譯檔案就是一般的 JSON。下方先列中文內容，英文檔也要準備相同 key 的翻譯。頂端的註解用來標示檔案位置，實際存成 JSON 時要移除；後面的翻譯範例也一樣，JSON 本身不接受註解。
 
 ```json
 // locales/zh-TW.json
@@ -85,7 +101,7 @@ const switchLanguage = (lang) => {
 
 ## 語言切換的 UI
 
-使用者要能切換語言，通常會在 header 放一個語言選擇器：
+使用者要能切換語言，通常會在 header 放一個語言選擇器。下面 template 的 `locale` 沿用前一段 `useI18n` 取得的值：
 
 ```vue
 <template>
@@ -96,7 +112,7 @@ const switchLanguage = (lang) => {
 </template>
 ```
 
-切換後要記住使用者的選擇，下次進來還是同樣的語言。可以存在 localStorage：
+如果用上面的 `v-model` 選擇器直接修改 `locale`，語言會切換，但不會自動執行 `switchLanguage`。要記住使用者的選擇，可以讓選擇器的 change handler 呼叫這個函式，或 watch 語言值再保存到 localStorage。以下先示範函式內的處理：
 
 ```javascript
 // 切換語言時
@@ -112,11 +128,11 @@ if (savedLocale) {
 }
 ```
 
-這段範例適用於瀏覽器端。若放進 Nuxt 的 SSR 流程，讀取 localStorage 前要確認是在客戶端，也要處理伺服器與瀏覽器初始語言不同時的畫面同步。
+這段適用於瀏覽器端，也要檢查保存的值是否為支援的語系，例如 `zh-TW` 或 `en`。若放進 Nuxt 的 SSR 流程，讀取 localStorage 前要確認是在客戶端，也要處理伺服器與瀏覽器初始語言不同時的畫面同步。
 
 ## 翻譯檔案的管理
 
-專案越做越大，翻譯檔案也會越來越肥。有幾個管理上的建議：
+專案變大後，可以再整理翻譯檔案：
 
 **拆分檔案**
 
@@ -171,9 +187,11 @@ key 的命名最好有規則可循，例如 `頁面.區塊.元素`。這樣找�
 }
 ```
 
+切換到 `en` 後，同樣呼叫 `$t('items.count', { count: 5 })`，會選到第三段而顯示 `5 items`。這裡的 `count` 同時用來插值與選擇複數形式。
+
 ## 日期和數字格式
 
-不同語系的日期和數字格式也不一樣。Vue i18n 有提供相關功能：
+不同語系的日期和數字格式也不一樣。日期可在原本的 `createI18n` 設定中加入 `datetimeFormats`，不要另外建立一個沒有註冊的新 instance：
 
 ```javascript
 const i18n = createI18n({
@@ -194,6 +212,8 @@ const i18n = createI18n({
 <!-- zh-TW: 2025/03/15 -->
 <!-- en: Mar 15, 2025 -->
 ```
+
+註解只是以 2025 年 3 月 15 日為例；`new Date()` 實際輸出的是執行當天的日期，格式也可能受執行環境的 locale 資料影響。
 
 ## SEO 注意事項
 

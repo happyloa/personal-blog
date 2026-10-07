@@ -8,6 +8,8 @@ category: learning
 
 最近幾個專案都有會員系統的需求，也用了好幾次 JWT 驗證。以下整理我在 Nuxt 3 中的實作方式，以及處理登入狀態時要注意的細節。
 
+範例以 Nuxt 3、已啟用 `@pinia/nuxt` 的專案為前提，fetch hook 使用 ofetch 1.4 以上的 `Headers` 行為。`User` 與 `LoginCredentials` 是專案自己的型別，登入 API 的回傳格式假設為 `{ token, userData }`，實作時要依後端規格調整。Cookie 設了 `secure: true`，本機驗證也應使用 HTTPS 或確認開發環境的 cookie 設定。
+
 ## JWT 是什麼
 
 JWT（JSON Web Token）是一種攜帶資料的格式，常用在登入驗證流程中。這裡討論的是帶有簽章的 JWT，後端仍要驗證簽章、有效期限等條件，不能只讀取裡面的資料就信任它。流程大概是這樣：
@@ -53,8 +55,10 @@ Cookie 可以讓重新整理後的請求帶上 token，是否在關閉瀏覽器�
 
 ```typescript
 // stores/auth.ts
+import { defineStore } from "pinia";
+
 export const useAuthStore = defineStore("auth", () => {
-  const tokenCookie = useCookie("auth_token", {
+  const tokenCookie = useCookie<string | null>("auth_token", {
     // 範例為求簡化，用 7 天的長效單一 token；
     // 正式環境建議改用短效 access token（幾小時內）+ refresh token，並實作換發機制
     maxAge: 60 * 60 * 24 * 7, // 7 天
@@ -66,10 +70,13 @@ export const useAuthStore = defineStore("auth", () => {
   const isLoggedIn = computed(() => !!tokenCookie.value);
 
   const login = async (credentials: LoginCredentials) => {
-    const { token, userData } = await $fetch("/api/auth/login", {
-      method: "POST",
-      body: credentials,
-    });
+    const { token, userData } = await $fetch<{ token: string; userData: User }>(
+      "/api/auth/login",
+      {
+        method: "POST",
+        body: credentials,
+      },
+    );
     tokenCookie.value = token;
     user.value = userData;
   };
@@ -87,25 +94,36 @@ export const useAuthStore = defineStore("auth", () => {
 
 ## 自動帶上 Token
 
-每次打 API 都要手動帶 token 太麻煩了，可以用 plugin 建立一個自動帶 token 的 fetch：
+每次呼叫自己的 API 都要手動帶 token 太麻煩了，可以用 plugin 建立 fetcher。這裡只接受以 `/api/` 開頭的站內路徑，避免把 token 帶到其他主機：
 
 ```typescript
 // plugins/api.ts
-export default defineNuxtPlugin(() => {
+import { useAuthStore } from "~/stores/auth";
+
+export default defineNuxtPlugin((nuxtApp) => {
   const authStore = useAuthStore();
 
   const api = $fetch.create({
-    onRequest({ options }) {
+    retry: 0,
+    onRequest({ request, options }) {
+      if (
+        typeof request !== "string" ||
+        !request.startsWith("/api/") ||
+        (options.baseURL && options.baseURL !== "/")
+      ) {
+        throw new Error("$api 只接受站內 /api/ 路徑");
+      }
+
       if (authStore.token) {
         // ofetch 已把 options.headers 正規化成 Headers 實例，
         // 用物件展開會得到空物件並毀掉原有的標頭，必須改用 .set()。
         options.headers.set("Authorization", `Bearer ${authStore.token}`);
       }
     },
-    onResponseError({ response }) {
+    async onResponseError({ response }) {
       if (response.status === 401) {
         authStore.logout();
-        navigateTo("/login");
+        await nuxtApp.runWithContext(() => navigateTo("/login"));
       }
     },
   });
@@ -114,7 +132,9 @@ export default defineNuxtPlugin(() => {
 });
 ```
 
-之後打 API 時使用 `$api` 取代 `$fetch`，請求就會自動帶上 token；收到 401 時，也會自動登出並導向登入頁。
+元件中先用 `const { $api } = useNuxtApp()` 取得 fetcher，再呼叫 `$api("/api/data")`。收到 401 時會清除登入狀態，並等待導向登入頁；非同步 hook 的導頁透過 `runWithContext` 執行，保留 Nuxt context。這個寫法也可對照[官方 custom useFetch 範例](https://nuxt.com/docs/3.x/guide/recipes/custom-usefetch)。
+
+`retry: 0` 讓這份登入範例不自動重試，hook 也拒絕另外指定的 `baseURL`（站內根路徑 `/` 除外）。第三方服務請用另一個 fetcher，不要覆寫這個 request hook，或把 `/api/` 做成任意網址的轉送端點。若要改成接受完整網址的工具，應先驗證實際目的地，再附加憑證。
 
 ## 頁面權限控制
 
@@ -122,6 +142,8 @@ export default defineNuxtPlugin(() => {
 
 ```typescript
 // middleware/auth.ts
+import { useAuthStore } from "~/stores/auth";
+
 export default defineNuxtRouteMiddleware(() => {
   const authStore = useAuthStore();
 
@@ -131,7 +153,7 @@ export default defineNuxtRouteMiddleware(() => {
 });
 ```
 
-在需要保護的頁面加上 middleware：
+在需要保護的頁面，把下面這段放進 `<script setup>`，指定 middleware：
 
 ```typescript
 // pages/dashboard.vue
@@ -148,18 +170,20 @@ definePageMeta({
 
 ```typescript
 // plugins/auth.ts
+import { useAuthStore } from "~/stores/auth";
+
 export default defineNuxtPlugin(async () => {
   const authStore = useAuthStore();
 
   // 如果有 token，嘗試取得使用者資訊
   if (authStore.token) {
     try {
-      const userData = await $fetch("/api/auth/me", {
+      const userData = await $fetch<User>("/api/auth/me", {
         headers: { Authorization: `Bearer ${authStore.token}` },
       });
       authStore.user = userData;
     } catch {
-      // token 無效，清除登入狀態
+      // 簡化範例：任何錯誤都清除登入狀態，正式環境要區分原因
       authStore.logout();
     }
   }

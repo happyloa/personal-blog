@@ -110,8 +110,8 @@ module.exports = {
           // （在 extend 底下擴充「既有」色票如下面的 gray 則是深層合併，
           //   預設的 gray-300~900 仍然可用，所以後面才能寫 text-gray-800。）
           50: "#EFF6FF",
-          500: "#3B82F6",
-          600: "#2563EB",
+          500: "#2563EB",
+          600: "#1D4ED8",
         },
         gray: {
           100: "#F3F4F6",
@@ -132,6 +132,8 @@ module.exports = {
 ```
 
 這樣 Tailwind 的 class 和 Figma 的 Design Token 就能對應起來。
+
+色票也要和使用情境一起確認。這裡的 primary 按鈕用白字配 `#2563EB`，文字對比約 5.17:1，符合一般文字的 WCAG AA 4.5:1 門檻；hover 的 `#1D4ED8` 更深。較亮的藍色仍可用在裝飾上，但若是小字按鈕，不能只看設計稿覺得顏色好看。可用[文字對比要求](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)檢查正常、hover 與其他狀態。
 
 > **後記（2026 更新）**：上面是 Tailwind v3 的寫法。v4 起改用 CSS 端的 `@theme` 區塊定義變數，不再需要 `tailwind.config.js`（舊檔仍可透過 `@config` 沿用）。同一套 Design Token 在 v4 的寫法可以參考〈[Tailwind CSS v4 升級指南](/posts/tailwind-v4-upgrade/)〉。
 

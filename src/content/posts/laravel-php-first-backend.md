@@ -36,9 +36,9 @@ sequenceDiagram
 
 Laravel 也可以直接產生 HTML，不一定只提供 API。這張圖選的是 Vue 與 Laravel 透過 HTTP 合作的情境；Laravel 接收請求到產生回應的流程，可參考[官方生命週期說明](https://laravel.com/docs/13.x/lifecycle)。
 
-## 先放一張觀念對照表
+## Vue 與 Laravel 的用途對照
 
-下面這張表是我理解 Laravel 的起點。左右兩邊有相似之處，職責卻不完全相同。
+我先拿熟悉的 Vue 概念來理解 Laravel。像 Controller 和事件處理函式都會接住操作，但接下來要負責的事不完全相同。
 
 <div class="table-wrapper" tabindex="0" role="group" aria-label="Vue 與 Laravel 觀念對照表（可水平捲動）">
 
@@ -53,8 +53,6 @@ Laravel 也可以直接產生 HTML，不一定只提供 API。這張圖選的是
 | Pinia store          | 用來對照 Eloquent Model  | store 管理應用狀態；Model 負責資料庫存取      |
 
 </div>
-
-接著用幾個小例子，把這些對照拆開來看。
 
 ## 從 Vue Router 理解 Laravel Route
 

@@ -16,7 +16,7 @@ category: learning
 2. **生態系**：React 的社群資源和第三方套件非常豐富
 3. **技術視野**：多學一個框架可以用不同角度思考問題
 
-而且 Vue 和 React 的核心概念其實很類似，轉換的門檻沒有想像中高，尤其是到了 Vue 3 時代，Composition API 的概念都和 React Hooks 很像。
+Vue 和 React 都用元件拆分 UI，也都需要處理狀態與副作用。有 Vue 3 Composition API 的經驗，能幫助理解 React Hooks 的用途；不過，執行時機與更新方式仍要重新熟悉。
 
 ## 最明顯的差異：模板 vs JSX
 
@@ -60,7 +60,7 @@ React 使用 JavaScript 搭配 [JSX](https://react.dev/learn/writing-markup-with
 
 ## 狀態管理的差異
 
-Vue 3 的 Composition API 和 React Hooks 其實很像：
+先用計數器對照兩邊的寫法：
 
 **Vue 3:**
 
@@ -86,11 +86,13 @@ const increment = () => {
 
 Vue 的 `ref` 是響應式的，可以透過 `.value = xxx` 更新。React 的 `useState` 則要透過 setter 告知更新；物件和陣列應視為不可變資料，建立新值再交給 React。
 
-一開始常常忘記用 `setCount`，直接寫 `count++`，然後畫面就不會更新。這個習慣要適應一下。
+從 Vue 轉過來，很容易沿用直接修改值的習慣。但在上面這個 `const` 宣告裡寫 `count++`，會先因為重新指定常數而拋出 `TypeError`。即使改用 `let`，修改某次 render 的區域變數，也不會替 React 排程 state 更新；計數器仍要透過 `setCount` 更新。
+
+這裡的 `computed` 和 `useMemo` 都算出兩倍的值，但不能把它們當成完全相同的機制。Vue 的 `computed` 會追蹤響應式依賴；React 的 [`useMemo`](https://react.dev/reference/react/useMemo) 是 render 期間的快取優化。像這種簡單乘法，直接計算通常就夠了，不必依賴快取才能維持程式正確。
 
 ## 生命週期的對應
 
-Vue 和 React 的生命週期可以這樣對應：
+Vue 的生命週期可以作為理解用途的入口，但下面是近似對照，並非一對一替換：
 
 <div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">
 
@@ -107,11 +109,13 @@ React 用 `useEffect` 處理副作用，我一開始不太習慣。後來理解 
 
 ### 詳細的生命週期對照與陷阱
 
-很多從 Vue 轉過來的人（包含我）最容易在 `useEffect` 踩坑，因為我們習慣了 `onMounted` 這種「時間點」的思考模式，但 React 的 Hooks 是「狀態同步」的思考模式。上面表格最後一欄整理了幾個最常見的落差，其中最容易誤用的是 `onUpdated` 對應的 `useEffect(() => {})`：因為沒有 dependency array，它在 mount 時也會執行一次；如果只是想模擬「只在更新時執行」的效果，需要自己用 `useRef` 記錄是否為首次渲染，在該次提前 return。
+我從 Vue 轉過來時，常把 `useEffect` 當成另一種 `onMounted` 或 `onUpdated`，後來才逐漸習慣按依賴安排同步。沒有 dependency array 的 Effect，在首次掛載後也會執行，所以不能直接拿來替換 `onUpdated`。
+
+用 ref 標記「略過第一次」也不是通用解法：根節點啟用 StrictMode 的開發環境會額外執行 setup → cleanup → setup，第二次 setup 已經看得到改過的 ref。遇到這種需求，先確認操作是不是由按鈕或表單送出觸發；如果是，可以放在事件處理函式。若是同步外部系統，就依賴相關 state，並讓 setup 與 cleanup 能正確配對。這也是 [StrictMode 額外執行 Effect](https://react.dev/reference/react/StrictMode#fixing-bugs-found-by-re-running-effects-in-development)要協助找出的問題。
 
 **最大的陷阱：Stale Closure**
 
-在 Vue 裡面，你在任何地方讀 `count.value` 拿到的都是最新的值。但在 React 的 `useEffect` 或 `useCallback` 裡，如果你沒把變數放進 dependency array，你讀到的會是「舊的」變數。
+在 Vue 裡，透過同一個 ref 讀取 `count.value`，會取得它當下的值。React 的函式則會捕捉建立它的那次 render 所使用的變數；如果 Effect 使用了 `count`，卻沒有在依賴改變時重建，裡面的 callback 就可能一直讀到舊值。
 
 ```javascript
 // React 陷阱題
@@ -153,7 +157,7 @@ React 預期你把 state 當成 immutable 資料。要更新 `title`，就呼叫
 - SSR / SSG / ISR 支援
 - API Routes
 
-用過 Nuxt 3 再去學 Next.js，上手很快。主要差異在一些 API 命名和寫法上。
+用過 Nuxt 3 再學 Next.js，路由與資料載入的用途比較容易理解。不過，Server Component、快取和伺服器／瀏覽器的分工，仍要依 Next.js 的規則重新學，不能只把 API 名稱換掉。
 
 **資料抓取：**
 
@@ -262,7 +266,7 @@ if (isLoggedIn) {
 **React 的優點：**
 
 - 生態系更龐大
-- 工作機會較多
+- 我當時看的職缺中，使用 React 的工作機會較多
 - JSX 的靈活度更高
 - 社群資源豐富
 

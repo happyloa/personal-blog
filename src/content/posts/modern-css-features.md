@@ -22,7 +22,7 @@ CSS 這幾年新增了不少實用功能，有些寫法以前得靠 SASS/SCSS，
 }
 ```
 
-現在原生 CSS 也支援這個語法，現代瀏覽器都已經可以使用。
+現在原生 CSS 也支援巢狀規則，不過不代表 SCSS 的所有語法都能原封不動搬過去：
 
 ```css
 /* Native CSS */
@@ -71,11 +71,11 @@ label:has(+ input:checked) {
 
 ## 3. 容器查詢（Container Queries）
 
-RWD（響應式設計）一直以來都是基於 **視窗寬度（Viewport Width）**，也就是 `@media (max-width: 768px)`。
+做 RWD（響應式設計）時，常會用視窗寬度（Viewport Width）設定斷點，例如 `@media (max-width: 768px)`。Media Query 也能查詢其他裝置條件，這裡先看寬度。
 
 但這有個問題：一個卡片元件，放在側邊欄（窄）和放在主內容區（寬），我們希望它長得不一樣。但 `@media` 不知道卡片現在在多寬的容器裡。
 
-`@container` 解決了這個問題。它是基於**父容器的寬度**來做變化。
+尺寸容器查詢可以依符合條件的祖先容器調整樣式，不一定是緊鄰的父元素。下面先用 `container-type: inline-size` 建立可查詢寬度的容器：
 
 ```css
 .card-container {
