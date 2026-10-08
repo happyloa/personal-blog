@@ -1,6 +1,6 @@
 ---
 title: 前端測試實戰 — 為什麼你需要寫測試？（以 Vitest 為例）
-description: 為什麼前端需要寫測試？本文分享導入 Vitest 的實戰經驗與測試金字塔觀念，助你寫出更穩健、好維護的程式碼。
+description: 從改 A 壞 B 的維護經驗，談我為什麼開始寫測試，再用 Vitest 測試金額格式與 Vue 計數器，說明環境設定和檢查範圍。
 date: 2025-09-20
 category: tech-deep-dive
 ---

@@ -118,7 +118,9 @@ const handleSubmit = async () => {
 
 一開始想說再用 `watch` 來監聽這些欄位變化，但寫到後來發現邏輯越來越亂。後來重構成用 computed 來統一算出當下該套用的驗證 schema，再搭配 VeeValidate 的 `useForm` 來套用，這樣邏輯比較集中，也比較好 debug。
 
-另一個問題是登入狀態在不同頁面之間的同步。有時候使用者在 A 頁面登入，跳到 B 頁面的時候狀態卻沒有帶過去。後來發現是 SSR 的問題，server 端 render 的時候拿不到 cookie。解法是把讀取 cookie 的邏輯放在 middleware 裡面處理。
+另一個問題是登入狀態在不同頁面之間的同步。有時候使用者在 A 頁面登入，跳到 B 頁面時，畫面卻沒有帶上登入狀態。當時調整了初始化流程，也把讀取 cookie 的處理放進 middleware。
+
+現在沒有留下足夠的除錯紀錄，無法確認是哪個環節造成狀態落差，所以這裡只記下當時的調整。Nuxt 的 `useCookie` 本身能配合 SSR 使用，搬到 middleware 並不是所有 cookie 問題的通用解法；仍要依實際的請求與初始化時機排查。
 
 ## 學到什麼
 

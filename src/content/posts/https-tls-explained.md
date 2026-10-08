@@ -1,6 +1,6 @@
 ---
 title: HTTPS 與 TLS — 網際網路的加密通訊協定
-description: HTTPS 是如何保護你的密碼不被竊取？深入淺出介紹 TLS 握手（Handshake）、對稱與非對稱加密，以及憑證的重要性。
+description: 從明文 HTTP 到 TLS 1.3 握手，認識金鑰交換、簽章與憑證驗證，也分清楚連線安全和網站可信是不同的事。
 date: 2026-02-14
 category: web-basics
 ---

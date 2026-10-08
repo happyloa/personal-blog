@@ -1,6 +1,6 @@
 ---
 title: API 請求卡住怎麼辦？聊聊 Timeout、Retry 與 Circuit Breaker
-description: 當 API 請求卡住時該怎麼辦？本文深入探討 Timeout、Retry 與 Circuit Breaker 三種提升系統韌性的關鍵模式。
+description: API 遲遲沒有回應時，如何限制等待、判斷能否重試，以及暫停對故障服務的呼叫？整理 Timeout、Backoff 與 Circuit Breaker 的用途和實作限制。
 date: 2026-02-03
 category: tech-deep-dive
 ---
@@ -140,6 +140,8 @@ Circuit Breaker 的邏輯是：**如果某個服務連續失敗太多次，就�
 2. **Open（開啟）**：斷路器跳開，所有請求直接失敗，不會真的送出
 3. **Half-Open（半開）**：試探階段，允許少量請求通過測試服務是否恢復
 
+下面的斷路器只用來理解狀態轉換，不能直接作為正式環境的併發實作。較早送出的請求若在跳開後才成功，仍會把狀態重設為 Closed；其他請求的 `finally` 也可能清掉半開試探的標記。正式使用時，需要辨識請求屬於哪一輪狀態，並讓試探請求管理自己的標記，或使用文末的現成套件。
+
 ```javascript
 class CircuitBreaker {
   constructor(options = {}) {
@@ -223,8 +225,6 @@ async function processPayment(data) {
 }
 ```
 
-上面的斷路器是概念示範，還有併發限制：較早送出的請求若在跳開後才成功，仍會把狀態重設為 Closed。正式使用時，需要辨識請求屬於哪一輪狀態，避免舊請求改動目前的斷路器，也不能讓其他請求清掉半開試探的標記。
-
 像扣款這種非冪等（non-idempotent）操作，重試前務必確認 API 支援 Idempotency Key，否則 Timeout 後重試可能造成重複扣款。上面範例帶上 `Idempotency-Key`，讓伺服器端能辨識重複請求。
 
 ## 實務上的整合
@@ -246,12 +246,6 @@ flowchart LR
 - **[cockatiel](https://www.npmjs.com/package/cockatiel)**：功能完整的 resilience 套件
 - **[axios-retry](https://www.npmjs.com/package/axios-retry)**：如果你用 Axios，這個插件很方便
 - **[opossum](https://www.npmjs.com/package/opossum)**：專門的 Circuit Breaker 實作
-
-## 結語
-
-外部服務總有失敗的時候，我會把這件事當成設計時就要處理的情境。Timeout 限制等待時間，Backoff 讓重試有間隔，Circuit Breaker 則在持續故障時停止送出請求。
-
-實作起來需要多花一些工，但第三方 API 掛掉時，至少能讓自己的服務快速回報錯誤或降級，保留資源給其他功能。
 
 ---
 

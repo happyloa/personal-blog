@@ -1,6 +1,6 @@
 ---
 title: 瀏覽器是怎麼顯示網頁的？— 從輸入網址到看見畫面的完整旅程
-description: 當你按下 Enter 後的那一秒鐘發生了什麼事？從 DNS 查詢、建立連線到 DOM 渲染，帶你走一遍網頁顯示的完整旅程。
+description: 從輸入網址、DNS 查詢與 HTTP 請求，到 HTML 解析、Layout 和 Paint，用取貨與組裝的比喻理解瀏覽器顯示頁面的流程。
 date: 2026-02-10
 category: web-basics
 ---

@@ -1,6 +1,6 @@
 ---
 title: HTTP 方法與狀態碼 — 讓 API 說人話
-description: 除了 GET 和 POST，你還知道 PUT、PATCH、DELETE 嗎？200 OK、404 Not Found 以外的狀態碼又代表什麼？這篇一次搞懂。
+description: 用使用者資料 API 對照 GET、POST、PUT、PATCH、DELETE 的語意與冪等性，再整理成功、重新導向和錯誤狀態碼的用法。
 date: 2026-02-13
 category: web-basics
 ---

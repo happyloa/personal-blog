@@ -1,6 +1,6 @@
 ---
 title: DNS 深度解析 — 網路世界的地址簿與導航系統
-description: 深入探討 DNS 運作原理，從遞迴查詢到各類紀錄（A、CNAME、MX），以及當 DNS 故障時該如何排查。
+description: 接著 DNS 入門往下看遞迴與迭代查詢、常用紀錄、TTL 和 DoH，並用 nslookup 排查網址連不上的問題。
 date: 2026-02-12
 category: web-basics
 ---
@@ -94,10 +94,6 @@ nslookup google.com
 DNS 結果遭到竄改時，可能把你導向錯誤的網站。DoH（DNS over HTTPS）會加密裝置到所選解析器之間的查詢，減少這段路程被監聽或竄改的機會。不過，你仍需要信任該解析器；DoH 不等於 DNS 記錄本身的真偽驗證。
 
 如果想看原始定義，[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html)有 DNS 記錄和 TTL 的規則，[RFC 8484](https://www.rfc-editor.org/rfc/rfc8484.html)則說明 DoH 與它的安全範圍。
-
-## 結語
-
-了解 DNS 的查詢流程後，設定網域或排查連線問題就有了方向。網站打不開時，可以先查解析結果，再看快取與 TTL，逐步縮小問題範圍。
 
 ---
 

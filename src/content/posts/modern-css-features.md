@@ -1,6 +1,6 @@
 ---
 title: 你可能還不知道的現代 CSS 功能 — Nesting、:has() 與 @container
-description: CSS 進化得太快了！這篇文章介紹三個改變遊戲規則的新功能，讓你的 CSS 寫法更強大、更簡潔。
+description: 用卡片與表單的例子，認識原生 CSS Nesting、:has() 與尺寸容器查詢，也留意它們和 SCSS、Media Query 的差別。
 date: 2026-02-18
 category: learning
 ---
@@ -97,7 +97,7 @@ label:has(+ input:checked) {
 
 對元件化開發（Component-Driven Development）來說，這讓元件能依放置位置的空間調整樣式，在不同版面中重複使用時更方便。
 
-## 結語
+## 使用前確認瀏覽器支援
 
 這些功能在主流瀏覽器的新版本中已有支援，但個別語法和舊版瀏覽器仍要確認。下次開新專案，可以先看目標使用者的瀏覽器版本，再決定哪些地方直接用原生 CSS，哪些需要替代寫法。
 
