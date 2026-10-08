@@ -121,5 +121,6 @@ flowchart LR
 
 站內相關文章：
 
+- 接著閱讀：[接上 n8n 之後，AI 怎麼讀資料？用白話理解 RAG、LLM 與 Context Design](/posts/rag-llm-context-design/)
 - [AI 輔助開發工具使用心得](/posts/ai-development-tools/)
 - [用 AI 開發 WordPress 安全外掛](/posts/site-addon-watchdog-ai-development/)
