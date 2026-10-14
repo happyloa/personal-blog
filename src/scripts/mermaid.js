@@ -26,42 +26,35 @@ function labelFor(source) {
 // 將 ```mermaid 圍欄產生的 <pre data-language="mermaid"> 轉成 mermaid 容器。
 // 直接用 Shiki 標好的屬性選取，不必比對內容開頭關鍵字，因此不會誤判一般程式碼範例，
 // 也自動支援 journey / mindmap / timeline 等所有圖表類型。
-function prepareMermaidBlocks() {
-  /** @type {HTMLDivElement[]} */
-  const shells = [];
+/** @param {HTMLPreElement} pre */
+function prepareMermaidBlock(pre) {
+  const source = pre.textContent.trim();
 
-  document.querySelectorAll('pre[data-language="mermaid"]').forEach((pre) => {
-    const source = pre.textContent.trim();
-    if (!source) return;
+  const shell = document.createElement("div");
+  shell.className = "mermaid-shell";
+  // 圖表可能比容器寬，容器會水平捲動；沒有 tabindex 的話純鍵盤使用者看不到右側被截掉的部分。
+  shell.tabIndex = 0;
+  shell.setAttribute("role", "group");
+  shell.setAttribute("aria-label", labelFor(source));
 
-    const shell = document.createElement("div");
-    shell.className = "mermaid-shell";
-    // 圖表可能比容器寬，容器會水平捲動；沒有 tabindex 的話純鍵盤使用者看不到右側被截掉的部分。
-    shell.tabIndex = 0;
-    shell.setAttribute("role", "group");
-    shell.setAttribute("aria-label", labelFor(source));
+  // 先用原始碼區塊的高度撐住版面，等 SVG 算完再放開，避免圖以下的內容連續位移兩次。
+  const height = pre.getBoundingClientRect().height;
+  if (height) shell.style.minHeight = `${height}px`;
 
-    // 先用原始碼區塊的高度撐住版面，等 SVG 算完再放開，避免圖以下的內容連續位移兩次。
-    const height = pre.getBoundingClientRect().height;
-    if (height) shell.style.minHeight = `${height}px`;
+  const diagram = document.createElement("div");
+  diagram.className = "mermaid";
+  diagram.textContent = source;
 
-    const diagram = document.createElement("div");
-    diagram.className = "mermaid";
-    diagram.textContent = source;
+  // 保留原始碼：mermaid 產生的 SVG 對螢幕閱讀器幾乎沒有意義，留一份可展開的純文字版本。
+  const details = document.createElement("details");
+  details.className = "mermaid-source";
+  const summary = document.createElement("summary");
+  summary.textContent = "圖表原始碼";
+  details.append(summary, pre.cloneNode(true));
 
-    // 保留原始碼：mermaid 產生的 SVG 對螢幕閱讀器幾乎沒有意義，留一份可展開的純文字版本。
-    const details = document.createElement("details");
-    details.className = "mermaid-source";
-    const summary = document.createElement("summary");
-    summary.textContent = "圖表原始碼";
-    details.append(summary, pre.cloneNode(true));
-
-    shell.append(diagram, details);
-    pre.replaceWith(shell);
-    shells.push(shell);
-  });
-
-  return shells;
+  shell.append(diagram, details);
+  pre.replaceWith(shell);
+  return { shell, diagram };
 }
 
 // 只在頁面確實有圖時才動態載入 mermaid，並只初始化一次。
@@ -76,6 +69,14 @@ function loadMermaid() {
     mermaid.initialize({
       startOnLoad: false,
       theme: "base",
+      // 使用 Dagre，避免一般流程圖下載大型 ELK 排版程式。
+      layout: "dagre",
+      flowchart: {
+        theme: "base",
+        look: "classic",
+        // 保留文字大小；寬圖表由外層容器水平捲動。
+        useMaxWidth: false,
+      },
       themeVariables: {
         darkMode: true,
         background: "#111116",
@@ -93,15 +94,32 @@ function loadMermaid() {
   return mermaidReady;
 }
 
-export async function initMermaid() {
-  const shells = prepareMermaidBlocks();
-  if (shells.length === 0) return;
+/** @type {IntersectionObserver | undefined} */
+let observer;
+let pageGeneration = 0;
+let renderQueue = Promise.resolve();
+
+export function cleanupMermaid() {
+  observer?.disconnect();
+  observer = undefined;
+  pageGeneration += 1;
+}
+
+/** @param {HTMLPreElement} pre @param {number} generation */
+async function renderBlock(pre, generation) {
+  if (generation !== pageGeneration || !pre.isConnected) return;
+  /** @type {HTMLDivElement | undefined} */
+  let shell;
 
   try {
     const mermaid = await loadMermaid();
+    // 載入期間可能已換頁，不能把舊頁的圖表插進新頁。
+    if (generation !== pageGeneration || !pre.isConnected) return;
+    const block = prepareMermaidBlock(pre);
+    shell = block.shell;
     // suppressErrors 讓單一張圖的語法錯誤不會中斷同頁其他圖表的渲染。
     await mermaid.run({
-      querySelector: ".mermaid:not([data-processed='true'])",
+      nodes: [block.diagram],
       suppressErrors: true,
     });
   } catch (error) {
@@ -109,9 +127,42 @@ export async function initMermaid() {
     mermaidReady = undefined;
     console.error("[mermaid] 圖表初始化失敗", error);
   } finally {
-    // 無論成功或失敗都要放開佔位高度，否則整頁圖表會卡成空白框。
-    shells.forEach((shell) => {
-      shell.style.minHeight = "";
-    });
+    if (shell) shell.style.minHeight = "";
   }
+}
+
+export function initMermaid() {
+  cleanupMermaid();
+  const generation = pageGeneration;
+  const blocks = document.querySelectorAll(
+    'pre[data-language="mermaid"]:not(.mermaid-source pre)',
+  );
+
+  /** @param {HTMLPreElement} pre */
+  const scheduleRender = (pre) => {
+    if (!pre.textContent.trim()) return;
+    // Mermaid 共用渲染狀態，逐張處理，避免同時產生 SVG 時互相干擾。
+    renderQueue = renderQueue.then(() => renderBlock(pre, generation));
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    blocks.forEach((pre) => {
+      if (pre instanceof HTMLPreElement) scheduleRender(pre);
+    });
+    return;
+  }
+  if (blocks.length === 0) return;
+
+  // 接近畫面才下載圖表程式；載入期間保留原始程式碼，讓內容仍可閱讀。
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting || !(target instanceof HTMLPreElement)) return;
+        observer?.unobserve(target);
+        scheduleRender(target);
+      });
+    },
+    { rootMargin: "600px" },
+  );
+  blocks.forEach((pre) => observer?.observe(pre));
 }

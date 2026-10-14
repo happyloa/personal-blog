@@ -62,14 +62,23 @@ const siteJsonLd = {
     <Font cssVariable="--font-outfit" />
     <Font cssVariable="--font-jetbrains" />
 
-    {/* 只取 400／700 兩個字重：500 僅用於導覽列與小字級 UI，14px 下與 400 幾乎無差異，
-        但整份 CSS 的傳輸量可因此減少約三分之一。 */}
+    {/* 中文字型的 CSS 與字型檔較大，先以系統字型顯示內容，載入完成再套用。
+        由外部模組設定 media，避免 inline onload 違反站台 CSP。 */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      id="cjk-fonts"
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+      media="print"
+      transition:persist
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+      />
+    </noscript>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -225,15 +234,18 @@ const siteJsonLd = {
     </footer>
 
     <script>
-      import { initMermaid } from "../scripts/mermaid";
+      import { initMermaid, cleanupMermaid } from "../scripts/mermaid";
+      import { initFonts } from "../scripts/fonts";
       import { initGridGlow, cleanupGridGlow } from "../scripts/grid-glow";
 
       document.addEventListener("astro:page-load", () => {
+        initFonts();
         initMermaid();
         initGridGlow();
       });
 
       document.addEventListener("astro:before-swap", cleanupGridGlow);
+      document.addEventListener("astro:before-swap", cleanupMermaid);
     </script>
   </body>
 </html>

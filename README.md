@@ -86,18 +86,20 @@ category: learning
 
 - 正文從 `h2` 開始；文章標題使用 `h1`，目錄收錄 `h2`、`h3`。
 - 站內文章連結使用帶尾斜線的 `/posts/<slug>/`，與 canonical、RSS 和 Sitemap 一致。
-- Mermaid 使用 ` ```mermaid ` 圍欄；頁面有圖表時才載入並渲染。
+- Mermaid 使用 ` ```mermaid ` 圍欄；圖表接近畫面時才載入與渲染，換頁後會重新初始化。
 - 表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中，提供水平捲動、鍵盤操作與樣式。
 - 內文圖片放在 `public/images/posts/<slug>/`，以 `/images/posts/<slug>/photo.webp` 引用。請先壓縮，並為 `<img>` 加上 `width`、`height`、`loading="lazy"`；這些圖片不會自動優化。
 - `cover` 只用於 Open Graph、Twitter Card 與 JSON-LD，不顯示在文章頂端或卡片。可自行建立 `src/assets/` 放圖片，欄位填 `../../assets/cover.webp`。Schema 會取得圖片 metadata，不會自動縮放或轉檔。
 
 ## 字型與套件維護
 
-Inter、Outfit、JetBrains Mono 透過 Astro Fonts API 在建置時下載並自架；首次建置需連線 Google Fonts。Noto Sans TC 使用外部 Google Fonts，讀者端無法載入時會回退系統字型。
+Inter、Outfit、JetBrains Mono 透過 Astro Fonts API 在建置時下載並自架；首次建置需連線 Google Fonts。Noto Sans TC 使用外部 Google Fonts，先顯示系統字型，樣式表載入完成後再套用；停用 JavaScript 時由 `noscript` 載入，連線失敗時繼續使用系統字型。
 
 Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。`node-html-parser` 只用於 sitemap 建置。
 
 套件版本以 `package.json` 與 `package-lock.json` 為準。升級時同步更新兩者，確認 `@astrojs/check` 與 TypeScript 相容，再執行格式檢查、型別檢查、建置、`npm outdated` 與 `npm audit`。
+
+Lighthouse 的量測條件、改善結果與瀏覽器驗證記錄見 [效能量測紀錄](docs/performance.md)。
 
 目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.10 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
 
