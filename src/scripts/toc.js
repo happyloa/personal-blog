@@ -104,6 +104,10 @@ export function initTOC() {
   };
   document.addEventListener("focusout", tocFocusoutHandler);
 
+  // 目錄開合不依賴觀察器；不支援時只略過目前章節的高亮。
+  setMobileOpen(false, { returnFocus: false });
+  if (!("IntersectionObserver" in window)) return;
+
   headingObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -116,7 +120,4 @@ export function initTOC() {
   );
 
   headings.forEach((heading) => headingObserver?.observe(heading));
-
-  // 讓 DOM 與 isOpen 從一開始就同步（SSR 已輸出 inert / aria-hidden，這裡不搶焦點）。
-  setMobileOpen(false, { returnFocus: false });
 }

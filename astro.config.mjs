@@ -28,7 +28,7 @@ export default defineConfig({
   // 使用 Astro 內建 Fonts API：在 build 時下載並自架拉丁字型，毋須安裝 @fontsource 套件。
   // 中文思源黑體（Noto Sans TC）改回外部 Google Fonts <link>（見 BaseLayout.astro）：
   // 自架時每一頁都要內嵌一份完整的 CJK unicode-range CSS（約 103KB gzip 且無法跨頁快取），
-  // 改用外部連結可讓這段 CSS 變成單一、可被瀏覽器跨頁/跨站快取的資源。
+  // 改用外部連結可讓這段 CSS 在同一站台跨頁快取。
   // styles 一律限定 normal：站上沒有任何 <em>／italic 內文，預設會多產生一整套斜體 woff2
   // （約 85KB 永遠不會被下載使用），以及每頁 2KB 用不到的 inline @font-face。
   fonts: [

@@ -45,7 +45,7 @@ category: project
 
 ## 開發過程：用 AI 協助理解與修改專案
 
-這次開發最大的特色，就是全程使用 **Google Antigravity IDE** 搭配 **Claude Sonnet 4.5** 模型，外加 **Codex Cloud** 來輔助開發。
+這次全程使用 Google Antigravity IDE 搭配 Claude Sonnet 4.5 模型，並用 Codex Cloud 協助開發。
 
 ### 我的開發流程
 
@@ -58,7 +58,7 @@ category: project
 
 ### AI 加速開發的關鍵
 
-如果沒有 AI 工具，要在短時間內完成這樣的全端專案確實不容易。以下是 AI 幫了大忙的幾個地方：
+AI 主要協助了這幾類工作：
 
 1. **快速理解框架**：Nuxt 4 對我來說算是比較新的框架，透過 AI 可以快速了解專案結構、Composables 的用法、以及如何使用 TypeScript 定義型別
 2. **程式碼重構**：想要調整某個功能時，AI 可以快速幫我找到相關的程式碼片段，並提供重構建議

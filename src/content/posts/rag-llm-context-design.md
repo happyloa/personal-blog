@@ -133,7 +133,7 @@ RAG 不一定要用向量資料庫。查一個確切的訂單編號，直接用 
 
 ## Context window：模型的桌面有多大
 
-Context window 是「上下文視窗」，可以想成模型這次工作時，桌面能攤開多少資料。容量通常用 token 計算；常見限制需要考慮輸入與輸出，服務也可能另外列出各自的上限，要以實際模型和 API 的規格為準。以 [OpenAI 的模型](https://developers.openai.com/api/docs/models)，跟我寫文當下目前主流的模型來說，視窗大小普遍是一百萬。
+Context window 是「上下文視窗」，可以想成模型這次工作時，桌面能攤開多少資料。容量通常用 token 計算；常見限制需要考慮輸入與輸出，服務也可能另外列出各自的上限。各模型的容量不同，可查 [OpenAI 的模型](https://developers.openai.com/api/docs/models)等官方規格，不能把一百萬 tokens 當成通用大小。
 
 桌上放的東西，通常包含：
 

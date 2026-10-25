@@ -8,7 +8,7 @@ Astro 7 + Tailwind CSS 4 靜態部落格，文章以 Markdown 管理。支援分
 
 ## 開發
 
-需要 Node.js 22.23.4 以上、npm 10 以上；建議使用與 CI 相同的 Node.js 24。
+需要 Node.js 22.23.4 以上、npm 10 以上；建議使用 [`.node-version`](.node-version) 指定的 Node.js 24。CI 與 Cloudflare Pages 共用這份版本設定。
 
 ```bash
 npm ci
@@ -101,18 +101,21 @@ Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。
 
 Lighthouse 的量測條件、改善結果與瀏覽器驗證記錄見 [效能量測紀錄](docs/performance.md)。
 
+2026-10-25 的設定、內容審閱與效能複測結果見 [專案與內容檢查](docs/project-review.md)。
+
 目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.12 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
 
 維護時留意：
 
 - `overrides` 的 `lodash-es` 用來修補 Mermaid 間接相依；移除前確認上游已解除限制，並重新執行 audit 與圖表驗證。
 - Mermaid 的 KaTeX 固定為 0.19.0，修補原型污染可能繞過 `trust` 限制的問題（[GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7)）。Typography 的 `postcss-selector-parser` 固定為 7.1.6，修補平面選擇器解析的 CPU 耗盡問題（[GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)）。上游採用安全版本後可移除對應 override，並執行 `npm run test:dependencies`、建置與圖表驗證。
-- `allowScripts` 僅核准指定版本的 `esbuild` 安裝腳本；升版時先審核新版腳本，再更新核准版本。
 - GitHub Actions 使用完整 commit SHA；更新時核對 release 與 SHA。
 
 ## 部署
 
 Cloudflare Pages 的建置指令為 `npm run build`，輸出目錄為 `dist/`；也可將本機建置結果上傳。
+
+Pages 透過 `.node-version` 選擇 Node.js；若後台另設了 `NODE_VERSION`，也要使用 24.x，避免覆蓋專案設定。設定方式見 [Cloudflare 建置環境文件](https://developers.cloudflare.com/pages/configuration/build-image/#override-default-versions)。
 
 [`public/_headers`](public/_headers) 設定安全標頭與靜態資源快取。改用其他部署平台時，需確認是否支援這個格式；例如 Vercel 必須改寫為 `vercel.json` 的 `headers` 設定。
 
