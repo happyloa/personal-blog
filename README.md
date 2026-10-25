@@ -8,7 +8,7 @@ Astro 7 + Tailwind CSS 4 靜態部落格，文章以 Markdown 管理。支援分
 
 ## 開發
 
-需要 Node.js 22.12 以上、npm 10 以上；建議使用與 CI 相同的 Node.js 24。
+需要 Node.js 22.23.4 以上、npm 10 以上；建議使用與 CI 相同的 Node.js 24。
 
 ```bash
 npm ci
@@ -101,7 +101,7 @@ Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。
 
 Lighthouse 的量測條件、改善結果與瀏覽器驗證記錄見 [效能量測紀錄](docs/performance.md)。
 
-目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.10 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
+目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.12 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
 
 維護時留意：
 
