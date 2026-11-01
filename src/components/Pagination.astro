@@ -1,0 +1,54 @@
+---
+import { archivePageURL } from "../utils/posts";
+interface Props {
+  page: number;
+  totalPages: number;
+}
+const { page, totalPages } = Astro.props;
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="文章分頁">
+    {page > 1 ? (
+      <a
+        href={archivePageURL(page - 1)}
+        rel="prev"
+        class="pagination-direction"
+      >
+        ← 上一頁
+      </a>
+    ) : (
+      <span class="pagination-direction" aria-disabled="true">
+        ← 上一頁
+      </span>
+    )}
+    <ol>
+      {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+        (number) => (
+          <li>
+            <a
+              href={archivePageURL(number)}
+              aria-label={`第 ${number} 頁`}
+              aria-current={number === page ? "page" : undefined}
+            >
+              {number}
+            </a>
+          </li>
+        ),
+      )}
+    </ol>
+    {page < totalPages ? (
+      <a
+        href={archivePageURL(page + 1)}
+        rel="next"
+        class="pagination-direction"
+      >
+        下一頁 →
+      </a>
+    ) : (
+      <span class="pagination-direction" aria-disabled="true">
+        下一頁 →
+      </span>
+    )}
+  </nav>
+)}

@@ -1,4 +1,5 @@
 ---
+import { categories } from "../utils/categories";
 interface Category {
   slug: string;
   name: string;
@@ -14,18 +15,21 @@ interface Props {
 
 const { category, count, headingLevel = "h3" } = Astro.props;
 const Heading = headingLevel;
+const number = String(
+  categories.findIndex((item) => item.slug === category.slug) + 1,
+).padStart(2, "0");
 ---
 
-<a
-  href={`/categories/${category.slug}/`}
-  class="surface surface-hover block p-5 no-underline"
->
-  <div class="mb-4 flex items-center justify-between gap-4">
-    <span class="text-2xl" aria-hidden="true">
-      {category.icon}
+<a href={`/categories/${category.slug}/`} class="topic-card">
+  <div class="topic-meta">
+    <span lang="en">
+      {number} / {category.slug}
     </span>
-    <span class="font-mono text-xs text-slate-400">{count} 篇</span>
+    <span>{count} 篇</span>
   </div>
-  <Heading class="mb-2 text-lg">{category.name}</Heading>
-  <p class="text-sm leading-6 text-slate-400">{category.description}</p>
+  <Heading>
+    {category.name}
+    <span aria-hidden="true">↗</span>
+  </Heading>
+  <p>{category.description}</p>
 </a>

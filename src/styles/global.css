@@ -113,6 +113,300 @@
 
 /* 元件類別放進 @layer components，讓模板上的 utility 能正常覆寫。 */
 @layer components {
+  .home-sections {
+    display: grid;
+    gap: clamp(56px, 7vw, 96px);
+  }
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-heading .eyebrow,
+  .page-heading .eyebrow {
+    margin-bottom: 16px;
+  }
+  .section-heading h2 {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    letter-spacing: -0.03em;
+  }
+  .page-heading {
+    margin-bottom: 48px;
+  }
+  .page-heading h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  .page-heading > p:not(.eyebrow) {
+    margin-top: 20px;
+    line-height: 1.9;
+    max-width: 48em;
+    color: var(--color-muted);
+  }
+  .page-title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .archive-count,
+  .archive-position {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .archive-position {
+    margin-top: 32px;
+  }
+  .post-list {
+    border-top: 1px solid var(--color-border-soft);
+  }
+  .post-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 146px minmax(0, 1fr) 28px;
+    gap: 32px;
+    padding-block: 32px;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: start;
+    font-size: 12px;
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+  .post-meta time,
+  .post-number {
+    font-family: var(--font-mono);
+  }
+  .post-number {
+    color: var(--color-primary);
+    margin-bottom: 6px;
+  }
+  .post-category {
+    border-left: 2px solid var(--color-border-soft);
+    padding-left: 10px;
+  }
+  .post-copy {
+    min-width: 0;
+  }
+  .post-copy h2,
+  .post-copy h3 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    line-height: 1.5;
+  }
+  .post-title {
+    color: var(--color-ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .post-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .post-row:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .post-title:focus-visible {
+    outline: none;
+  }
+  .post-summary {
+    margin-top: 12px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.9;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
+  .post-arrow {
+    color: var(--color-muted);
+    font-size: 24px;
+    transition:
+      transform 180ms,
+      color 180ms;
+  }
+  .post-row:hover .post-title,
+  .post-row:hover .post-arrow {
+    color: var(--color-primary);
+  }
+  .post-row:hover .post-arrow {
+    transform: translateX(3px);
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .topic-card {
+    display: block;
+    min-width: 0;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    padding: 24px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .topic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 32px;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .topic-meta > span:first-child {
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  .topic-card h2,
+  .topic-card h3 {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 21px;
+  }
+  .topic-card h2 span,
+  .topic-card h3 span {
+    color: var(--color-muted);
+    transition: transform 180ms;
+  }
+  .topic-card p {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+  }
+  .topic-card:hover {
+    background: var(--color-surface);
+  }
+  .topic-card:hover h2 span,
+  .topic-card:hover h3 span {
+    color: var(--color-primary);
+    transform: translateX(3px);
+  }
+  .end-cta {
+    padding-block: 48px;
+    border-block: 1px solid var(--color-border-soft);
+  }
+  .end-cta h2 {
+    margin-block: 24px;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.4;
+  }
+  .category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .category-chips a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--color-ink-secondary);
+    text-decoration: none;
+  }
+  .category-chips a:hover {
+    color: var(--color-primary);
+  }
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--color-border-soft);
+    margin-top: 24px;
+    padding-top: 24px;
+    font-size: 13px;
+  }
+  .pagination ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .pagination a,
+  .pagination-direction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    text-decoration: none;
+    color: var(--color-muted);
+  }
+  .pagination a[aria-current="page"] {
+    background: var(--color-primary);
+    color: var(--color-base);
+    border-radius: 8px;
+  }
+  .pagination [aria-disabled] {
+    color: var(--color-muted);
+    opacity: 0.65;
+  }
+  .empty-state {
+    padding-block: 48px;
+    line-height: 1.9;
+  }
+  @media (max-width: 1023px) {
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 639px) {
+    .post-row {
+      grid-template-columns: minmax(0, 1fr) 24px;
+      gap: 12px;
+      padding-block: 24px;
+    }
+    .post-meta {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .post-number {
+      margin: 0;
+    }
+    .post-arrow {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .topic-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .topic-meta {
+      margin-bottom: 20px;
+    }
+    .pagination {
+      gap: 8px;
+    }
+    .pagination ol {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   .site-container {
     width: 100%;
     max-width: calc(1200px + 2 * clamp(20px, 4vw, 64px));

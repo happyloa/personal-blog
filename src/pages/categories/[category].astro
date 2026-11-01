@@ -24,28 +24,31 @@ const posts = allPosts.filter((post) => post.data.category === categorySlug);
   description={categoryInfo.description}
   noindex={posts.length < 2}
 >
-  <section class="mb-10 max-w-3xl">
-    <a href="/categories/" class="mb-5 inline-flex text-sm no-underline">
+  <header class="page-heading">
+    <a href="/categories/" class="text-link mb-6">
       ← 返回分類
     </a>
-    <p class="eyebrow mb-3" lang="en">
-      Category
+    <p class="eyebrow" lang="en">
+      02 / {categorySlug}
     </p>
-    <h1 class="mb-4 flex items-center gap-3 text-3xl md:text-4xl">
-      <span aria-hidden="true">{categoryInfo.icon}</span>
+    <h1>
       {categoryInfo.name}
+      <span class="text-primary">.</span>
     </h1>
-    <p class="leading-8 text-slate-400">{categoryInfo.description}</p>
-    <p class="mt-3 font-mono text-xs text-slate-400">
-      共 {posts.length} 篇文章
-    </p>
-  </section>
+    <p>{categoryInfo.description}</p>
+    <p class="archive-count">共 {posts.length} 篇文章</p>
+  </header>
 
-  <section class="grid gap-4">
+  <section class="post-list" aria-label={`${categoryInfo.name}文章`}>
     {posts.length > 0 ? (
       posts.map((post) => <PostCard post={post} />)
     ) : (
-      <p class="surface p-5 text-slate-400">這個分類目前還沒有文章。</p>
+      <div class="empty-state">
+        <p>這個分類目前還沒有文章。</p>
+        <a href="/posts/" class="text-link">
+          瀏覽所有文章 →
+        </a>
+      </div>
     )}
   </section>
 </BaseLayout>

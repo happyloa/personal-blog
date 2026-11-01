@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "./PostCard.astro";
+import Pagination from "./Pagination.astro";
+import { categories } from "../utils/categories";
+import { site } from "../utils/site";
+import { POSTS_PER_PAGE } from "../utils/posts";
+interface Props {
+  posts: CollectionEntry<"posts">[];
+  page: number;
+  totalPages: number;
+  total: number;
+}
+const { posts, page, totalPages, total } = Astro.props;
+---
+
+<BaseLayout
+  title={`所有文章${page > 1 ? `・第 ${page} 頁` : ""}｜${site.title}`}
+  description={`共 ${total} 篇前後端開發、網站效能與實作筆記。第 ${page} 頁，共 ${totalPages} 頁。`}
+>
+  <header class="page-heading">
+    <p class="eyebrow" lang="en">
+      01 / WRITING ARCHIVE
+    </p>
+    <div class="page-title-line">
+      <h1>
+        所有文章<span class="text-primary">.</span>
+      </h1>
+      <p class="archive-count">{total} 篇筆記</p>
+    </div>
+    <p>從一個問題開始，留下實作與思考的過程。</p>
+    <nav class="category-chips" aria-label="依分類瀏覽文章">
+      {categories.map((category) => (
+        <a href={`/categories/${category.slug}/`}>{category.name}</a>
+      ))}
+    </nav>
+  </header>
+  <section aria-label={`第 ${page} 頁文章`} class="post-list">
+    {posts.map((post, index) => (
+      <PostCard post={post} index={(page - 1) * POSTS_PER_PAGE + index + 1} />
+    ))}
+    {posts.length === 0 && <p class="empty-state">目前還沒有公開文章。</p>}
+  </section>
+  <p class="archive-position">
+    第 {page} / {totalPages} 頁
+    {total > 0 &&
+      `・顯示 ${(page - 1) * POSTS_PER_PAGE + 1}–${Math.min(page * POSTS_PER_PAGE, total)} 篇`}
+  </p>
+  <Pagination page={page} totalPages={totalPages} />
+</BaseLayout>
