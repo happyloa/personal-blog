@@ -1,4 +1,5 @@
-@import "tailwindcss";
+/* Only application sources contribute utilities; QA scripts and reports must not change the bundle. */
+@import "tailwindcss" source("../");
 
 @plugin '@tailwindcss/typography';
 
@@ -33,23 +34,7 @@
 
   /* eyebrow 標籤的字距。Tailwind 內建最寬的 tracking-widest 是 0.1em，差距太大。 */
   --tracking-eyebrow: 0.18em;
-
-  /* 目錄面板的尺寸：與視窗高度／寬度連動，無法用固定的 spacing 級距表示。 */
-  --spacing-toc-desktop: calc(100vh - 7rem);
-  --spacing-toc-mobile: 60vh;
-  --spacing-toc-panel: min(20rem, calc(100vw - 2rem));
 }
-
-/* grid-template-columns 沒有對應的 theme 命名空間，改用自訂 utility 定義頁尾欄寬。
-   名稱刻意避開 grid-cols-*：那是 Tailwind 內建的 functional utility 命名空間，
-   同名的自訂 utility 會被吃掉且不會有任何錯誤訊息。 */
-@utility footer-columns {
-  grid-template-columns: 1.2fr 1fr 1fr;
-}
-
-/* Tailwind 內建的 aria-* 變體只涵蓋 checked/disabled/expanded 等幾個屬性，不含
-   aria-current，因此自訂一個，讓模板端可以寫 aria-current:bg-surface 而非任意變體。 */
-@custom-variant aria-current (&[aria-current="page"]);
 
 /* 元素層級的預設樣式一律放進 @layer base。
    未分層（unlayered）的宣告依 CSS Cascade Layers 規範會勝過「所有」已分層宣告（與 specificity 無關），
@@ -593,7 +578,7 @@
 
   .wordmark-label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.6;
     letter-spacing: 0.14em;
   }
@@ -795,7 +780,7 @@
       display: none;
     }
     .hero-eyebrow {
-      font-size: 10px;
+      font-size: 12px;
       margin-bottom: 24px;
     }
   }
@@ -827,10 +812,8 @@
     @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-base;
   }
 
-  /* 目前閱讀中的章節：用 inset box-shadow 而非 border，避免捲動時目錄項目左右位移。
-     文字顏色交給 toc.js 切換的 text-ink utility，兩者不互相干擾。 */
-  .toc-link[aria-current],
-  .toc-link-mobile[aria-current] {
+  /* Use an inset line so section highlighting does not move the TOC text. */
+  .toc-link[aria-current] {
     box-shadow: inset 2px 0 0 var(--color-primary);
   }
 
@@ -1026,8 +1009,7 @@ figure img {
   }
 }
 
-/* 尊重「減少動態效果」偏好。ClientRouter（View Transitions）本身不會偵測這個設定，
-   必須自行把 ::view-transition-* 的動畫關掉，否則整頁 cross-fade 依然會播放。 */
+/* Reduced motion covers site interactions as well as router transitions. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
