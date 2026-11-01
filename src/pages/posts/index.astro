@@ -1,0 +1,13 @@
+---
+import WritingArchive from "../../components/WritingArchive.astro";
+import { getPublishedPostsSorted, paginatePosts } from "../../utils/posts";
+const posts = await getPublishedPostsSorted();
+const pages = paginatePosts(posts);
+---
+
+<WritingArchive
+  posts={pages[0]}
+  page={1}
+  totalPages={pages.length}
+  total={posts.length}
+/>

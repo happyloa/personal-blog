@@ -1,0 +1,45 @@
+---
+import { site } from "../utils/site";
+---
+
+<section class="editorial-hero" aria-labelledby="journal-heading">
+  <div>
+    <p class="eyebrow hero-eyebrow" lang="en">
+      AARON'S JOURNAL / DESIGN × ENGINEERING
+    </p>
+    <h1 id="journal-heading">
+      設計的眼光，
+      <br />
+      工程的思維<span class="text-primary">。</span>
+    </h1>
+    <p class="hero-description">
+      記錄前後端開發、網站效能、系統設計與實作後的思考。
+    </p>
+    <div class="hero-actions">
+      <a class="button-primary" href="/posts/">
+        閱讀文章 <span aria-hidden="true">↗</span>
+      </a>
+      <a
+        class="text-link"
+        href={site.portfolioUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        查看作品集 <span aria-hidden="true">↗</span>
+        <span class="sr-only">（另開新分頁）</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-mark" aria-hidden="true">
+    <span class="mark-index">A / 01</span>
+    <span class="mark-word">
+      DESIGN<span class="mark-slash">/</span>CODE
+      <span class="text-primary">.</span>
+    </span>
+    <span class="mark-caption">
+      THINK IT THROUGH.
+      <br />
+      BUILD IT WELL.
+    </span>
+  </div>
+</section>

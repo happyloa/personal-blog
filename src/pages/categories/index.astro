@@ -13,20 +13,17 @@ const categoryCounts = getCategoryCounts(posts);
   title={`文章分類｜${site.title}`}
   description="依照主題分類瀏覽所有文章"
 >
-  <section class="mb-10 max-w-3xl">
-    <a href="/" class="mb-5 inline-flex text-sm no-underline">
-      ← 返回首頁
-    </a>
-    <p class="eyebrow mb-3" lang="en">
-      Categories
+  <header class="page-heading">
+    <p class="eyebrow" lang="en">
+      02 / TOPICS
     </p>
-    <h1 class="mb-4 text-3xl md:text-4xl">文章分類</h1>
-    <p class="leading-8 text-slate-400">
-      選擇你有興趣的主題，從一組相關文章開始讀。
-    </p>
-  </section>
+    <h1>
+      文章分類<span class="text-primary">.</span>
+    </h1>
+    <p>選擇你有興趣的主題，從一組相關文章開始讀。</p>
+  </header>
 
-  <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="topic-grid" aria-label="所有分類">
     {categories.map((category) => (
       <CategoryCard
         category={category}

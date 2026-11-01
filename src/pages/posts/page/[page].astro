@@ -1,0 +1,25 @@
+---
+import WritingArchive from "../../../components/WritingArchive.astro";
+import { getPublishedPostsSorted, paginatePosts } from "../../../utils/posts";
+export async function getStaticPaths() {
+  const posts = await getPublishedPostsSorted();
+  const pages = paginatePosts(posts);
+  return pages.slice(1).map((pagePosts, index) => ({
+    params: { page: String(index + 2) },
+    props: {
+      posts: pagePosts,
+      page: index + 2,
+      totalPages: pages.length,
+      total: posts.length,
+    },
+  }));
+}
+const { posts, page, totalPages, total } = Astro.props;
+---
+
+<WritingArchive
+  posts={posts}
+  page={page}
+  totalPages={totalPages}
+  total={total}
+/>

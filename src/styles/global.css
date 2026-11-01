@@ -1,4 +1,5 @@
-@import "tailwindcss";
+/* Only application sources contribute utilities; QA scripts and reports must not change the bundle. */
+@import "tailwindcss" source("../");
 
 @plugin '@tailwindcss/typography';
 
@@ -15,41 +16,29 @@
     var(--font-jetbrains), "Noto Sans TC", ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, monospace;
 
-  --color-base: #09090b;
-  --color-surface: #111116;
-  --color-surface-soft: #18181f;
-  --color-border-soft: #27272f;
-  --color-primary: #38bdf8;
-  --color-primary-muted: #7dd3fc;
+  --color-base: #181917;
+  --color-surface: #252620;
+  --color-surface-soft: #2d2e29;
+  --color-border-soft: #45463e;
+  --color-ink: #eeeee5;
+  --color-ink-secondary: #c7c8bd;
+  --color-muted: #b0b1a5;
+  --color-primary: #ff8068;
+  --color-primary-muted: #ff9c89;
+  --color-signal: #ed533b;
   /* 程式碼區塊底色，刻意介於 base 與 surface 之間，比兩者都更沉一點。 */
-  --color-code-surface: #0c0c10;
+  --color-code-surface: #151612;
 
   /* 行內程式碼用相對單位，才會跟著所在段落的字級縮放（prose 與 prose-lg 都適用）。 */
   --text-code: 0.9em;
 
   /* eyebrow 標籤的字距。Tailwind 內建最寬的 tracking-widest 是 0.1em，差距太大。 */
   --tracking-eyebrow: 0.18em;
-
-  /* 目錄面板的尺寸：與視窗高度／寬度連動，無法用固定的 spacing 級距表示。 */
-  --spacing-toc-desktop: calc(100vh - 7rem);
-  --spacing-toc-mobile: 60vh;
-  --spacing-toc-panel: min(20rem, calc(100vw - 2rem));
 }
-
-/* grid-template-columns 沒有對應的 theme 命名空間，改用自訂 utility 定義頁尾欄寬。
-   名稱刻意避開 grid-cols-*：那是 Tailwind 內建的 functional utility 命名空間，
-   同名的自訂 utility 會被吃掉且不會有任何錯誤訊息。 */
-@utility footer-columns {
-  grid-template-columns: 1.2fr 1fr 1fr;
-}
-
-/* Tailwind 內建的 aria-* 變體只涵蓋 checked/disabled/expanded 等幾個屬性，不含
-   aria-current，因此自訂一個，讓模板端可以寫 aria-current:bg-surface 而非任意變體。 */
-@custom-variant aria-current (&[aria-current="page"]);
 
 /* 元素層級的預設樣式一律放進 @layer base。
    未分層（unlayered）的宣告依 CSS Cascade Layers 規範會勝過「所有」已分層宣告（與 specificity 無關），
-   若把 a / h1-h6 裸寫在外面，模板上的 text-slate-400 之類 utility 會全部靜默失效。 */
+   若把 a / h1-h6 裸寫在外面，模板上的 text-muted 之類 utility 會全部靜默失效。 */
 @layer base {
   *,
   ::after,
@@ -65,6 +54,7 @@
 
   html {
     scroll-padding-top: 6rem;
+    background: var(--color-base);
   }
 
   body {
@@ -74,7 +64,7 @@
       linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
       var(--color-base);
     background-size: 48px 48px;
-    @apply text-slate-300 antialiased selection:bg-primary/25 selection:text-white;
+    @apply text-ink-secondary antialiased selection:bg-primary/25 selection:text-ink;
   }
 
   h1,
@@ -84,41 +74,746 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    @apply text-balance font-semibold text-slate-50;
+    @apply text-balance font-semibold text-ink;
   }
 
   a {
     @apply text-primary underline-offset-4 transition-colors hover:text-primary-muted;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
   * {
     scrollbar-width: thin;
-    scrollbar-color: #3f3f46 transparent;
+    scrollbar-color: var(--color-border-soft) transparent;
   }
 }
 
 /* 元件類別放進 @layer components，讓模板上的 utility 能正常覆寫。 */
 @layer components {
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    min-width: 0;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .breadcrumbs a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: none;
+  }
+  .breadcrumb-current {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .reading-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 720px) 240px;
+    justify-content: space-between;
+    gap: 64px;
+  }
+  .reading-article {
+    min-width: 0;
+    width: 100%;
+  }
+  .article-heading {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-border-soft);
+    margin-bottom: 36px;
+  }
+  .article-category {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 13px;
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+  .article-heading h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+  }
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    color: var(--color-muted);
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 24px;
+  }
+  .article-description {
+    margin-top: 24px;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--color-ink-secondary);
+  }
+  .article-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--color-border-soft);
+    margin-top: 64px;
+    padding-top: 24px;
+  }
+  .toc-desktop {
+    position: sticky;
+    top: 112px;
+    align-self: start;
+    max-height: calc(100dvh - 144px);
+    overflow-y: auto;
+    padding: 4px 6px 8px;
+  }
+  .toc-heading {
+    margin-block: 12px 20px;
+    color: var(--color-ink);
+    font-size: 15px;
+  }
+  .toc-link {
+    display: block;
+    padding: 10px 12px;
+    min-height: 44px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .toc-link[aria-current] {
+    color: var(--color-primary);
+    background: var(--color-surface);
+  }
+  .toc-nested {
+    margin-left: 12px;
+  }
+  .toc-mobile {
+    display: none;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    margin-bottom: 36px;
+    padding: 4px 16px;
+    background: var(--color-surface);
+  }
+  .toc-mobile summary {
+    cursor: pointer;
+    padding-block: 12px;
+    min-height: 44px;
+    color: var(--color-ink);
+    font-size: 14px;
+  }
+  .toc-mobile nav {
+    padding-block: 8px 12px;
+  }
+  .error-page {
+    max-width: 800px;
+    margin-inline: auto;
+    padding-block: 64px;
+  }
+  .error-page > p:not(.eyebrow) {
+    margin-block: 24px 40px;
+  }
+  @media (max-width: 1279px) {
+    .reading-layout {
+      display: block;
+    }
+    .reading-article {
+      max-width: 720px;
+      margin-inline: auto;
+    }
+    .toc-desktop {
+      display: none;
+    }
+    .toc-mobile {
+      display: block;
+    }
+  }
+
+  .home-sections {
+    display: grid;
+    gap: clamp(56px, 7vw, 96px);
+  }
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-heading .eyebrow,
+  .page-heading .eyebrow {
+    margin-bottom: 16px;
+  }
+  .section-heading h2 {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    letter-spacing: -0.03em;
+  }
+  .page-heading {
+    margin-bottom: 48px;
+  }
+  .page-heading h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+  .page-heading > p:not(.eyebrow) {
+    margin-top: 20px;
+    line-height: 1.9;
+    max-width: 48em;
+    color: var(--color-muted);
+  }
+  .page-title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .archive-count,
+  .archive-position {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .archive-position {
+    margin-top: 32px;
+  }
+  .post-list {
+    border-top: 1px solid var(--color-border-soft);
+  }
+  .post-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 146px minmax(0, 1fr) 28px;
+    gap: 32px;
+    padding-block: 32px;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: start;
+    font-size: 12px;
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+  .post-meta time,
+  .post-number {
+    font-family: var(--font-mono);
+  }
+  .post-number {
+    color: var(--color-primary);
+    margin-bottom: 6px;
+  }
+  .post-category {
+    border-left: 2px solid var(--color-border-soft);
+    padding-left: 10px;
+  }
+  .post-copy {
+    min-width: 0;
+  }
+  .post-copy h2,
+  .post-copy h3 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    line-height: 1.5;
+  }
+  .post-title {
+    color: var(--color-ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .post-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .post-row:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .post-title:focus-visible {
+    outline: none;
+  }
+  .post-summary {
+    margin-top: 12px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.9;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
+  .post-arrow {
+    color: var(--color-muted);
+    font-size: 24px;
+    transition:
+      transform 180ms,
+      color 180ms;
+  }
+  .post-row:hover .post-title,
+  .post-row:hover .post-arrow {
+    color: var(--color-primary);
+  }
+  .post-row:hover .post-arrow {
+    transform: translateX(3px);
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .topic-card {
+    display: block;
+    min-width: 0;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    padding: 24px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .topic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 32px;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .topic-meta > span:first-child {
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  .topic-card h2,
+  .topic-card h3 {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 21px;
+  }
+  .topic-card h2 span,
+  .topic-card h3 span {
+    color: var(--color-muted);
+    transition: transform 180ms;
+  }
+  .topic-card p {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+  }
+  .topic-card:hover {
+    background: var(--color-surface);
+  }
+  .topic-card:hover h2 span,
+  .topic-card:hover h3 span {
+    color: var(--color-primary);
+    transform: translateX(3px);
+  }
+  .end-cta {
+    padding-block: 48px;
+    border-block: 1px solid var(--color-border-soft);
+  }
+  .end-cta h2 {
+    margin-block: 24px;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.4;
+  }
+  .category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .category-chips a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--color-ink-secondary);
+    text-decoration: none;
+  }
+  .category-chips a:hover {
+    color: var(--color-primary);
+  }
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid var(--color-border-soft);
+    margin-top: 24px;
+    padding-top: 24px;
+    font-size: 13px;
+  }
+  .pagination ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .pagination a,
+  .pagination-direction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    text-decoration: none;
+    color: var(--color-muted);
+  }
+  .pagination a[aria-current="page"] {
+    background: var(--color-primary);
+    color: var(--color-base);
+    border-radius: 8px;
+  }
+  .pagination [aria-disabled] {
+    color: var(--color-muted);
+    opacity: 0.65;
+  }
+  .empty-state {
+    padding-block: 48px;
+    line-height: 1.9;
+  }
+  @media (max-width: 1023px) {
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 639px) {
+    .post-row {
+      grid-template-columns: minmax(0, 1fr) 24px;
+      gap: 12px;
+      padding-block: 24px;
+    }
+    .post-meta {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    .post-number {
+      margin: 0;
+    }
+    .post-arrow {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .topic-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .topic-meta {
+      margin-bottom: 20px;
+    }
+    .pagination {
+      gap: 8px;
+    }
+    .pagination ol {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .site-container {
+    width: 100%;
+    max-width: calc(1200px + 2 * clamp(20px, 4vw, 64px));
+    padding-inline: clamp(20px, 4vw, 64px);
+    margin-inline: auto;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--color-border-soft);
+    background: var(--color-base);
+  }
+
+  .header-inner {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .wordmark-symbol {
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.07em;
+  }
+
+  .wordmark-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+  }
+
+  .primary-nav,
+  .footer-links,
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 14px;
+    font-size: 14px;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .nav-link[aria-current="page"] {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
+    text-underline-offset: 10px;
+  }
+
+  .site-main {
+    position: relative;
+    z-index: 10;
+    padding-block: clamp(40px, 6vw, 80px);
+    min-width: 0;
+  }
+
+  .editorial-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    align-items: center;
+    gap: 48px;
+    padding-block: 30px 72px;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+  .editorial-hero h1 {
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-description {
+    margin-top: 28px;
+    max-width: 32em;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--color-muted);
+  }
+
+  .hero-actions {
+    margin-top: 32px;
+    gap: 24px;
+  }
+  .button-primary,
+  .text-link {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .button-primary {
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: var(--color-base);
+    background: var(--color-primary);
+  }
+  .button-primary:hover {
+    color: var(--color-base);
+    background: var(--color-primary-muted);
+  }
+  .text-link {
+    color: var(--color-ink);
+  }
+  .text-link > span[aria-hidden] {
+    transition: transform 180ms;
+  }
+  .text-link:hover > span[aria-hidden] {
+    transform: translateX(3px);
+  }
+
+  .hero-mark {
+    display: grid;
+    align-content: space-between;
+    min-height: 270px;
+    border-block: 1px solid var(--color-border-soft);
+    padding-block: 20px;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+  }
+  .mark-index,
+  .mark-caption {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+  }
+  .mark-word {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: 45px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .mark-slash {
+    display: block;
+    color: var(--color-primary);
+    padding-block: 4px;
+  }
+  .mark-caption {
+    margin-top: 20px;
+  }
+
+  .site-footer {
+    position: relative;
+    z-index: 10;
+    margin-top: 48px;
+    border-top: 1px solid var(--color-border-soft);
+    background: var(--color-base);
+  }
+  .footer-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 32px;
+    padding-block: 48px;
+  }
+  .footer-signature {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-ink);
+  }
+  .footer-links {
+    gap: 12px 24px;
+  }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 13px;
+    color: var(--color-ink-secondary);
+    text-decoration: none;
+  }
+  .footer-colophon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 24px;
+    border-top: 1px solid var(--color-border-soft);
+    color: var(--color-muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 767px) {
+    .header-inner {
+      min-height: 72px;
+      gap: 12px;
+    }
+    .wordmark-label {
+      display: none;
+    }
+    .nav-link {
+      padding-inline: 7px;
+      font-size: 13px;
+    }
+    .primary-nav {
+      gap: 0;
+    }
+    .editorial-hero {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: 12px 48px;
+      gap: 32px;
+    }
+    .hero-mark {
+      display: none;
+    }
+    .hero-eyebrow {
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .header-inner {
+      flex-wrap: wrap;
+      padding-block: 12px;
+    }
+    .primary-nav {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
   .surface {
     @apply rounded-lg border border-border-soft bg-surface;
   }
 
   .surface-hover {
-    @apply transition-colors hover:border-slate-600 hover:bg-surface-soft;
+    @apply transition-colors hover:border-muted hover:bg-surface-soft;
   }
 
   .eyebrow {
-    @apply font-mono text-xs font-medium uppercase tracking-eyebrow text-slate-400;
+    @apply font-mono text-xs font-medium uppercase tracking-eyebrow text-muted;
   }
 
   .skip-link {
-    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-slate-950;
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-base;
   }
 
-  /* 目前閱讀中的章節：用 inset box-shadow 而非 border，避免捲動時目錄項目左右位移。
-     文字顏色交給 toc.js 切換的 text-slate-100 utility，兩者不互相干擾。 */
-  .toc-link[aria-current],
-  .toc-link-mobile[aria-current] {
+  /* Use an inset line so section highlighting does not move the TOC text. */
+  .toc-link[aria-current] {
     box-shadow: inset 2px 0 0 var(--color-primary);
   }
 
@@ -137,7 +832,7 @@
   }
 
   .mermaid-source {
-    @apply mt-3 border-t border-border-soft pt-3 text-sm text-slate-400;
+    @apply mt-3 border-t border-border-soft pt-3 text-sm text-muted;
   }
 
   .mermaid-source summary {
@@ -157,18 +852,27 @@
 /* 以下 .prose 規則刻意「不分層」：@tailwindcss/typography 的 prose 樣式落在 utilities layer，
    未分層宣告才壓得過它。移進 @layer components 反而會被 plugin 蓋掉。 */
 .prose {
-  @apply prose-invert prose-slate max-w-none;
-  --tw-prose-body: #cbd5e1;
-  --tw-prose-headings: #f8fafc;
-  --tw-prose-links: #7dd3fc;
-  --tw-prose-bold: #f8fafc;
-  --tw-prose-code: #e2e8f0;
-  --tw-prose-quotes: #e2e8f0;
-  --tw-prose-hr: #27272f;
+  @apply prose-invert max-w-none;
+  font-size: 18px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+  --tw-prose-body: #c7c8bd;
+  --tw-prose-headings: #eeeee5;
+  --tw-prose-links: #ff9c89;
+  --tw-prose-bold: #eeeee5;
+  --tw-prose-code: #eeeee5;
+  --tw-prose-quotes: #eeeee5;
+  --tw-prose-hr: #45463e;
+  --tw-prose-bullets: #b0b1a5;
+  --tw-prose-counters: #b0b1a5;
+  --tw-prose-captions: #b0b1a5;
+  --tw-prose-th-borders: #45463e;
+  --tw-prose-td-borders: #45463e;
 }
 
 .prose p {
-  @apply leading-8 text-slate-300;
+  color: var(--color-ink-secondary);
+  line-height: 1.9;
 }
 
 .prose h2 {
@@ -185,7 +889,7 @@
 
 .prose code {
   font-family: var(--font-mono);
-  @apply rounded-md border border-border-soft bg-surface-soft px-1.5 py-0.5 text-code font-medium text-slate-100;
+  @apply rounded-md border border-border-soft bg-surface-soft px-1.5 py-0.5 text-code font-medium text-ink;
 }
 
 /* 文字顏色由 Shiki 以 inline style 提供（語法高亮），底色則由這裡統一管理——
@@ -194,10 +898,16 @@
    特異度相同會直接蓋掉這裡，token 就變成死變數。 */
 .prose pre {
   @apply my-8 overflow-x-auto rounded-lg border border-border-soft bg-code-surface p-4;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: normal;
 }
 
 .prose pre code {
   @apply border-0 bg-transparent p-0;
+  font-size: inherit;
+  font-weight: 400;
 }
 
 .prose blockquote {
@@ -209,7 +919,7 @@
 }
 
 .prose > details > summary {
-  @apply flex cursor-pointer list-none items-start justify-between gap-4 px-4 py-4 font-medium leading-7 text-slate-200 select-none transition-colors sm:px-6;
+  @apply flex cursor-pointer list-none items-start justify-between gap-4 px-4 py-4 font-medium leading-7 text-ink-secondary select-none transition-colors sm:px-6;
 }
 
 .prose > details > summary::-webkit-details-marker {
@@ -234,7 +944,7 @@
 }
 
 .prose > details[open] > summary {
-  @apply border-b border-border-soft bg-primary/5 text-slate-50;
+  @apply border-b border-border-soft bg-primary/5 text-ink;
 }
 
 .prose > details[open] > summary::after {
@@ -258,11 +968,11 @@
 }
 
 .prose th {
-  @apply px-4 py-3 text-left text-sm font-semibold text-slate-100;
+  @apply px-4 py-3 text-left text-sm font-semibold text-ink;
 }
 
 .prose td {
-  @apply border-b border-border-soft px-4 py-3 text-sm text-slate-300;
+  @apply border-b border-border-soft px-4 py-3 text-sm text-ink-secondary;
 }
 
 .prose tr:last-child td {
@@ -273,6 +983,25 @@ figure img {
   @apply border border-border-soft;
 }
 
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (forced-colors: active) {
+  :focus-visible,
+  .post-row:focus-within {
+    outline-color: Highlight;
+  }
+  .nav-link[aria-current="page"],
+  .toc-link[aria-current] {
+    outline: 1px solid Highlight;
+  }
+  .pagination a[aria-current="page"] {
+    border: 2px solid Highlight;
+  }
+}
+
 @media (max-width: 768px) {
   .prose th,
   .prose td {
@@ -280,8 +1009,7 @@ figure img {
   }
 }
 
-/* 尊重「減少動態效果」偏好。ClientRouter（View Transitions）本身不會偵測這個設定，
-   必須自行把 ::view-transition-* 的動畫關掉，否則整頁 cross-fade 依然會播放。 */
+/* Reduced motion covers site interactions as well as router transitions. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -320,7 +1048,7 @@ figure img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3f3f46;
+  background-color: #45463e;
   border: 3px solid var(--color-base);
   border-radius: 999px;
 }

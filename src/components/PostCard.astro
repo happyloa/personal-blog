@@ -3,46 +3,47 @@ import type { CollectionEntry } from "astro:content";
 import { toPlainTextExcerpt } from "../utils/summary";
 import { getPostDescription } from "../utils/posts";
 import { formatDate, toISODate } from "../utils/date";
+import { getCategoryBySlug } from "../utils/categories";
 
 interface Props {
   post: CollectionEntry<"posts">;
   headingLevel?: "h2" | "h3";
+  index?: number;
 }
 
 // 卡片標題的層級由呼叫端決定：首頁與列表頁的卡片是「最新文章」這類區塊的下一層，
 // 應為 h3，否則整頁大綱會變成一長串同級 h2。
-const { post, headingLevel = "h2" } = Astro.props;
+const { post, headingLevel = "h2", index } = Astro.props;
 const Heading = headingLevel;
 const formattedDate = formatDate(post.data.date);
 const isoDate = toISODate(post.data.date);
 const summary = toPlainTextExcerpt(getPostDescription(post));
+const category = getCategoryBySlug(post.data.category);
 ---
 
-<article class="surface surface-hover group p-5 md:p-6">
-  <time datetime={isoDate} class="mb-4 block font-mono text-xs text-slate-400">
-    {formattedDate}
-  </time>
-
-  <Heading class="mb-3 text-xl leading-snug md:text-2xl">
-    <a
-      href={`/posts/${post.id}/`}
-      class="text-slate-50 no-underline group-hover:text-primary-muted"
-      data-astro-prefetch="hover"
-    >
-      {post.data.title}
-    </a>
-  </Heading>
-
-  {summary && (
-    <p class="mb-5 line-clamp-3 text-sm leading-7 text-slate-400">{summary}</p>
-  )}
-
-  <a
-    href={`/posts/${post.id}/`}
-    class="inline-flex items-center gap-2 text-sm font-medium no-underline"
-    aria-label={`閱讀文章：${post.data.title}`}
-  >
-    閱讀文章
-    <span aria-hidden="true">→</span>
-  </a>
+<article class="post-row" data-post-id={post.id}>
+  <div class="post-meta">
+    {index !== undefined && (
+      <span class="post-number" aria-hidden="true">
+        {String(index).padStart(2, "0")}
+      </span>
+    )}
+    <time datetime={isoDate}>{formattedDate}</time>
+    <span class="post-category">{category?.name}</span>
+  </div>
+  <div class="post-copy">
+    <Heading>
+      <a
+        href={`/posts/${post.id}/`}
+        class="post-title"
+        data-astro-prefetch="hover"
+      >
+        {post.data.title}
+      </a>
+    </Heading>
+    {summary && <p class="post-summary">{summary}</p>}
+  </div>
+  <span class="post-arrow" aria-hidden="true">
+    ↗
+  </span>
 </article>

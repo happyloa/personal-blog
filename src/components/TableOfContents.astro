@@ -7,28 +7,29 @@ interface Heading {
 
 interface Props {
   headings: Heading[];
+  variant: "desktop" | "mobile";
 }
 
-const { headings } = Astro.props;
+const { headings, variant } = Astro.props;
 const filteredHeadings = headings.filter(
   (heading) => heading.depth >= 2 && heading.depth <= 3,
 );
 ---
 
-{filteredHeadings.length > 0 && (
-  <>
-    <aside
-      id="toc-desktop"
-      class="fixed right-6 top-24 z-30 hidden max-h-toc-desktop w-64 overflow-y-auto 2xl:block"
-    >
-      <nav class="surface p-4 text-sm" aria-label="文章目錄">
-        <p class="mb-3 font-semibold text-slate-200">目錄</p>
-        <ol class="grid gap-1">
+{filteredHeadings.length > 0 &&
+  (variant === "desktop" ? (
+    <aside class="toc-desktop">
+      <nav class="toc-content" aria-label="本篇目錄">
+        <p class="eyebrow" lang="en">
+          ON THIS PAGE
+        </p>
+        <p class="toc-heading">本篇目錄</p>
+        <ol>
           {filteredHeadings.map((heading) => (
-            <li class={heading.depth === 3 ? "pl-4" : ""}>
+            <li class:list={[{ "toc-nested": heading.depth === 3 }]}>
               <a
                 href={`#${heading.slug}`}
-                class="toc-link block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
+                class="toc-link"
                 data-slug={heading.slug}
               >
                 {heading.text}
@@ -38,40 +39,16 @@ const filteredHeadings = headings.filter(
         </ol>
       </nav>
     </aside>
-
-    <div class="2xl:hidden">
-      <button
-        id="toc-fab"
-        type="button"
-        class="fixed bottom-4 right-4 z-50 rounded-md border border-border-soft bg-surface px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg"
-        aria-label="文章目錄"
-        aria-controls="toc-mobile"
-        aria-expanded="false"
-      >
-        目錄
-      </button>
-
-      <div
-        id="toc-overlay"
-        class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity"
-        aria-hidden="true"
-        inert
-      />
-
-      <nav
-        id="toc-mobile"
-        class="fixed bottom-20 right-4 z-50 max-h-toc-mobile w-toc-panel overflow-y-auto rounded-lg border border-border-soft bg-surface p-4 opacity-0 pointer-events-none transition-opacity"
-        aria-label="文章目錄"
-        aria-hidden="true"
-        inert
-      >
-        <p class="mb-3 font-semibold text-slate-200">目錄</p>
-        <ol class="grid gap-1 text-sm">
+  ) : (
+    <details class="toc-mobile">
+      <summary>本篇目錄</summary>
+      <nav aria-label="本篇目錄">
+        <ol>
           {filteredHeadings.map((heading) => (
-            <li class={heading.depth === 3 ? "pl-4" : ""}>
+            <li class:list={[{ "toc-nested": heading.depth === 3 }]}>
               <a
                 href={`#${heading.slug}`}
-                class="toc-link-mobile block rounded-md px-2 py-1.5 text-slate-400 no-underline hover:bg-surface-soft hover:text-slate-100"
+                class="toc-link"
                 data-slug={heading.slug}
               >
                 {heading.text}
@@ -80,11 +57,11 @@ const filteredHeadings = headings.filter(
           ))}
         </ol>
       </nav>
-    </div>
-  </>
-)}
+    </details>
+  ))}
 
 <script>
-  import { initTOC } from "../scripts/toc";
+  import { initTOC, cleanupTOC } from "../scripts/toc";
   document.addEventListener("astro:page-load", initTOC);
+  document.addEventListener("astro:before-swap", cleanupTOC);
 </script>
