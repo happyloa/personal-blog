@@ -8,24 +8,20 @@ import { site } from "../utils/site";
   description="這個頁面不存在或已被移除。"
   noindex
 >
-  <section class="mx-auto max-w-xl py-16 text-center sm:py-24">
-    <p class="eyebrow mb-4">404</p>
-    <h1 class="mb-4 text-4xl md:text-5xl">找不到這個頁面</h1>
-    <p class="mb-8 leading-8 text-slate-400">
-      你要找的頁面可能已經被移除、改名，或從來沒有存在過。
+  <section class="error-page page-heading">
+    <p class="eyebrow" lang="en">
+      404 / PAGE NOT FOUND
     </p>
+    <h1>
+      這一頁，還是空白<span class="text-primary">。</span>
+    </h1>
+    <p>找不到你要看的頁面。可以回到首頁，或從文章列表繼續閱讀。</p>
     <div class="flex flex-wrap justify-center gap-3">
-      <a
-        href="/"
-        class="surface surface-hover rounded-md px-4 py-2 no-underline"
-      >
+      <a href="/" class="text-link">
         ← 返回首頁
       </a>
-      <a
-        href="/categories/"
-        class="surface surface-hover rounded-md px-4 py-2 no-underline"
-      >
-        瀏覽分類
+      <a href="/posts/" class="button-primary">
+        所有文章 ↗
       </a>
     </div>
   </section>

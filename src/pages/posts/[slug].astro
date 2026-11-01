@@ -111,10 +111,7 @@ const breadcrumbSchema = {
     ></script>
   </Fragment>
 
-  <nav
-    class="mb-8 flex min-w-0 flex-wrap items-center gap-2 text-sm text-slate-400"
-    aria-label="麵包屑"
-  >
+  <nav class="breadcrumbs" aria-label="麵包屑">
     <a href="/" class="shrink-0 no-underline">
       首頁
     </a>
@@ -130,26 +127,53 @@ const breadcrumbSchema = {
         <span aria-hidden="true">/</span>
       </>
     )}
-    <span class="min-w-0 truncate text-slate-300">{post.data.title}</span>
+    <span class="breadcrumb-current" aria-current="page">
+      {post.data.title}
+    </span>
   </nav>
 
-  <article class="prose prose-lg prose-a:break-all">
-    <header class="not-prose mb-12 border-b border-border-soft pb-8">
-      <div class="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-400">
-        <time datetime={isoDate}>{formattedDate}</time>
-        {hasUpdate && (
-          <span>
-            更新於 <time datetime={isoUpdated}>{formatDate(isoUpdated)}</time>
-          </span>
+  <div class="reading-layout">
+    <article class="reading-article">
+      <header class="article-heading">
+        {category && (
+          <a href={`/categories/${category.slug}/`} class="article-category">
+            {category.name} ↗
+          </a>
         )}
-        <span>約 {readingTime} 分鐘閱讀</span>
+        <h1>{post.data.title}</h1>
+        <div class="article-meta">
+          <span>
+            發布於 <time datetime={isoDate}>{formattedDate}</time>
+          </span>
+          {hasUpdate && (
+            <span>
+              更新於 <time datetime={isoUpdated}>{formatDate(isoUpdated)}</time>
+            </span>
+          )}
+          <span>約 {readingTime} 分鐘閱讀</span>
+        </div>
+
+        {post.data.description && (
+          <p class="article-description">
+            {toPlainTextExcerpt(post.data.description)}
+          </p>
+        )}
+      </header>
+
+      <TableOfContents headings={headings} variant="mobile" />
+      <div class="prose">
+        <Content />
       </div>
+      <footer class="article-footer">
+        <a href="/posts/" class="text-link">
+          ← 返回所有文章
+        </a>
+        <a href="/rss.xml" class="text-link">
+          透過 RSS 訂閱 ↗
+        </a>
+      </footer>
+    </article>
 
-      <h1 class="mb-6 text-3xl leading-tight md:text-5xl">{post.data.title}</h1>
-    </header>
-
-    <Content />
-  </article>
-
-  <TableOfContents headings={headings} />
+    <TableOfContents headings={headings} variant="desktop" />
+  </div>
 </BaseLayout>
