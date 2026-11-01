@@ -17,16 +17,20 @@ npm run dev
 
 開發網址預設為 `http://localhost:4321`。
 
-| 指令                        | 用途                                         |
-| --------------------------- | -------------------------------------------- |
-| `npm run build`             | 產生靜態網站至 `dist/`，不包含型別檢查       |
-| `npm run preview`           | 預覽建置結果                                 |
-| `npm run check`             | Astro 型別與 JavaScript JSDoc 檢查           |
-| `npm run test:dependencies` | 驗證 KaTeX 與 selector parser 的修補及相容性 |
-| `npm run format`            | 使用 Prettier 格式化                         |
-| `npm run format:check`      | 檢查格式，不修改檔案                         |
+| 指令                        | 用途                                                       |
+| --------------------------- | ---------------------------------------------------------- |
+| `npm run build`             | 產生靜態網站至 `dist/`，不包含型別檢查                     |
+| `npm run preview`           | 預覽建置結果                                               |
+| `npm run check`             | Astro 型別與 JavaScript JSDoc 檢查                         |
+| `npm run test:dependencies` | 驗證 KaTeX 與 selector parser 的修補及相容性               |
+| `npm run test:build`        | 驗證已建置的文章、靜態分頁、SEO 與站內連結                 |
+| `npm run test:draft`        | 暫建一篇草稿、重新建置並驗證草稿不公開，完成後移除測試文章 |
+| `npm run format`            | 使用 Prettier 格式化                                       |
+| `npm run format:check`      | 檢查格式，不修改檔案                                       |
 
-GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查、相依套件回歸測試、建置與 `npm audit`。互動與視覺仍需用瀏覽器確認。
+GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查、相依套件回歸測試、建置、靜態輸出與草稿測試，以及 `npm audit`。互動與視覺仍需用瀏覽器確認。
+
+首頁列出最新 6 篇文章；`/posts/` 提供每頁 12 篇的靜態分頁，第 2 頁起使用 `/posts/page/2/`。同日文章依 slug 排序。文章目錄在桌機版面內固定，手機以原生 `<details>` 展開；列表、分頁與目錄皆可在停用 JavaScript 時使用。
 
 ## 專案結構
 
@@ -38,7 +42,7 @@ src/
 ├── layouts/          # 共用佈局與頁面 metadata
 ├── pages/            # 首頁、文章、分類、RSS、404
 ├── integrations/     # 從建置後 HTML 取得 sitemap metadata
-├── scripts/          # TOC、Mermaid、背景光暈
+├── scripts/          # TOC、Mermaid、字型載入
 ├── styles/           # 全域樣式、字型、Typography
 └── utils/            # 站台設定、分類、日期、摘要
 public/               # 圖片、favicon、robots.txt、部署標頭
@@ -102,6 +106,8 @@ Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。
 Lighthouse 的量測條件、改善結果與瀏覽器驗證記錄見 [效能量測紀錄](docs/performance.md)。
 
 2026-10-25 的設定、內容審閱與效能複測結果見 [專案與內容檢查](docs/project-review.md)。
+
+Journal 改版的同環境量測、驗證範圍與重跑指令見 [改版效能與驗收紀錄](docs/redesign-performance.md)。
 
 目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.12 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
 

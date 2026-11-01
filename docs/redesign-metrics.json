@@ -1,0 +1,3170 @@
+{
+  "baselineCommit": "ecb582543af1f8bb2ae7ea971b228044bb671176",
+  "date": "2026-11-01",
+  "labels": {
+    "before": "main baseline; archive uses old full-list homepage",
+    "after": "editorial redesign"
+  },
+  "runs": {
+    "before": [
+      {
+        "page": "home",
+        "path": "/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.5292000000004,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1513428
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1408660
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79586
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1364157
+          }
+        ]
+      },
+      {
+        "page": "home",
+        "path": "/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.4026,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1515754
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1410987
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79585
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1366483
+          }
+        ]
+      },
+      {
+        "page": "home",
+        "path": "/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.9798999999998,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1515755
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1410990
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1366484
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.0245,
+        "cls": 0.0006291130379097439,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 38,
+            "transferSize": 1261393
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 29,
+            "transferSize": 1154872
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11623
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 27,
+            "transferSize": 1110366
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.3722,
+        "cls": 0.0006291130379097439,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 38,
+            "transferSize": 1259536
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 29,
+            "transferSize": 1153015
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11623
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 27,
+            "transferSize": 1108509
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.7144,
+        "cls": 0.0006291130379097439,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 38,
+            "transferSize": 1261631
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 29,
+            "transferSize": 1155110
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11623
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 27,
+            "transferSize": 1110604
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.7037999999998,
+        "cls": 0.0006086872899256614,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 46,
+            "transferSize": 1430080
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1325123
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79586
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 10056
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1280620
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.3776999999995,
+        "cls": 0.0006086872899256614,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 46,
+            "transferSize": 1430075
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1325118
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79586
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 10056
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1280615
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.3722000000002,
+        "cls": 0.0006086872899256614,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 46,
+            "transferSize": 1430072
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1325115
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79586
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 14223
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 10056
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1280612
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.2671999999998,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1516069
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1411304
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1366798
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.308,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1516073
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1411307
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79584
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1366802
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.2257999999997,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 45,
+            "transferSize": 1516077
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 37,
+            "transferSize": 1411312
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11407
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 35,
+            "transferSize": 1366806
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.6734999999999,
+        "cls": 0.0003439923286552446,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 32,
+            "transferSize": 1128903
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 24,
+            "transferSize": 1031548
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3997
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 22,
+            "transferSize": 987042
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.6909,
+        "cls": 0.0003439923286552446,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 32,
+            "transferSize": 1128905
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 24,
+            "transferSize": 1031547
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79586
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3997
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 22,
+            "transferSize": 987044
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.8507,
+        "cls": 0.0003439923286552446,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 32,
+            "transferSize": 1128903
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 24,
+            "transferSize": 1031548
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79583
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 12683
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3997
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 22,
+            "transferSize": 987042
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "page": "home",
+        "path": "/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.0835,
+        "cls": 0.0007092825309815237,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1126134
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1028392
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79419
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 5527
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 983888
+          }
+        ]
+      },
+      {
+        "page": "home",
+        "path": "/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.7995999999998,
+        "cls": 0.0007092825309815237,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1126135
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1028392
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79420
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 5527
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 983889
+          }
+        ]
+      },
+      {
+        "page": "home",
+        "path": "/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.5828999999999,
+        "cls": 0.0007092825309815237,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1126129
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1028389
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 5527
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 983883
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.8965,
+        "cls": 0.0009278019757990863,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 40,
+            "transferSize": 1341371
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 31,
+            "transferSize": 1236929
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11078
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 29,
+            "transferSize": 1192423
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.2451,
+        "cls": 0.0009278019757990863,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 40,
+            "transferSize": 1339073
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 31,
+            "transferSize": 1234631
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11078
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 29,
+            "transferSize": 1190125
+          }
+        ]
+      },
+      {
+        "page": "article",
+        "path": "/posts/database-systems-comparison/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.0327,
+        "cls": 0.0009278019757990863,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 40,
+            "transferSize": 1341375
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 31,
+            "transferSize": 1236931
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79419
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 11078
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 29,
+            "transferSize": 1192427
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.8597999999997,
+        "cls": 0.0007038497747441345,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 47,
+            "transferSize": 471094
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 38,
+            "transferSize": 368329
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79420
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 9398
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 36,
+            "transferSize": 323826
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.7928000000002,
+        "cls": 0.0007038497747441345,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 47,
+            "transferSize": 1437300
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 38,
+            "transferSize": 1334535
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79420
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 9398
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 36,
+            "transferSize": 1290032
+          }
+        ]
+      },
+      {
+        "page": "mermaid",
+        "path": "/posts/how-browser-renders-webpage/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1503.1742,
+        "cls": 0.0007038497747441345,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 47,
+            "transferSize": 1437309
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 38,
+            "transferSize": 1334546
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79418
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 5,
+            "transferSize": 12855
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 9398
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 36,
+            "transferSize": 1290041
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/posts/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.9393,
+        "cls": 0.0002414890047051893,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1199219
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1100790
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 6216
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 1056284
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/posts/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.6394,
+        "cls": 0.0002414890047051893,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1199222
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1100793
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 6216
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 1056287
+          }
+        ]
+      },
+      {
+        "page": "archive",
+        "path": "/posts/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.6622999999997,
+        "cls": 0.0002414890047051893,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 36,
+            "transferSize": 1192038
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 28,
+            "transferSize": 1093099
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79927
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 6216
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 26,
+            "transferSize": 1049103
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 1,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.9780999999998,
+        "cls": 0.0003538478640408319,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 31,
+            "transferSize": 976016
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 23,
+            "transferSize": 880177
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3626
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 21,
+            "transferSize": 835671
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 2,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.7017999999998,
+        "cls": 0.000481320657052021,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 31,
+            "transferSize": 976015
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 23,
+            "transferSize": 880176
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3626
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 21,
+            "transferSize": 835670
+          }
+        ]
+      },
+      {
+        "page": "categories",
+        "path": "/categories/",
+        "run": 3,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        },
+        "lcp": 1502.4059000000002,
+        "cls": 0.000481320657052021,
+        "tbt": 0,
+        "resources": [
+          {
+            "resourceType": "total",
+            "label": "Total",
+            "requestCount": 31,
+            "transferSize": 976014
+          },
+          {
+            "resourceType": "font",
+            "label": "Font",
+            "requestCount": 23,
+            "transferSize": 880175
+          },
+          {
+            "resourceType": "stylesheet",
+            "label": "Stylesheet",
+            "requestCount": 2,
+            "transferSize": 79417
+          },
+          {
+            "resourceType": "script",
+            "label": "Script",
+            "requestCount": 4,
+            "transferSize": 11704
+          },
+          {
+            "resourceType": "document",
+            "label": "Document",
+            "requestCount": 1,
+            "transferSize": 3626
+          },
+          {
+            "resourceType": "other",
+            "label": "Other",
+            "requestCount": 1,
+            "transferSize": 1092
+          },
+          {
+            "resourceType": "image",
+            "label": "Image",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "media",
+            "label": "Media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "label": "Third-party",
+            "requestCount": 21,
+            "transferSize": 835669
+          }
+        ]
+      }
+    ]
+  },
+  "medians": {
+    "before": {
+      "home": {
+        "lcp": 1503.4026,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "article": {
+        "lcp": 1503.3722,
+        "cls": 0.0006291130379097439,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "mermaid": {
+        "lcp": 1503.3776999999995,
+        "cls": 0.0006086872899256614,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "archive": {
+        "lcp": 1503.2671999999998,
+        "cls": 0.0011452112185030847,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "categories": {
+        "lcp": 1502.6909,
+        "cls": 0.0003439923286552446,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    "after": {
+      "home": {
+        "lcp": 1503.0835,
+        "cls": 0.0007092825309815237,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "article": {
+        "lcp": 1503.0327,
+        "cls": 0.0009278019757990863,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "mermaid": {
+        "lcp": 1502.8597999999997,
+        "cls": 0.0007038497747441345,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "archive": {
+        "lcp": 1502.6622999999997,
+        "cls": 0.0002414890047051893,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "categories": {
+        "lcp": 1502.7017999999998,
+        "cls": 0.000481320657052021,
+        "tbt": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    }
+  },
+  "config": {
+    "output": ["html", "json"],
+    "maxWaitForFcp": 30000,
+    "maxWaitForLoad": 45000,
+    "pauseAfterFcpMs": 1000,
+    "pauseAfterLoadMs": 1000,
+    "networkQuietThresholdMs": 1000,
+    "cpuQuietThresholdMs": 1000,
+    "formFactor": "mobile",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "throttlingMethod": "simulate",
+    "screenEmulation": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+    "auditMode": false,
+    "gatherMode": false,
+    "clearStorageTypes": [
+      "file_systems",
+      "shader_cache",
+      "service_workers",
+      "cache_storage"
+    ],
+    "disableStorageReset": false,
+    "debugNavigation": false,
+    "channel": "node",
+    "usePassiveGathering": false,
+    "disableFullPageScreenshot": false,
+    "skipAboutBlank": false,
+    "blankPage": "about:blank",
+    "ignoreStatusCode": false,
+    "locale": "en-US",
+    "blockedUrlPatterns": null,
+    "additionalTraceCategories": null,
+    "extraHeaders": null,
+    "precomputedLanternData": null,
+    "onlyAudits": null,
+    "onlyCategories": ["performance", "accessibility", "best-practices", "seo"],
+    "skipAudits": null
+  },
+  "bundle": {
+    "home": {
+      "before": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Ct3Ojd3F.js",
+              "bytes": 7907,
+              "gzip": 3558,
+              "transfer": 4352
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 24358,
+          "gzip": 9509,
+          "transfer": 12683,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.Dek6Lehb.css",
+              "bytes": 53078,
+              "gzip": 9049,
+              "transfer": 9836
+            }
+          ],
+          "bytes": 53078,
+          "gzip": 9049,
+          "transfer": 9836,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/",
+              "bytes": 50264,
+              "gzip": 10670,
+              "transfer": 11407
+            }
+          ],
+          "bytes": 50264,
+          "gzip": 10670,
+          "transfer": 11407,
+          "requests": 1
+        }
+      },
+      "after": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.ve2jIzIi.js",
+              "bytes": 5108,
+              "gzip": 2579,
+              "transfer": 3373
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 21559,
+          "gzip": 8530,
+          "transfer": 11704,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.kEOmBl_s.css",
+              "bytes": 47746,
+              "gzip": 8883,
+              "transfer": 9670
+            }
+          ],
+          "bytes": 47746,
+          "gzip": 8883,
+          "transfer": 9670,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/",
+              "bytes": 16740,
+              "gzip": 4791,
+              "transfer": 5527
+            }
+          ],
+          "bytes": 16740,
+          "gzip": 4791,
+          "transfer": 5527,
+          "requests": 1
+        }
+      },
+      "delta": {
+        "Script": {
+          "bytes": -2799,
+          "gzip": -979,
+          "transfer": -979
+        },
+        "Stylesheet": {
+          "bytes": -5332,
+          "gzip": -166,
+          "transfer": -166
+        },
+        "Document": {
+          "bytes": -33524,
+          "gzip": -5879,
+          "transfer": -5880
+        }
+      }
+    },
+    "article": {
+      "before": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/TableOfContents.astro_astro_type_script_index_0_lang.4u8IDKh8.js",
+              "bytes": 1985,
+              "gzip": 747,
+              "transfer": 1540
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Ct3Ojd3F.js",
+              "bytes": 7907,
+              "gzip": 3558,
+              "transfer": 4352
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 26343,
+          "gzip": 10256,
+          "transfer": 14223,
+          "requests": 5
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.Dek6Lehb.css",
+              "bytes": 53078,
+              "gzip": 9049,
+              "transfer": 9836
+            }
+          ],
+          "bytes": 53078,
+          "gzip": 9049,
+          "transfer": 9836,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/posts/database-systems-comparison/",
+              "bytes": 38264,
+              "gzip": 10886,
+              "transfer": 11623
+            }
+          ],
+          "bytes": 38264,
+          "gzip": 10886,
+          "transfer": 11623,
+          "requests": 1
+        }
+      },
+      "after": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/TableOfContents.astro_astro_type_script_index_0_lang.C2SUSJuZ.js",
+              "bytes": 593,
+              "gzip": 358,
+              "transfer": 1151
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.ve2jIzIi.js",
+              "bytes": 5108,
+              "gzip": 2579,
+              "transfer": 3373
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 22152,
+          "gzip": 8888,
+          "transfer": 12855,
+          "requests": 5
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.kEOmBl_s.css",
+              "bytes": 47746,
+              "gzip": 8883,
+              "transfer": 9670
+            }
+          ],
+          "bytes": 47746,
+          "gzip": 8883,
+          "transfer": 9670,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/posts/database-systems-comparison/",
+              "bytes": 35624,
+              "gzip": 10341,
+              "transfer": 11078
+            }
+          ],
+          "bytes": 35624,
+          "gzip": 10341,
+          "transfer": 11078,
+          "requests": 1
+        }
+      },
+      "delta": {
+        "Script": {
+          "bytes": -4191,
+          "gzip": -1368,
+          "transfer": -1368
+        },
+        "Stylesheet": {
+          "bytes": -5332,
+          "gzip": -166,
+          "transfer": -166
+        },
+        "Document": {
+          "bytes": -2640,
+          "gzip": -545,
+          "transfer": -545
+        }
+      }
+    },
+    "mermaid": {
+      "before": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/TableOfContents.astro_astro_type_script_index_0_lang.4u8IDKh8.js",
+              "bytes": 1985,
+              "gzip": 747,
+              "transfer": 1540
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Ct3Ojd3F.js",
+              "bytes": 7907,
+              "gzip": 3558,
+              "transfer": 4352
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 26343,
+          "gzip": 10256,
+          "transfer": 14223,
+          "requests": 5
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.Dek6Lehb.css",
+              "bytes": 53078,
+              "gzip": 9049,
+              "transfer": 9836
+            }
+          ],
+          "bytes": 53078,
+          "gzip": 9049,
+          "transfer": 9836,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/posts/how-browser-renders-webpage/",
+              "bytes": 39045,
+              "gzip": 9320,
+              "transfer": 10056
+            }
+          ],
+          "bytes": 39045,
+          "gzip": 9320,
+          "transfer": 10056,
+          "requests": 1
+        }
+      },
+      "after": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/TableOfContents.astro_astro_type_script_index_0_lang.C2SUSJuZ.js",
+              "bytes": 593,
+              "gzip": 358,
+              "transfer": 1151
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.ve2jIzIi.js",
+              "bytes": 5108,
+              "gzip": 2579,
+              "transfer": 3373
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 22152,
+          "gzip": 8888,
+          "transfer": 12855,
+          "requests": 5
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.kEOmBl_s.css",
+              "bytes": 47746,
+              "gzip": 8883,
+              "transfer": 9670
+            }
+          ],
+          "bytes": 47746,
+          "gzip": 8883,
+          "transfer": 9670,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/posts/how-browser-renders-webpage/",
+              "bytes": 32771,
+              "gzip": 8662,
+              "transfer": 9398
+            }
+          ],
+          "bytes": 32771,
+          "gzip": 8662,
+          "transfer": 9398,
+          "requests": 1
+        }
+      },
+      "delta": {
+        "Script": {
+          "bytes": -4191,
+          "gzip": -1368,
+          "transfer": -1368
+        },
+        "Stylesheet": {
+          "bytes": -5332,
+          "gzip": -166,
+          "transfer": -166
+        },
+        "Document": {
+          "bytes": -6274,
+          "gzip": -658,
+          "transfer": -658
+        }
+      }
+    },
+    "archive": {
+      "before": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Ct3Ojd3F.js",
+              "bytes": 7907,
+              "gzip": 3558,
+              "transfer": 4352
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 24358,
+          "gzip": 9509,
+          "transfer": 12683,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.Dek6Lehb.css",
+              "bytes": 53078,
+              "gzip": 9049,
+              "transfer": 9836
+            }
+          ],
+          "bytes": 53078,
+          "gzip": 9049,
+          "transfer": 9836,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/",
+              "bytes": 50264,
+              "gzip": 10670,
+              "transfer": 11407
+            }
+          ],
+          "bytes": 50264,
+          "gzip": 10670,
+          "transfer": 11407,
+          "requests": 1
+        }
+      },
+      "after": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.ve2jIzIi.js",
+              "bytes": 5108,
+              "gzip": 2579,
+              "transfer": 3373
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 21559,
+          "gzip": 8530,
+          "transfer": 11704,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.kEOmBl_s.css",
+              "bytes": 47746,
+              "gzip": 8883,
+              "transfer": 9670
+            }
+          ],
+          "bytes": 47746,
+          "gzip": 8883,
+          "transfer": 9670,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/posts/",
+              "bytes": 18416,
+              "gzip": 5480,
+              "transfer": 6216
+            }
+          ],
+          "bytes": 18416,
+          "gzip": 5480,
+          "transfer": 6216,
+          "requests": 1
+        }
+      },
+      "delta": {
+        "Script": {
+          "bytes": -2799,
+          "gzip": -979,
+          "transfer": -979
+        },
+        "Stylesheet": {
+          "bytes": -5332,
+          "gzip": -166,
+          "transfer": -166
+        },
+        "Document": {
+          "bytes": -31848,
+          "gzip": -5190,
+          "transfer": -5191
+        }
+      }
+    },
+    "categories": {
+      "before": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Ct3Ojd3F.js",
+              "bytes": 7907,
+              "gzip": 3558,
+              "transfer": 4352
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 24358,
+          "gzip": 9509,
+          "transfer": 12683,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.Dek6Lehb.css",
+              "bytes": 53078,
+              "gzip": 9049,
+              "transfer": 9836
+            }
+          ],
+          "bytes": 53078,
+          "gzip": 9049,
+          "transfer": 9836,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/categories/",
+              "bytes": 12034,
+              "gzip": 3261,
+              "transfer": 3997
+            }
+          ],
+          "bytes": 12034,
+          "gzip": 3261,
+          "transfer": 3997,
+          "requests": 1
+        }
+      },
+      "after": {
+        "Script": {
+          "files": [
+            {
+              "path": "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BtJbEIME.js",
+              "bytes": 13908,
+              "gzip": 4759,
+              "transfer": 5553
+            },
+            {
+              "path": "/_astro/page.Qz6xW41J.js",
+              "bytes": 47,
+              "gzip": 67,
+              "transfer": 859
+            },
+            {
+              "path": "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.ve2jIzIi.js",
+              "bytes": 5108,
+              "gzip": 2579,
+              "transfer": 3373
+            },
+            {
+              "path": "/_astro/prefetch.wQEDfoac.js",
+              "bytes": 2496,
+              "gzip": 1125,
+              "transfer": 1919
+            }
+          ],
+          "bytes": 21559,
+          "gzip": 8530,
+          "transfer": 11704,
+          "requests": 4
+        },
+        "Stylesheet": {
+          "files": [
+            {
+              "path": "/_astro/BaseLayout.kEOmBl_s.css",
+              "bytes": 47746,
+              "gzip": 8883,
+              "transfer": 9670
+            }
+          ],
+          "bytes": 47746,
+          "gzip": 8883,
+          "transfer": 9670,
+          "requests": 1
+        },
+        "Document": {
+          "files": [
+            {
+              "path": "/categories/",
+              "bytes": 9819,
+              "gzip": 2890,
+              "transfer": 3626
+            }
+          ],
+          "bytes": 9819,
+          "gzip": 2890,
+          "transfer": 3626,
+          "requests": 1
+        }
+      },
+      "delta": {
+        "Script": {
+          "bytes": -2799,
+          "gzip": -979,
+          "transfer": -979
+        },
+        "Stylesheet": {
+          "bytes": -5332,
+          "gzip": -166,
+          "transfer": -166
+        },
+        "Document": {
+          "bytes": -2215,
+          "gzip": -371,
+          "transfer": -371
+        }
+      }
+    }
+  },
+  "browser": {
+    "browser": "Chrome/144.0.7559.133",
+    "results": [
+      {
+        "name": "responsive 360px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "responsive 390px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "responsive 768px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "responsive 1024px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "responsive 1280px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "responsive 1440px × 7 pages",
+        "detail": true
+      },
+      {
+        "name": "six desktop/mobile review screenshots",
+        "detail": true
+      },
+      {
+        "name": "keyboard skip link and reverse tab",
+        "detail": true
+      },
+      {
+        "name": "native mobile TOC keyboard expansion and anchor navigation",
+        "detail": true
+      },
+      {
+        "name": "long code stays in keyboard-focusable horizontal scroller",
+        "detail": true
+      },
+      {
+        "name": "200% zoom equivalent: 1440px screen with 720px CSS viewport and DPR 2",
+        "detail": true
+      },
+      {
+        "name": "long unbroken title/summary stress",
+        "detail": true
+      },
+      {
+        "name": "reduced motion and static background",
+        "detail": true
+      },
+      {
+        "name": "forced colors focus outline",
+        "detail": true
+      },
+      {
+        "name": "JavaScript disabled: static pagination, article and native TOC",
+        "detail": true
+      },
+      {
+        "name": "font network failure + no IntersectionObserver: readable article, TOC and Mermaid fallback",
+        "detail": true
+      },
+      {
+        "name": "blocked Mermaid chunk preserves readable source",
+        "detail": true
+      },
+      {
+        "name": "no eager Mermaid chunks on homepage",
+        "detail": true
+      },
+      {
+        "name": "lazy Mermaid render and expandable original source",
+        "detail": true
+      },
+      {
+        "name": "ClientRouter repeated archive/article navigation and TOC reinitialization",
+        "detail": true
+      },
+      {
+        "name": "unknown URL returns noindex 404",
+        "detail": true
+      },
+      {
+        "name": "no unexpected browser exceptions or CSP errors",
+        "detail": true
+      }
+    ]
+  },
+  "runtimeCommit": "f9cd1cba9945b2d77a888c56f3dfc2327d179b2f",
+  "crossBrowser": [
+    {
+      "browser": "firefox",
+      "version": "157.0",
+      "width": 390,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "firefox",
+      "version": "157.0",
+      "width": 768,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "firefox",
+      "version": "157.0",
+      "width": 1440,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "firefox",
+      "check": "no JavaScript: pagination and native details/anchor navigation"
+    },
+    {
+      "browser": "firefox",
+      "check": "lazy Mermaid, preserved source, reduced motion and ClientRouter diagram re-entry"
+    },
+    {
+      "browser": "webkit",
+      "version": "27.2",
+      "width": 390,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "webkit",
+      "version": "27.2",
+      "width": 768,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "webkit",
+      "version": "27.2",
+      "width": 1440,
+      "check": "five-page responsive layout, one h1, no script errors"
+    },
+    {
+      "browser": "webkit",
+      "check": "no JavaScript: pagination and native details/anchor navigation"
+    },
+    {
+      "browser": "webkit",
+      "check": "lazy Mermaid, preserved source, reduced motion and ClientRouter diagram re-entry"
+    }
+  ]
+}

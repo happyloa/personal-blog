@@ -57,6 +57,61 @@ const rssURLs = Array.from(
   rss.matchAll(/<item>[\s\S]*?<link>([^<]*)<\/link>/g),
   (match) => match[1],
 );
+const themeCSS = await readFile("src/styles/global.css", "utf8");
+
+test("reading text, code tokens and focus colors meet WCAG AA contrast", () => {
+  const colors = Object.fromEntries(
+    Array.from(
+      themeCSS.matchAll(/--color-([\w-]+):\s*(#[\da-f]{6});/gi),
+      (match) => [match[1], match[2]],
+    ),
+  );
+  /** @param {string} color */
+  const luminance = (color) => {
+    const channels = [1, 3, 5]
+      .map((offset) => parseInt(color.slice(offset, offset + 2), 16) / 255)
+      .map((value) =>
+        value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
+      );
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  /** @param {string} foreground @param {string} background */
+  const contrast = (foreground, background) => {
+    const values = [luminance(foreground), luminance(background)].sort(
+      (a, b) => b - a,
+    );
+    return (values[0] + 0.05) / (values[1] + 0.05);
+  };
+  for (const background of ["base", "surface", "surface-soft"]) {
+    for (const foreground of [
+      "ink",
+      "ink-secondary",
+      "muted",
+      "primary",
+      "primary-muted",
+    ])
+      assert.ok(
+        contrast(colors[foreground], colors[background]) >= 4.5,
+        `${foreground} on ${background}`,
+      );
+    assert.ok(
+      contrast(colors.primary, colors[background]) >= 3,
+      `Focus on ${background}`,
+    );
+  }
+  for (const page of pages.values()) {
+    for (const span of page.querySelectorAll(".prose pre span[style]")) {
+      const color = /(?:^|;)\s*color:\s*(#[\da-f]{6})/i.exec(
+        span.getAttribute("style") ?? "",
+      )?.[1];
+      if (color)
+        assert.ok(
+          contrast(color, colors["code-surface"]) >= 4.5,
+          `Shiki ${color} on code surface`,
+        );
+    }
+  }
+});
 /** @param {string} pathname */
 const outputFile = (pathname) =>
   pathname.endsWith("/") ? pathname.slice(1) + "index.html" : pathname.slice(1);
