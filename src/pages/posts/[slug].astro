@@ -2,6 +2,7 @@
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
+import ReadingProgress from "../../components/ReadingProgress.astro";
 import {
   calculateReadingTime,
   getPostDescription,
@@ -110,6 +111,8 @@ const breadcrumbSchema = {
       set:html={toJsonLd(breadcrumbSchema)}
     ></script>
   </Fragment>
+
+  <ReadingProgress slot="reading-progress" />
 
   <nav class="breadcrumbs" aria-label="麵包屑">
     <a href="/" class="shrink-0 no-underline">

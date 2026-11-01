@@ -1,0 +1,44 @@
+<div class="reading-progress" aria-hidden="true" hidden>
+  <span></span>
+</div>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: 3px;
+    pointer-events: none;
+  }
+
+  .reading-progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress {
+      display: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .reading-progress span {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
+  }
+</style>
+
+<script>
+  import {
+    initReadingProgress,
+    cleanupReadingProgress,
+  } from "../scripts/reading-progress";
+
+  document.addEventListener("astro:page-load", initReadingProgress);
+  document.addEventListener("astro:before-swap", cleanupReadingProgress);
+</script>
