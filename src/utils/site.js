@@ -1,11 +1,12 @@
 export const site = {
   title: "Aaron 的部落格",
-  name: "Aaron's Space",
+  name: "Aaron's Journal",
   description:
     "前後端開發、網站架構與學習路上的實作筆記。記錄 Vue、React、效能優化、SEO 與網路基礎的踩坑經驗。",
   author: "Aaron",
   githubUrl: "https://github.com/happyloa",
   cakeUrl: "https://www.cake.me/aaron-yumin",
+  portfolioUrl: "https://www.worksbyaaron.com/",
   defaultOgImage: "/og-default.png?v=f88b7a1cd5",
 };
 
@@ -22,5 +23,6 @@ export const toJsonLd = (data) =>
 
 export const navLinks = [
   { href: "/", label: "首頁" },
+  { href: "/posts/", label: "所有文章" },
   { href: "/categories/", label: "分類" },
 ];

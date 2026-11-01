@@ -83,7 +83,7 @@ const siteJsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta name="theme-color" content="#09090b" />
+    <meta name="theme-color" content="#181917" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <link
@@ -120,7 +120,7 @@ const siteJsonLd = {
 
     <ClientRouter />
   </head>
-  <body class="min-h-screen overflow-x-hidden">
+  <body id="top" class="min-h-screen">
     <canvas
       id="grid-glow-canvas"
       class="pointer-events-none fixed inset-0 z-0 h-full w-full"
@@ -131,105 +131,75 @@ const siteJsonLd = {
       跳到主要內容
     </a>
 
-    <header class="sticky top-0 z-40 border-b border-border-soft bg-base/90 backdrop-blur">
-      <div class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <a
-          href="/"
-          class="flex items-center gap-3 no-underline"
-          aria-label={`${site.name} 首頁`}
-        >
-          <span class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display text-base font-semibold text-slate-50">
-            {site.name.charAt(0)}
+    <header class="site-header">
+      <div class="site-container header-inner">
+        <a href="/" class="wordmark" aria-label={`${site.name} 首頁`}>
+          <span class="wordmark-symbol" aria-hidden="true">
+            a<span class="text-primary">.</span>
           </span>
-          <span class="hidden font-display text-base font-semibold text-slate-50 sm:inline">
-            {site.name}
+          <span class="wordmark-label" lang="en">
+            AARON /<br />
+            JOURNAL
           </span>
         </a>
 
-        <nav class="flex items-center gap-1" aria-label="主要導覽">
+        <nav class="primary-nav" aria-label="主要導覽">
           {navLinks.map((link) => (
             <a
               href={link.href}
               aria-current={isCurrentNav(link.href) ? "page" : undefined}
-              class="rounded-md px-3 py-2 text-sm font-medium text-slate-400 no-underline hover:bg-surface hover:text-slate-50 aria-current:bg-surface aria-current:text-slate-50"
+              class="nav-link"
             >
               {link.label}
             </a>
           ))}
+          <a
+            class="nav-link"
+            href={site.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            作品集 <span aria-hidden="true">↗</span>
+            <span class="sr-only">（另開新分頁）</span>
+          </a>
         </nav>
       </div>
     </header>
 
-    <main
-      id="main-content"
-      class="relative z-10 mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:py-16"
-      tabindex="-1"
-    >
+    <main id="main-content" class="site-container site-main" tabindex="-1">
       <slot />
     </main>
 
-    <footer class="relative z-10 mt-16 border-t border-border-soft bg-base">
-      <div class="mx-auto grid w-full max-w-5xl gap-10 px-4 py-10 sm:px-6 md:footer-columns">
-        <section>
-          <div class="mb-3 flex items-center gap-3">
-            <span class="flex size-9 items-center justify-center rounded-md border border-border-soft bg-surface font-display font-semibold text-slate-50">
-              {site.name.charAt(0)}
-            </span>
-            <h2 class="text-lg">{site.name}</h2>
+    <footer class="site-footer">
+      <div class="site-container">
+        <div class="footer-main">
+          <div>
+            <p class="footer-signature" lang="en">
+              Aaron Hsieh<span class="text-primary">.</span>
+            </p>
+            <p class="text-sm text-muted">設計的眼光，工程的思維。</p>
           </div>
-          <p class="max-w-sm text-sm leading-6 text-slate-400">
-            記錄前後端工程、網站效能、專案實作與職涯思考的個人技術筆記。
-          </p>
-        </section>
-
-        <nav aria-label="頁尾導覽">
-          <h2 class="mb-3 text-sm font-semibold text-slate-200">導覽</h2>
-          <ul class="grid gap-2 text-sm">
-            {navLinks.map((link) => (
-              <li>
-                <a href={link.href} class="text-slate-400 no-underline">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a href="/rss.xml" class="text-slate-400 no-underline">
-                RSS 訂閱
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <section>
-          <h2 class="mb-3 text-sm font-semibold text-slate-200">連結</h2>
-          <ul class="grid gap-2 text-sm">
-            <li>
-              <a
-                href={site.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-slate-400 no-underline"
-              >
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a
-                href={site.cakeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-slate-400 no-underline"
-              >
-                Cake
-              </a>
-            </li>
-          </ul>
-        </section>
-      </div>
-
-      <div class="border-t border-border-soft px-4 py-5 text-center text-xs text-slate-400">
-        © {currentYear}
-        {site.name}. <span lang="en">Built with Astro and Tailwind CSS.</span>
+          <nav class="footer-links" aria-label="頁尾連結">
+            <a href={site.githubUrl} target="_blank" rel="noopener noreferrer">
+              GitHub ↗<span class="sr-only">（另開新分頁）</span>
+            </a>
+            <a
+              href={site.portfolioUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              作品集 ↗<span class="sr-only">（另開新分頁）</span>
+            </a>
+            <a href="/rss.xml">RSS 訂閱 ↗</a>
+            <a href="#top">回到頂端 ↑</a>
+          </nav>
+        </div>
+        <div class="footer-colophon">
+          <span>
+            © {currentYear} {site.name}.
+          </span>
+          <span lang="en">Built with Astro &amp; Tailwind CSS.</span>
+        </div>
       </div>
     </footer>
 

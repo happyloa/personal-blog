@@ -15,14 +15,18 @@
     var(--font-jetbrains), "Noto Sans TC", ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, monospace;
 
-  --color-base: #09090b;
-  --color-surface: #111116;
-  --color-surface-soft: #18181f;
-  --color-border-soft: #27272f;
-  --color-primary: #38bdf8;
-  --color-primary-muted: #7dd3fc;
+  --color-base: #181917;
+  --color-surface: #252620;
+  --color-surface-soft: #2d2e29;
+  --color-border-soft: #45463e;
+  --color-ink: #eeeee5;
+  --color-ink-secondary: #c7c8bd;
+  --color-muted: #b0b1a5;
+  --color-primary: #ff8068;
+  --color-primary-muted: #ff9c89;
+  --color-signal: #ed533b;
   /* 程式碼區塊底色，刻意介於 base 與 surface 之間，比兩者都更沉一點。 */
-  --color-code-surface: #0c0c10;
+  --color-code-surface: #151612;
 
   /* 行內程式碼用相對單位，才會跟著所在段落的字級縮放（prose 與 prose-lg 都適用）。 */
   --text-code: 0.9em;
@@ -65,6 +69,7 @@
 
   html {
     scroll-padding-top: 6rem;
+    background: var(--color-base);
   }
 
   body {
@@ -74,7 +79,7 @@
       linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
       var(--color-base);
     background-size: 48px 48px;
-    @apply text-slate-300 antialiased selection:bg-primary/25 selection:text-white;
+    @apply text-ink-secondary antialiased selection:bg-primary/25 selection:text-ink;
   }
 
   h1,
@@ -84,21 +89,289 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    @apply text-balance font-semibold text-slate-50;
+    @apply text-balance font-semibold text-ink;
   }
 
   a {
     @apply text-primary underline-offset-4 transition-colors hover:text-primary-muted;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
   * {
     scrollbar-width: thin;
-    scrollbar-color: #3f3f46 transparent;
+    scrollbar-color: var(--color-border-soft) transparent;
   }
 }
 
 /* 元件類別放進 @layer components，讓模板上的 utility 能正常覆寫。 */
 @layer components {
+  .site-container {
+    width: 100%;
+    max-width: calc(1200px + 2 * clamp(20px, 4vw, 64px));
+    padding-inline: clamp(20px, 4vw, 64px);
+    margin-inline: auto;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--color-border-soft);
+    background: var(--color-base);
+  }
+
+  .header-inner {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .wordmark-symbol {
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.07em;
+  }
+
+  .wordmark-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+  }
+
+  .primary-nav,
+  .footer-links,
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 14px;
+    font-size: 14px;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .nav-link[aria-current="page"] {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
+    text-underline-offset: 10px;
+  }
+
+  .site-main {
+    position: relative;
+    z-index: 10;
+    padding-block: clamp(40px, 6vw, 80px);
+    min-width: 0;
+  }
+
+  .editorial-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    align-items: center;
+    gap: 48px;
+    padding-block: 30px 72px;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+  .editorial-hero h1 {
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-description {
+    margin-top: 28px;
+    max-width: 32em;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--color-muted);
+  }
+
+  .hero-actions {
+    margin-top: 32px;
+    gap: 24px;
+  }
+  .button-primary,
+  .text-link {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .button-primary {
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: var(--color-base);
+    background: var(--color-primary);
+  }
+  .button-primary:hover {
+    color: var(--color-base);
+    background: var(--color-primary-muted);
+  }
+  .text-link {
+    color: var(--color-ink);
+  }
+  .text-link > span[aria-hidden] {
+    transition: transform 180ms;
+  }
+  .text-link:hover > span[aria-hidden] {
+    transform: translateX(3px);
+  }
+
+  .hero-mark {
+    display: grid;
+    align-content: space-between;
+    min-height: 270px;
+    border-block: 1px solid var(--color-border-soft);
+    padding-block: 20px;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+  }
+  .mark-index,
+  .mark-caption {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+  }
+  .mark-word {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: 45px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .mark-slash {
+    display: block;
+    color: var(--color-primary);
+    padding-block: 4px;
+  }
+  .mark-caption {
+    margin-top: 20px;
+  }
+
+  .site-footer {
+    position: relative;
+    z-index: 10;
+    margin-top: 48px;
+    border-top: 1px solid var(--color-border-soft);
+    background: var(--color-base);
+  }
+  .footer-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 32px;
+    padding-block: 48px;
+  }
+  .footer-signature {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-ink);
+  }
+  .footer-links {
+    gap: 12px 24px;
+  }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 13px;
+    color: var(--color-ink-secondary);
+    text-decoration: none;
+  }
+  .footer-colophon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 24px;
+    border-top: 1px solid var(--color-border-soft);
+    color: var(--color-muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 767px) {
+    .header-inner {
+      min-height: 72px;
+      gap: 12px;
+    }
+    .wordmark-label {
+      display: none;
+    }
+    .nav-link {
+      padding-inline: 7px;
+      font-size: 13px;
+    }
+    .primary-nav {
+      gap: 0;
+    }
+    .editorial-hero {
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: 12px 48px;
+      gap: 32px;
+    }
+    .hero-mark {
+      display: none;
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      margin-bottom: 24px;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .header-inner {
+      flex-wrap: wrap;
+      padding-block: 12px;
+    }
+    .primary-nav {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
   .surface {
     @apply rounded-lg border border-border-soft bg-surface;
   }
@@ -108,11 +381,11 @@
   }
 
   .eyebrow {
-    @apply font-mono text-xs font-medium uppercase tracking-eyebrow text-slate-400;
+    @apply font-mono text-xs font-medium uppercase tracking-eyebrow text-muted;
   }
 
   .skip-link {
-    @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-slate-950;
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-base;
   }
 
   /* 目前閱讀中的章節：用 inset box-shadow 而非 border，避免捲動時目錄項目左右位移。
