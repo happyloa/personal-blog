@@ -2,57 +2,33 @@
 
 線上網址：<https://blog.worksbyaaron.com>
 
-Astro 7 + Tailwind CSS 4 靜態部落格，文章以 Markdown 管理。支援分類、閱讀時間、文章目錄、Mermaid、RSS、Sitemap，以及 Open Graph、Twitter Card 和 JSON-LD。
-
-工具與客戶端腳本使用 JavaScript + JSDoc，部分 `.astro` 元件使用 TypeScript 宣告 Props 型別。
+Astro + Tailwind CSS 靜態部落格，部署於 Cloudflare Pages。文章以 Markdown 管理，支援分類、閱讀時間、目錄、閱讀進度條、Mermaid、RSS、Sitemap 與社群分享 metadata。
 
 ## 開發
 
-需要 Node.js 22.23.4 以上、npm 10 以上；建議使用 [`.node-version`](.node-version) 指定的 Node.js 24。CI 與 Cloudflare Pages 共用這份版本設定。
+使用 [`.node-version`](.node-version) 指定的 Node.js 24 與 npm。
 
 ```bash
 npm ci
 npm run dev
 ```
 
-開發網址預設為 `http://localhost:4321`。
+開發網址為 `http://localhost:4321`。
 
-| 指令                        | 用途                                                       |
-| --------------------------- | ---------------------------------------------------------- |
-| `npm run build`             | 產生靜態網站至 `dist/`，不包含型別檢查                     |
-| `npm run preview`           | 預覽建置結果                                               |
-| `npm run check`             | Astro 型別與 JavaScript JSDoc 檢查                         |
-| `npm run test:dependencies` | 驗證 KaTeX 與 selector parser 的修補及相容性               |
-| `npm run test:build`        | 驗證已建置的文章、靜態分頁、SEO 與站內連結                 |
-| `npm run test:draft`        | 暫建一篇草稿、重新建置並驗證草稿不公開，完成後移除測試文章 |
-| `npm run format`            | 使用 Prettier 格式化                                       |
-| `npm run format:check`      | 檢查格式，不修改檔案                                       |
+| 指令                        | 用途                               |
+| --------------------------- | ---------------------------------- |
+| `npm run build`             | 建置靜態網站至 `dist/`             |
+| `npm run preview`           | 預覽建置結果                       |
+| `npm run check`             | 檢查 Astro 型別與 JavaScript JSDoc |
+| `npm run format:check`      | 檢查格式                           |
+| `npm run format`            | 格式化檔案                         |
+| `npm run test:dependencies` | 執行小型依賴安全回歸測試           |
 
-GitHub Actions 在 `main` 的 push 與 pull request 執行 `npm ci`、格式檢查、型別檢查、相依套件回歸測試、建置、靜態輸出與草稿測試，以及 `npm audit`。互動與視覺仍需用瀏覽器確認。
-
-首頁列出最新 6 篇文章；`/posts/` 提供每頁 12 篇的靜態分頁，第 2 頁起使用 `/posts/page/2/`。同日文章依 slug 排序。文章目錄在桌機版面內固定，手機以原生 `<details>` 展開；列表、分頁與目錄皆可在停用 JavaScript 時使用。
-
-## 專案結構
-
-```text
-src/
-├── content.config.js # 文章 schema 與 loader
-├── content/posts/    # Markdown 文章
-├── components/       # 卡片、文章目錄
-├── layouts/          # 共用佈局與頁面 metadata
-├── pages/            # 首頁、文章、分類、RSS、404
-├── integrations/     # 從建置後 HTML 取得 sitemap metadata
-├── scripts/          # TOC、Mermaid、字型載入
-├── styles/           # 全域樣式、字型、Typography
-└── utils/            # 站台設定、分類、日期、摘要
-public/               # 圖片、favicon、robots.txt、部署標頭
-```
-
-站台網址設定在 [`astro.config.mjs`](astro.config.mjs)，名稱、作者與預設分享圖片設定在 [`src/utils/site.js`](src/utils/site.js)。
+CI 執行安裝、格式與型別檢查、依賴測試、建置及 `npm audit`。`package.json` 的安全修補 overrides 與依賴測試一起維護。
 
 ## 新增文章
 
-在 `src/content/posts/` 新增 `.md` 檔案，檔名使用小寫英數與連字號。`my-post.md` 對應 `/posts/my-post/`。Loader 僅讀取這一層的 Markdown，不支援巢狀目錄或 MDX。
+在 `src/content/posts/` 新增 `.md`，檔名 `my-post.md` 對應 `/posts/my-post/`。
 
 ```markdown
 ---
@@ -61,21 +37,16 @@ date: 2026-10-02
 category: learning
 ---
 
+## 第一個段落
+
 正文從這裡開始。
 ```
 
-`title`、`date`、`category` 必填，其他欄位如下。完整定義見 [`src/content.config.js`](src/content.config.js)。
+`title`、`date`、`category` 必填；可選欄位為 `description`、`updated`、`cover`、`draft`。草稿不公開；`cover` 用於分享圖片。完整定義見 [`src/content.config.js`](src/content.config.js)。
 
-| 選填欄位      | 用途                                                          |
-| ------------- | ------------------------------------------------------------- |
-| `description` | 摘要；未填時擷取正文第一個非空行，轉為純文字                  |
-| `updated`     | 實質修訂日期，用於頁面更新時間、metadata 與 sitemap `lastmod` |
-| `cover`       | 分享圖片；路徑相對於文章檔案，需有對應圖片                    |
-| `draft`       | 預設 `false`；設為 `true` 時不發布，也不列入 RSS 與 Sitemap   |
+分類定義在 [`src/utils/categories.js`](src/utils/categories.js)：
 
-### 分類
-
-| slug             | 名稱     |
+| slug             | 分類     |
 | ---------------- | -------- |
 | `learning`       | 學習筆記 |
 | `tech-deep-dive` | 技術探索 |
@@ -84,46 +55,19 @@ category: learning
 | `web-basics`     | 網頁基礎 |
 | `mindset`        | 心理     |
 
-新增分類時，更新 [`src/utils/categories.js`](src/utils/categories.js) 的 slug、名稱、說明與圖示，並同步上表。Schema 與分類路由共用這份定義。少於 2 篇文章的分類頁會設為 `noindex`，並排除於 Sitemap。
+正文從 `h2` 開始，目錄收錄 `h2`、`h3`。Mermaid 使用 `mermaid` 程式碼圍欄。寬表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中。
 
-### 內容格式
+文章內圖片放在 `public/images/posts/<slug>/`，使用 `/images/posts/<slug>/photo.webp` 引用，並填寫 `width`、`height` 與適合的載入屬性。
 
-- 正文從 `h2` 開始；文章標題使用 `h1`，目錄收錄 `h2`、`h3`。
-- 站內文章連結使用帶尾斜線的 `/posts/<slug>/`，與 canonical、RSS 和 Sitemap 一致。
-- Mermaid 使用 ` ```mermaid ` 圍欄；圖表接近畫面時才載入與渲染，換頁後會重新初始化。
-- 表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中，提供水平捲動、鍵盤操作與樣式。
-- 內文圖片放在 `public/images/posts/<slug>/`，以 `/images/posts/<slug>/photo.webp` 引用。請先壓縮，並為 `<img>` 加上 `width`、`height`、`loading="lazy"`；這些圖片不會自動優化。
-- `cover` 只用於 Open Graph、Twitter Card 與 JSON-LD，不顯示在文章頂端或卡片。可自行建立 `src/assets/` 放圖片，欄位填 `../../assets/cover.webp`。Schema 會取得圖片 metadata，不會自動縮放或轉檔。
+首頁顯示最新 6 篇，`/posts/` 每頁 12 篇；同日文章依 slug 排序。少於 2 篇的分類頁設為 `noindex`。分頁與目錄可在停用 JavaScript 時使用；閱讀進度條僅在文章頁啟用，減少動畫模式下停用。
 
-## 字型與套件維護
+## 設定與部署
 
-Inter、Outfit、JetBrains Mono 透過 Astro Fonts API 在建置時下載並自架；首次建置需連線 Google Fonts。Noto Sans TC 使用外部 Google Fonts，先顯示系統字型，樣式表載入完成後再套用；停用 JavaScript 時由 `noscript` 載入，連線失敗時繼續使用系統字型。
+站台網址位於 [`astro.config.mjs`](astro.config.mjs)，名稱、作者與分享圖片位於 [`src/utils/site.js`](src/utils/site.js)。`src/scripts/` 保留目錄、字型、圖表及閱讀進度等網站功能。
 
-Tailwind 使用 `@tailwindcss/vite`，Typography 由 CSS 的 `@plugin` 載入。`node-html-parser` 只用於 sitemap 建置。
+拉丁字型由 Astro Fonts API 在建置時下載並自架；中文字型使用 Google Fonts，連線失敗時回退系統字型。
 
-套件版本以 `package.json` 與 `package-lock.json` 為準。升級時同步更新兩者，確認 `@astrojs/check` 與 TypeScript 相容，再執行格式檢查、型別檢查、建置、`npm outdated` 與 `npm audit`。
-
-Lighthouse 的量測條件、改善結果與瀏覽器驗證記錄見 [效能量測紀錄](docs/performance.md)。
-
-2026-10-25 的設定、內容審閱與效能複測結果見 [專案與內容檢查](docs/project-review.md)。
-
-Journal 改版的同環境量測、驗證範圍與重跑指令見 [改版效能與驗收紀錄](docs/redesign-performance.md)。
-
-目前 TypeScript 固定為 6.0.3。`@astrojs/check` 0.9.12 的 peer dependency 只支援 TypeScript 5／6；[TypeScript 7 的官方發布說明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)也指出 Astro 等工具仍需使用 TypeScript 6。升級到 7 前，先確認 Astro 檢查工具已支援新版 API。
-
-維護時留意：
-
-- `overrides` 的 `lodash-es` 用來修補 Mermaid 間接相依；移除前確認上游已解除限制，並重新執行 audit 與圖表驗證。
-- Mermaid 的 KaTeX 固定為 0.19.0，修補原型污染可能繞過 `trust` 限制的問題（[GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7)）。Typography 的 `postcss-selector-parser` 固定為 7.1.6，修補平面選擇器解析的 CPU 耗盡問題（[GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)）。上游採用安全版本後可移除對應 override，並執行 `npm run test:dependencies`、建置與圖表驗證。
-- GitHub Actions 使用完整 commit SHA；更新時核對 release 與 SHA。
-
-## 部署
-
-Cloudflare Pages 的建置指令為 `npm run build`，輸出目錄為 `dist/`；也可將本機建置結果上傳。
-
-Pages 透過 `.node-version` 選擇 Node.js；若後台另設了 `NODE_VERSION`，也要使用 24.x，避免覆蓋專案設定。設定方式見 [Cloudflare 建置環境文件](https://developers.cloudflare.com/pages/configuration/build-image/#override-default-versions)。
-
-[`public/_headers`](public/_headers) 設定安全標頭與靜態資源快取。改用其他部署平台時，需確認是否支援這個格式；例如 Vercel 必須改寫為 `vercel.json` 的 `headers` 設定。
+Cloudflare Pages 使用 `npm run build`，輸出目錄為 `dist/`。安全標頭與快取設定見 [`public/_headers`](public/_headers)。
 
 ## 授權
 

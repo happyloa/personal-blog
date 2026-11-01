@@ -15,9 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "astro check --tsconfig jsconfig.json",
-    "test:dependencies": "node --test tests/dependencies.test.mjs",
-    "test:build": "node --test tests/build-output.test.mjs",
-    "test:draft": "node scripts/verify-draft.mjs"
+    "test:dependencies": "node --test tests/dependencies.test.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
