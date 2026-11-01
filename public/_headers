@@ -10,7 +10,29 @@
 # 在 /* 設 must-revalidate 會一路洩漏到下面兩條規則：/images/* 的 stale-while-revalidate
 # 會因此永遠不生效（RFC 9111 禁止 must-revalidate 下送出 stale response），
 # /_astro/* 也會出現 immutable 與 must-revalidate 並存的矛盾。
-# HTML 不設值時，Cloudflare Pages 的預設本來就是 public, max-age=0, must-revalidate。
+# HTML 沿用 Pages 的重新驗證方式，並禁止自動改寫字型、電郵與注入腳本。
+# 規則只套用頁面路徑，避免影響下方靜態資源的快取設定。
+
+/
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/posts
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/posts/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/categories
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/categories/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/404
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

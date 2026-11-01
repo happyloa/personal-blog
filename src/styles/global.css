@@ -562,6 +562,8 @@
 
   .wordmark {
     display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
     align-items: center;
     gap: 16px;
     color: var(--color-ink);
@@ -594,8 +596,10 @@
 
   .nav-link {
     display: inline-flex;
+    min-width: 44px;
     min-height: 44px;
     align-items: center;
+    justify-content: center;
     padding-inline: 14px;
     font-size: 14px;
     color: var(--color-muted);
