@@ -2,7 +2,7 @@
 
 線上網址：<https://blog.worksbyaaron.com>
 
-Astro + Tailwind CSS 靜態部落格，部署於 Cloudflare Pages。文章以 Markdown 管理，支援分類、閱讀時間、目錄、閱讀進度條、Mermaid、RSS、Sitemap 與社群分享 metadata。
+Astro + Tailwind CSS 靜態部落格，部署於 Cloudflare Pages。以 Markdown 管理文章，支援分類、目錄、閱讀進度、Mermaid、RSS 與 Sitemap。
 
 ## 開發
 
@@ -24,7 +24,7 @@ npm run dev
 | `npm run format`            | 格式化檔案                         |
 | `npm run test:dependencies` | 執行小型依賴安全回歸測試           |
 
-CI 執行安裝、格式與型別檢查、依賴測試、建置及 `npm audit`。`package.json` 的安全修補 overrides 與依賴測試一起維護。
+CI 執行 `npm ci`、格式與型別檢查、依賴測試、建置及 `npm audit`。安全修補 overrides 與依賴測試一起維護。TypeScript 維持 6.x，待 `@astrojs/check` 的 peer dependency 支援 7.x 後再升級。
 
 ## 新增文章
 
@@ -42,7 +42,7 @@ category: learning
 正文從這裡開始。
 ```
 
-`title`、`date`、`category` 必填；可選欄位為 `description`、`updated`、`cover`、`draft`。草稿不公開；`cover` 用於分享圖片。完整定義見 [`src/content.config.js`](src/content.config.js)。
+`title`、`date`、`category` 必填；可選欄位為 `description`、`updated`、`cover`、`draft`。`updated` 記錄實質修訂日期，`cover` 用於分享圖片，`draft: true` 的文章不公開。完整定義見 [`src/content.config.js`](src/content.config.js)。
 
 分類定義在 [`src/utils/categories.js`](src/utils/categories.js)：
 
@@ -55,17 +55,17 @@ category: learning
 | `web-basics`     | 網頁基礎 |
 | `mindset`        | 心理     |
 
-正文從 `h2` 開始，目錄收錄 `h2`、`h3`。Mermaid 使用 `mermaid` 程式碼圍欄。寬表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中。
+正文從 `h2` 開始，目錄收錄 `h2`、`h3`。圖表使用 `mermaid` 程式碼圍欄；寬表格包在 `<div class="table-wrapper" tabindex="0" role="group" aria-label="表格（可水平捲動）">` 中。
 
 文章內圖片放在 `public/images/posts/<slug>/`，使用 `/images/posts/<slug>/photo.webp` 引用，並填寫 `width`、`height` 與適合的載入屬性。
 
-首頁顯示最新 6 篇，`/posts/` 每頁 12 篇；同日文章依 slug 排序。少於 2 篇的分類頁設為 `noindex`。分頁與目錄可在停用 JavaScript 時使用；閱讀進度條僅在文章頁啟用，減少動畫模式下停用。
+首頁顯示最新 6 篇，`/posts/` 每頁 12 篇。少於 2 篇的分類頁設為 `noindex`。
 
 ## 設定與部署
 
-站台網址位於 [`astro.config.mjs`](astro.config.mjs)，名稱、作者與分享圖片位於 [`src/utils/site.js`](src/utils/site.js)。`src/scripts/` 保留目錄、字型、圖表及閱讀進度等網站功能。
+站台網址位於 [`astro.config.mjs`](astro.config.mjs)，名稱、作者與預設分享圖片位於 [`src/utils/site.js`](src/utils/site.js)。
 
-拉丁字型由 Astro Fonts API 在建置時下載並自架；中文字型使用 Google Fonts，連線失敗時回退系統字型。
+拉丁字型由 Astro Fonts API 在建置時下載並自架，因此首次建置需要網路；中文字型由瀏覽器載入 Google Fonts。
 
 Cloudflare Pages 使用 `npm run build`，輸出目錄為 `dist/`。安全標頭與快取設定見 [`public/_headers`](public/_headers)。
 
