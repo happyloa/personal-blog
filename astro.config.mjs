@@ -78,6 +78,5 @@ export default defineConfig({
   compressHTML: true,
   prefetch: {
     prefetchAll: false,
-    defaultStrategy: "viewport",
   },
 });

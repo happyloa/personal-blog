@@ -1,4 +1,4 @@
-﻿/** @type {IntersectionObserver | undefined} */
+/** @type {IntersectionObserver | undefined} */
 let headingObserver;
 
 export function cleanupTOC() {

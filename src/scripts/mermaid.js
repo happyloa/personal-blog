@@ -64,11 +64,18 @@ function prepareMermaidBlock(pre) {
 // 「有圖才下載」的行為不變，但不再依賴第三方 CDN，CSP 也才能收回 script-src 'self'。
 /** @type {Promise<import("mermaid").Mermaid> | undefined} */
 let mermaidReady;
+
+// 沿用內文解析後的字型堆疊。Astro Fonts 產生的字型名稱帶雜湊（例如 Inter-df3e…），
+// 寫死 "Inter" 對不到任何 @font-face，圖表文字會退回系統字型。
+const bodyFontFamily = () => getComputedStyle(document.body).fontFamily;
+
 function loadMermaid() {
   mermaidReady ??= import("mermaid").then(({ default: mermaid }) => {
     mermaid.initialize({
       startOnLoad: false,
       theme: "base",
+      // 設在頂層：initialize() 會同步到 themeVariables，循序圖量測文字時也讀這個值。
+      fontFamily: bodyFontFamily(),
       // 使用 Dagre，避免一般流程圖下載大型 ELK 排版程式。
       layout: "dagre",
       flowchart: {
@@ -89,7 +96,6 @@ function loadMermaid() {
         secondaryTextColor: "#eeeee5",
         tertiaryTextColor: "#eeeee5",
         edgeLabelBackground: "#181917",
-        fontFamily: "Inter, sans-serif",
       },
     });
     return mermaid;
@@ -116,6 +122,10 @@ async function renderBlock(pre, generation) {
 
   try {
     const mermaid = await loadMermaid();
+    // Mermaid 依當下的字型量測節點大小；字型晚到會讓文字超出節點框，因此先載入這張圖用到的字。
+    await document.fonts
+      .load(`1em ${bodyFontFamily()}`, pre.textContent)
+      .catch(() => {});
     // 載入期間可能已換頁，不能把舊頁的圖表插進新頁。
     if (generation !== pageGeneration || !pre.isConnected) return;
     const block = prepareMermaidBlock(pre);

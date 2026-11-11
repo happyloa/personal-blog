@@ -11,8 +11,8 @@ interface Props {
   index?: number;
 }
 
-// 卡片標題的層級由呼叫端決定：首頁與列表頁的卡片是「最新文章」這類區塊的下一層，
-// 應為 h3，否則整頁大綱會變成一長串同級 h2。
+// 卡片標題的層級由呼叫端決定：首頁的卡片位於「最新文章」h2 之下，要傳入 h3；
+// 文章列表與分類頁的卡片直接接在 h1 之下，使用預設的 h2。
 const { post, headingLevel = "h2", index } = Astro.props;
 const Heading = headingLevel;
 const formattedDate = formatDate(post.data.date);
