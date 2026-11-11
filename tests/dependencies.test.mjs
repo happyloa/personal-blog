@@ -47,13 +47,17 @@ test("KaTeX 不接受從原型繼承的 trust 設定", () => {
   );
 });
 
-test("Typography 的 selector parser 能在期限內解析 400 KB 平面選擇器", () => {
+/**
+ * 在子行程中解析並還原選擇器；超過期限代表解析退化成超線性時間。
+ * @param {string} selectorSource 產生選擇器的 JavaScript 運算式
+ */
+function assertParsesWithinDeadline(selectorSource) {
   const parserPath = typographyRequire.resolve("postcss-selector-parser");
   const result = spawnSync(process.execPath, ["--input-type=commonjs"], {
     input: `
       const assert = require("node:assert/strict");
       const parser = require(${JSON.stringify(parserPath)});
-      const selector = ".a".repeat(200_000);
+      const selector = ${selectorSource};
       assert.equal(parser().processSync(selector), selector);
     `,
     encoding: "utf8",
@@ -62,4 +66,13 @@ test("Typography 的 selector parser 能在期限內解析 400 KB 平面選擇�
   });
   assert.ifError(result.error);
   assert.equal(result.status, 0, result.stderr);
+}
+
+test("Typography 的 selector parser 能在期限內解析 400 KB 平面選擇器", () => {
+  assertParsesWithinDeadline(`".a".repeat(200_000)`);
+});
+
+test("Typography 的 selector parser 能在期限內解析數字開頭與純註解的長選擇器", () => {
+  assertParsesWithinDeadline(`"1".repeat(200_000) + ".a".repeat(200_000)`);
+  assertParsesWithinDeadline(`"/**/ ".repeat(200_000)`);
 });
