@@ -428,15 +428,6 @@
     color: var(--color-primary);
     transform: translateX(3px);
   }
-  .end-cta {
-    padding-block: 48px;
-    border-block: 1px solid var(--color-border-soft);
-  }
-  .end-cta h2 {
-    margin-block: 24px;
-    font-size: clamp(1.75rem, 4vw, 3rem);
-    line-height: 1.4;
-  }
   .category-chips {
     display: flex;
     flex-wrap: wrap;
