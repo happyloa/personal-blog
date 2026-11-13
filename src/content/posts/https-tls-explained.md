@@ -2,6 +2,7 @@
 title: HTTPS 與 TLS — 網際網路的加密通訊協定
 description: 從明文 HTTP 到 TLS 1.3 握手，認識金鑰交換、簽章與憑證驗證，也分清楚連線安全和網站可信是不同的事。
 date: 2026-02-14
+updated: 2026-11-13
 category: web-basics
 ---
 
@@ -15,7 +16,7 @@ HTTPS 的加密是怎麼運作的？這個 S 背後，其實有一套建立安�
 
 ## HTTPS 的解法：信封加鎖
 
-HTTPS 則是先把信裝進信封，再鎖進一個保險箱寄出去。只有收件人有鑰匙能打開保險箱。這個「保險箱」機制就是 **TLS（Transport Layer Security）**，它的前身就是有名的 **SSL**。
+HTTPS 則是先把信裝進信封，再鎖進一個保險箱寄出去。保險箱的鑰匙只有你和收件人有，是雙方各自算出來的，不會跟著信一起寄，所以路上經手的人打不開。這個「保險箱」機制就是 **TLS（Transport Layer Security）**，它的前身就是有名的 **SSL**。
 
 ## 核心概念：兩種加密方式
 
@@ -37,7 +38,7 @@ HTTPS 則是先把信裝進信封，再鎖進一個保險箱寄出去。只有�
 
 ## TLS 握手（Handshake） — 建立信任的過程
 
-TLS 握手會確認對方身分、協商加密方式，並建立傳輸用的金鑰。以下用常見的 TLS 1.3 憑證驗證搭配臨時金鑰交換來說明。圖中把伺服器的幾個訊息合併呈現，實際上憑證是在 Server Hello 之後另外送出。
+TLS 握手會確認對方身分、協商加密方式，並建立傳輸用的金鑰。以下用常見的 TLS 1.3 憑證驗證搭配臨時金鑰交換來說明。在 TLS 1.3 中，Server Hello 之後的握手訊息都會加密。伺服器的憑證是用握手金鑰加密的，瀏覽器要先算出共同祕密、推導出握手金鑰，才能解開憑證來驗證。TLS 1.2 的憑證則是明文傳送。圖中把伺服器接著送出的 EncryptedExtensions、憑證、CertificateVerify 和 Finished 合併成一個箭頭。
 
 ```mermaid
 sequenceDiagram
@@ -45,17 +46,18 @@ sequenceDiagram
     participant Server as 伺服器
 
     Client->>Server: 1. Client Hello（我支援 TLS 1.3，這是我的亂數 + 金鑰交換參數 key_share）
-    Server->>Client: 2. Server Hello（好，用 TLS 1.3，這是我的憑證、亂數和 key_share）
-    Note over Client: 3. 驗證憑證是否合法
-    Note over Client, Server: 4. 雙方各自用「自己的私密亂數」+「對方的 key_share」，各自算出同一把「對稱金鑰」
-    Client->>Server: 5. 之後的對話都用這把鑰匙加密
-    Server->>Client: 6. 沒問題
+    Server->>Client: 2. Server Hello（好，用 TLS 1.3，這是我的亂數和 key_share）
+    Note over Client, Server: 3. 雙方各自用「自己的臨時私鑰」+「對方的 key_share」算出同一個共同祕密，再推導出握手金鑰
+    Server->>Client: 4. 用握手金鑰加密送出：憑證、CertificateVerify、Finished
+    Note over Client: 5. 解密後驗證憑證、簽章和 Finished
+    Client->>Server: 6. Finished（同樣用握手金鑰加密）
+    Note over Client, Server: 7. 改用應用資料金鑰（兩個方向各一把）加密之後的對話
 ```
 
 1. **打招呼**：瀏覽器跟伺服器說 Hello，同時各自附上一組用來交換金鑰的隨機參數（key_share），確認要用哪種加密演算法。
-2. **給憑證**：伺服器把自己的身分證（SSL 憑證）和自己的 key_share 一起交給瀏覽器，憑證裡包含**公鑰**。
-3. **驗證**：瀏覽器檢查憑證鏈是否可信、有沒有過期，以及網域名稱是否符合，並驗證伺服器持有對應的私鑰。
-4. **建立共同祕密**：雙方把自己的臨時私鑰，和對方傳來的公開金鑰交換參數（key_share）一起計算，得到相同的共同祕密。私鑰和共同祕密都不直接傳送。
+2. **建立共同祕密**：雙方把自己的臨時私鑰，和對方傳來的公開金鑰交換參數（key_share）一起計算，得到相同的共同祕密，再由它推導出握手金鑰。私鑰和共同祕密都不直接傳送。
+3. **給憑證**：伺服器用握手金鑰加密，送出自己的身分證（SSL 憑證）、CertificateVerify 和 Finished。憑證裡包含**公鑰**。CertificateVerify 是伺服器用憑證對應的私鑰，對到目前為止的握手內容做的簽章；Finished 則是對整段握手內容算出的驗證碼（MAC）。
+4. **驗證**：瀏覽器解密後，檢查憑證鏈是否可信、有沒有過期，以及網域名稱是否符合，再用憑證裡的公鑰驗證 CertificateVerify 的簽章，確認伺服器持有對應的私鑰，也檢查伺服器的 Finished。都通過後，瀏覽器送出自己的 Finished。
 5. **生成會話金鑰**：雙方由共同祕密等資訊推導出傳輸用的對稱金鑰（Session Key）。實際上，兩個傳輸方向使用不同的金鑰，不是所有訊息都共用一把。
 6. **開始加密通訊**：接下來雙方用各方向的對稱金鑰保護資料傳輸，兼顧效能與保密性。
 
@@ -73,7 +75,7 @@ sequenceDiagram
 
 ## 結語
 
-下次查看網站的連線資訊時，可以想起這段握手流程：瀏覽器先確認憑證、建立金鑰，再用它保護傳輸中的資料。要判斷網站是否值得信任，還得另外確認網址和內容。
+下次查看網站的連線資訊時，可以想起這段握手流程：瀏覽器先和伺服器算出共同祕密，再確認憑證，最後用推導出的金鑰保護傳輸中的資料。要判斷網站是否值得信任，還得另外確認網址和內容。
 
 ---
 

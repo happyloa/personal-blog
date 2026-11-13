@@ -2,7 +2,7 @@
 title: HTML 與 CSS 入門 — 用 Word 文件來比喻網頁的結構與樣式
 description: 用 Word 的標題、清單與格式設定理解 HTML 和 CSS 的分工，再建立兩份檔案，試著做出一個個人介紹頁面。
 date: 2026-02-06
-updated: 2026-07-28
+updated: 2026-11-13
 category: web-basics
 ---
 
@@ -106,7 +106,7 @@ CSS 的全名是 **Cascading Style Sheets**（層疊樣式表）。它的工作�
 | 斜體            | `font-style: italic;`                               |
 | 文字置中        | `text-align: center;`                               |
 | 背景顏色 → 黃色 | `background-color: yellow;`                         |
-| 段落間距        | `margin: 20px;`                                     |
+| 段落間距        | `margin: 20px 0;`（上下 20px、左右 0）              |
 
 </div>
 

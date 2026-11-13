@@ -2,7 +2,7 @@
 title: Git 版本控制入門 — 用遊戲存檔來理解版本管理
 description: Git 就像遊戲存檔一樣，幫你記錄程式碼的每一個進度。本文用 RPG 遊戲的比喻介紹 Commit、Branch、Merge 等核心概念。
 date: 2026-02-08
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -46,7 +46,7 @@ category: learning
 | ------------------ | --------------------- | ------------------------------ |
 | 存檔               | **Commit**            | 記錄當前的程式碼狀態           |
 | 讀取存檔           | **Checkout / Reset**  | 回到之前某個版本               |
-| 存檔列表           | **Log**               | 查看所有的存檔記錄             |
+| 存檔列表           | **Log**               | 查看存檔記錄                   |
 | 不同路線的存檔分支 | **Branch**            | 在不影響主線的情況下嘗試新東西 |
 | 合併多條故事線     | **Merge**             | 把分支的修改合回主線           |
 | 雲端同步存檔       | **Push / Pull**       | 把存檔上傳到雲端 / 從雲端下載  |
@@ -111,6 +111,8 @@ main:     A --- B --- C --------- F
 feature:                D --- E
 ```
 
+圖中的 F 是合併時產生的 commit。如果開分支之後 main 一直沒有新的 commit，`git merge` 預設會直接把 main 移到 E（稱為 fast-forward），不會產生 F；想留下 F，可以用 `git merge --no-ff`，GitHub 預設的「Merge pull request」也是用這種方式合併。如果 main 在這段期間也有新的 commit，就沒辦法 fast-forward，`git merge` 會產生像 F 這樣的合併 commit。
+
 這樣做的好處是：
 
 - 搭配測試和審查，可以在合併前確認新功能是否適合進主線
@@ -164,7 +166,7 @@ git commit -m "feat: 新增首頁"
 git log
 ```
 
-看所有的歷史存檔。從最新的開始列出。
+看目前這條路線的歷史存檔，從最新的開始列出。想連其他分支一起看，可以用 `git log --all --oneline --graph`。
 
 ### 開一條新的路線
 
@@ -205,7 +207,7 @@ git push -u origin main
 git pull
 ```
 
-`git pull` 會先抓取遠端進度，再依設定用 merge 或 rebase 整合到目前分支。可以把它想成先下載雲端存檔，再和本機進度整合；如果兩邊都有修改，就不只是直接覆蓋成遠端那一份。
+`git pull` 會先抓取遠端進度，再依設定用 merge 或 rebase 整合到目前分支。可以把它想成先下載雲端存檔，再和本機進度整合。如果本機和遠端都有新的 commit，又沒有設定整合方式，現行的 Git 會停下來，顯示錯誤訊息「Need to specify how to reconcile divergent branches」。這時可以用 `git pull --no-rebase`（merge）或 `git pull --rebase` 指定做法，也可以先用 `git config pull.rebase false`（或 `true`）設定預設值。
 
 ## GitHub — 雲端存檔空間
 

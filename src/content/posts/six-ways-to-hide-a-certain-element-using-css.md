@@ -2,7 +2,7 @@
 title: 用 CSS 隱藏網頁元素的六種方法 — 完整比較與無障礙考量
 description: display:none、visibility:hidden 差在哪？整理 6 種 CSS 隱藏元素的方法，深入比較其特性與無障礙（Accessibility）影響。
 date: 2024-04-20
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -46,7 +46,7 @@ category: learning
 - **佔據原本的空間**（會留下空白區域）
 - 無法被螢幕閱讀器讀取
 - 無法被 Tab 鍵聚焦
-- 可以套用 CSS transition 動畫
+- 可以放進 transition，但屬於離散切換：轉場期間維持可見，隱藏時要等轉場結束才切成 hidden，本身不會漸變；要有淡出效果，得搭配 opacity（見情境三）
 - 子元素可以設定 `visibility: visible` 來單獨顯示
 
 **適用場景：** 需要保留佈局空間的情況，例如等待載入時的佔位元素。
@@ -166,15 +166,15 @@ category: learning
 | 方法                    | 佔據空間 | 可點擊 | 螢幕閱讀器 | 可 Tab 聚焦 | 可動畫 |
 | ----------------------- | :------: | :----: | :--------: | :---------: | :----: |
 | `display: none`         |    ❌    |   ❌   |     ❌     |     ❌      |   ❌   |
-| `visibility: hidden`    |    ✅    |   ❌   |     ❌     |     ❌      |   ✅   |
-| `visibility: collapse`  | 看情況＊ |   ❌   |     ❌     |     ❌      |   ✅   |
+| `visibility: hidden`    |    ✅    |   ❌   |     ❌     |     ❌      |  離散  |
+| `visibility: collapse`  | 看情況＊ |   ❌   |     ❌     |     ❌      |  離散  |
 | `opacity: 0`            |    ✅    |   ✅   |     ✅     |     ✅      |   ✅   |
 | Position 移出螢幕       |    ❌    |   ❌   |     ✅     |     ✅      |   ❌   |
 | `clip-path: inset(50%)` |    ✅    |   ❌   |     ✅     |     ✅      |   ✅   |
 
 </div>
 
-這張表以單獨使用上述基本寫法為準；顯示／隱藏的離散轉場需要額外設定。移出螢幕的元素沒有消失，仍可能接受程式操作或鍵盤聚焦。
+這張表以單獨使用上述基本寫法為準；`display: none` 的離散轉場需要額外設定。`visibility` 標成「離散」，表示它可以放進 transition，但不會漸變。移出螢幕的元素沒有消失，仍可能接受程式操作或鍵盤聚焦。
 
 ＊`visibility: collapse` 的空間處理依元素類型與瀏覽器而異。規範要求 table 列／欄收合後移除對應空間，但跨列儲存格與部分瀏覽器實作仍可能有差異，不能一概保證版面結果。Flex 的主軸收合也要確認瀏覽器支援；Grid 則按 `visibility: hidden` 處理。可對照 [MDN 的實作注意事項](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/visibility#notes)，並測試實際表格內容。
 
@@ -208,13 +208,16 @@ category: learning
 使用 `opacity` 搭配 `pointer-events` 和 `visibility`：
 
 ```css
+.fade {
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+
 .fade-hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition:
-    opacity 0.3s,
-    visibility 0.3s;
 }
 
 .fade-visible {
@@ -224,7 +227,9 @@ category: learning
 }
 ```
 
-這樣可以有淡入淡出效果，又不會讓隱藏的元素被意外互動。
+元素固定加上 `.fade`，再切換 `.fade-hidden` 和 `.fade-visible`。這樣可以有淡入淡出效果，又不會讓隱藏的元素被意外互動。
+
+瀏覽器會依切換後那組樣式的 transition 決定要不要播放轉場，所以 transition 要寫在兩種狀態都會套用的 `.fade` 上。如果只寫在 `.fade-hidden`，換成 `.fade-visible` 時沒有 transition，元素會直接出現，只有淡出有動畫。`visibility` 放進 transition，是為了讓它等 opacity 淡出結束才變成 hidden。
 
 ## 結語
 

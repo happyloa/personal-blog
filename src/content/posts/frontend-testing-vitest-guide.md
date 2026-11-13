@@ -2,6 +2,7 @@
 title: 前端測試實戰 — 為什麼你需要寫測試？（以 Vitest 為例）
 description: 從改 A 壞 B 的維護經驗，談我為什麼開始寫測試，再用 Vitest 測試金額格式與 Vue 計數器，說明環境設定和檢查範圍。
 date: 2025-09-20
+updated: 2026-11-13
 category: tech-deep-dive
 ---
 
@@ -65,6 +66,7 @@ export function formatCurrency(amount: number, currency = "TWD"): string {
     style: "currency",
     currency,
     minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 ```
@@ -92,10 +94,16 @@ describe("formatCurrency", () => {
   it("應該處理負數", () => {
     expect(formatCurrency(-1000)).toBe("-$1,000");
   });
+
+  it("應該把小數四捨五入到整數", () => {
+    expect(formatCurrency(1000.5)).toBe("$1,001");
+  });
 });
 ```
 
-這個例子把 0 和負數也列進檢查。貨幣符號可能隨 Node／瀏覽器內建的 CLDR 資料版本而不同，例如 zh-TW locale 可能顯示 `$`，而不是 `NT$`。寫斷言前，要先確認函式預期的輸出。像 `toMatch(/1,000/)` 只檢查到數字的一部分，不能證明幣別或完整格式正確；需要檢查貨幣格式時，應明確設定格式選項，並驗證對應的結果。
+這個例子把 0、負數和小數也列進檢查。只設 `minimumFractionDigits: 0` 的話，最大小數位數仍是幣別預設的 2 位（TWD 和 USD 都是），`1000` 會顯示成 `$1,000`，`1000.5` 卻會變成 `$1,000.5`。這裡要讓金額只顯示整數，所以 `maximumFractionDigits` 也設成 0，連 USD 的美分也會四捨五入；需要顯示小數的幣別，要另外設定小數位數。
+
+貨幣符號可能隨 Node／瀏覽器內建的 CLDR 資料版本而不同，例如 zh-TW locale 可能顯示 `$`，而不是 `NT$`。寫斷言前，要先確認函式預期的輸出。像 `toMatch(/1,000/)` 只檢查到數字的一部分，不能證明幣別或完整格式正確；需要檢查貨幣格式時，應明確設定格式選項，並驗證對應的結果。
 
 ## 進階：元件測試
 

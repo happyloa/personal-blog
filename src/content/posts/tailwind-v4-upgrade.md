@@ -2,7 +2,7 @@
 title: Tailwind CSS v4 升級指南 — 速度更快、體積更小、寫法更自由
 description: v4 推出一年後的升級重點整理：設定從 JS 檔改成在 CSS 的 @theme 裡定義變數，舊的 tailwind.config.js 仍可透過 @config 沿用。
 date: 2026-02-19
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -18,7 +18,7 @@ v4 把預設的配置方式從 JavaScript 設定檔換成了 CSS 變數。舊的
 
 引擎也不是全部改成 Rust。[官方的架構說明](https://tailwindcss.com/blog/tailwindcss-v4-alpha)提到，部分耗時且適合平行處理的工作改用 Rust，核心仍保留 TypeScript，並整合 Lightning CSS 處理樣式。
 
-至於只產生用到的 utility，v3 的 JIT 就已經這樣做。升級後的 CSS 是否更小，要比較自己的產出，不能光看版本號判斷。
+至於只產生用到的 utility，v3 的 JIT 就已經這樣做。同一篇架構說明提到新引擎安裝後小了 35% 以上，這指的是套件的安裝大小，和產出的 CSS 無關。升級後的 CSS 是否更小，要比較自己的產出，不能光看版本號判斷。
 
 ## 全新的配置方式
 
@@ -44,13 +44,15 @@ v4 把預設的配置方式從 JavaScript 設定檔換成了 CSS 變數。舊的
 
 ## 任意值語法與 CSS 運算
 
-其實方括號任意值語法（例如 `w-[350px]`）與其中的 **CSS 運算**（`calc()`），從 v3 的 JIT 引擎就開始支援了；v4 帶來的新意在於引擎效能更好，處理這些任意值時更快、更省資源。
+其實方括號任意值語法（例如 `w-[350px]`）與其中的 **CSS 運算**（`calc()`），從 2021 年推出的 JIT 引擎就開始支援了：v2.1 用 `mode: "jit"` 選用，v3 起 JIT 成為預設引擎。
 
 ```html
 <div class="w-[calc(100%-20px)] bg-brand-primary/50">...</div>
 ```
 
 注意那個 `/50`：v4 底層改用 `color-mix()` 處理透明度，因此即使顏色是用 CSS 變數表示，`/50` 這類修飾語也能正常運作，不再需要額外的 hack。
+
+v4 也讓不少 utility 直接接受動態數值，例如 `w-17`、`grid-cols-15`，不必再寫成方括號的任意值。原本的任意值則有兩處寫法要改：CSS 變數簡寫從 `bg-[--brand-color]` 改成 `bg-(--brand-color)`；`grid-cols-*`、`grid-rows-*`、`object-*` 的任意值不再把逗號轉成空格，要改用底線，例如 `grid-cols-[max-content_auto]`。
 
 ## 容器查詢（Container Queries）正式轉正
 

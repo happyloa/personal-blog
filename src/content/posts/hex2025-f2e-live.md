@@ -2,7 +2,7 @@
 title: 用 Nuxt 練熟切版與互動：六角學院網頁切版直播班三個作業心得
 description: 已有正式專案經驗後，我用 Nuxt 3／4 與 Tailwind 完成電商、職涯媒合和旅遊網站作業，練習版面、表單與示範用的狀態管理。
 date: 2025-09-21
-updated: 2026-07-28
+updated: 2026-11-13
 category: project
 ---
 
@@ -63,7 +63,7 @@ category: project
 
 ### 學到的關鍵技能
 
-1. **Nuxt 頁面路由**：了解如何使用 `pages` 資料夾來自動生成路由，比起傳統的 Vue Router 更加直觀
+1. **Nuxt 頁面路由**：用 `pages` 資料夾規劃首頁、商品列表、商品詳情、會員與品牌故事等頁面。Nuxt 會依檔案結構產生路由，底層仍是 Vue Router，不用自己寫路由表
 2. **元件拆分**：這份作業把 UI 分成 Atom（小型元件）、Common（中型元件）、Layout（版面元件）三個層級
 3. **響應式設計**：調整不同螢幕尺寸下的版面，並確認實際顯示與操作
 4. **圖片優化**：使用 TinyPNG 壓縮圖片，並採用 WebP 格式提升載入速度
@@ -126,7 +126,7 @@ category: project
 2. **客戶端外掛**：了解如何使用 `.client.ts` 後綴來建立只在瀏覽器執行的外掛
 3. **工具函式管理**：把格式化、驗證等輔助函式集中到 Utils 資料夾
 4. **狀態管理進階**：結合 sessionStorage 與 URL 參數（如 `?hasItems`）來控制不同的頁面狀態
-5. **Nuxt 4 的新特性**：體驗到框架升級後帶來的效能提升與開發體驗改善
+5. **Nuxt 4 的新特性**：照 Nuxt 4 預設的目錄結構，把 pages、components、composables、plugins、utils 等資料夾放在 `app/` 底下
 
 這個專案比前兩個都複雜，不過也學到比較多東西。
 

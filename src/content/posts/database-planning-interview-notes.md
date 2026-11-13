@@ -2,6 +2,7 @@
 title: 資料庫規劃筆記：從搶票、多對多關係到回歸測試
 description: 從搶票、商品分類與共用付款功能出發，整理最近對資料庫設計的思考，包括 Race condition、多對多關係、索引，以及修改功能時的測試與資料表調整。
 date: 2026-10-02
+updated: 2026-11-13
 category: tech-deep-dive
 ---
 
@@ -55,7 +56,7 @@ WHERE event_id = 42
 RETURNING event_id, remaining;
 ```
 
-在 PostgreSQL 預設的 Read Committed 設定下，兩個請求改同一筆庫存，後來的會等前一筆操作結束。如果前一筆已確認存好，資料庫會拿新的庫存再檢查一次 `WHERE` 條件。第一個扣到 0，第二個就扣不到了，詳見 [PostgreSQL 同時更新資料時的處理方式](https://www.postgresql.org/docs/current/transaction-iso.html#XACT-READ-COMMITTED)。
+在 PostgreSQL 預設的 Read Committed 設定下，兩個請求改同一筆庫存，後來的會等前一筆的交易結束才繼續，交易拖得越久，後面就等得越久。如果前一筆已確認存好，資料庫會拿新的庫存再檢查一次 `WHERE` 條件，第一個扣到 0，第二個就扣不到了；如果前一筆撤回，第二個就照原本的庫存扣票。詳見 [PostgreSQL 同時更新資料時的處理方式](https://www.postgresql.org/docs/current/transaction-iso.html#XACT-READ-COMMITTED)。
 
 確定扣到票才建立訂單；沒扣到，要分清楚是售完還是活動不存在。
 
@@ -233,7 +234,7 @@ LIMIT 25;
 
 索引有點像書的索引，讓資料庫有機會更快找到需要的資料。主鍵已有 `(product_id, category_id)` 索引，另外加 `(category_id, product_id)`，方便先按分類找商品。欄位順序會影響怎麼查，實際有沒有用到，還是要看資料庫怎麼執行，見[多欄位索引的說明](https://www.postgresql.org/docs/current/indexes-multicolumn.html)。
 
-`LIMIT 25` 只限制回傳幾筆。想知道時間花在哪，可以用接近實際的資料量和分布，跑 `EXPLAIN (ANALYZE, BUFFERS)`，看資料庫讀了多少、花了多久。
+`LIMIT 25` 規定最多回傳 25 筆，資料庫決定怎麼執行時也會把它算進去。如果能沿著索引照 `ORDER BY` 的順序讀，像用上面的 `(category_id, product_id)` 索引讀分類 3，湊滿 25 筆就能停；如果得先找出所有符合條件的資料再排序，要讀的量就不會因為 `LIMIT` 變少。想知道時間花在哪，可以用接近實際的資料量和分布，跑 `EXPLAIN (ANALYZE, BUFFERS)`，看資料庫讀了多少、花了多久。
 
 小表一筆一筆讀（Seq Scan）不一定慢；索引也佔空間，寫入時得更新。`ANALYZE` 會真的執行查詢，這裡用讀取範例，詳見[查詢執行過程的查看方式](https://www.postgresql.org/docs/current/using-explain.html)。
 
@@ -251,12 +252,14 @@ SELECT p.id, p.name
 FROM product_category_links AS pc
 JOIN products AS p ON p.id = pc.product_id
 WHERE pc.category_id = $1
-  AND p.id > $2
-ORDER BY p.id
+  AND pc.product_id > $2
+ORDER BY pc.product_id
 LIMIT 25;
 ```
 
 `$1` 是分類，`$2` 是上一頁最後的 ID。這叫游標分頁，但不方便直接跳到任意頁碼。若按建立時間排序而時間會重複，就得加 ID 一起排序、判斷下一頁從哪開始。
+
+游標條件要寫在配對表的 `pc.product_id`。如果寫成 `p.id > $2`，PostgreSQL 不會因為 `p.id = pc.product_id` 就把它轉成 `pc.product_id > $2`，`(category_id, product_id)` 索引就沒辦法直接從上一頁的位置往後讀。可以用 `EXPLAIN` 確認索引條件（Index Cond）同時有 `category_id` 和 `product_id`。
 
 翻頁期間，商品也可能被移入或移出分類。如果需要每一頁都看同一個時間點的資料，得另外設計。
 
@@ -288,7 +291,7 @@ MongoDB 更新單份文件，可以做到整筆成功或整筆失敗；修改多
 
 付款被拒絕、等不到回應（timeout）、重複送出或通知、寫入資料庫失敗都要測。除了畫面和 HTTP 回應狀態，還要查金額、廠商和資料。已扣款卻沒回應，要查詢或對帳；失敗後回到哪個狀態，則看規格。
 
-TDD 是先寫測試再實作。可以先寫「入口二仍用原本廠商」和「入口一選新增銀行」，確認測試會失敗，再實作到通過，最後整理程式碼，見 [Martin Fowler 的說明](https://martinfowler.com/bliki/TestDrivenDevelopment.html)。沒全程照 TDD 做，也能先補舊功能的測試。操作體驗和真實串接仍需要人工確認，測過哪些、沒測哪些也要記下來。
+TDD 是先寫測試再實作。可以先寫「入口二仍用原本廠商」，這是舊功能，改程式前就該通過；沒通過，代表測試寫錯或舊功能本來就有問題。再寫「入口一選新增銀行」，確認這個測試會失敗，而且是因為功能還沒做才失敗，然後實作到新舊測試都通過，最後整理程式碼，見 [Martin Fowler 的說明](https://martinfowler.com/bliki/TestDrivenDevelopment.html)。沒全程照 TDD 做，也能先補舊功能的測試。操作體驗和真實串接仍需要人工確認，測過哪些、沒測哪些也要記下來。
 
 修改資料表通常叫 migration。先複製一份接近真實使用情況的舊資料來試，確認舊訂單和入口能用。新舊程式同時運作時，先加欄位、補齊核對舊資料，再切換讀寫；等舊程式不用舊欄位了，才移除。補舊資料時，新寫進來的資料也要一起處理，或先暫停寫入。
 

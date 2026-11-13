@@ -2,6 +2,7 @@
 title: 用 Nuxt 再練一次切版與部署：六角 30 天軟體工程師體驗營心得
 description: 已有正式專案經驗後，我用六角體驗營的設計稿練習 Nuxt 與 Tailwind，完成個人品牌網站，並串接部落格、數據分析和電子報訂閱。
 date: 2025-06-26
+updated: 2026-11-13
 category: project
 ---
 
@@ -79,7 +80,7 @@ category: project
 
 ### Week 2：Flexbox 排版（5/7）
 
-這週用 Flexbox 練習多欄式排版，確認 `justify-content` 和 `align-items` 沿主軸、交叉軸分配空間的方式。跟著不同版面反覆做，比只記住屬性名稱更能練熟。
+這週用 Flexbox 練習多欄式排版，確認 `justify-content` 怎麼沿主軸分配剩餘空間，以及 `align-items` 怎麼決定項目在交叉軸上的對齊方式。項目換行成多行時，行與行之間的空間則由 `align-content` 分配。跟著不同版面反覆做，比只記住屬性名稱更能練熟。
 
 ### Week 3：RWD 響應式設計（5/14）
 

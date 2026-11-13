@@ -1,7 +1,8 @@
 ---
 title: 藝術銀行 Art Bank 會員系統開發紀錄 — Nuxt 3 + JWT 實戰經驗
-description: 分享藝術銀行會員系統開發經驗，包含 Nuxt 3 SSR 架構選型、JWT + Pinia 登入狀態設計，以及公司戶／個人戶複雜表單的處理心得。
+description: 分享藝術銀行會員系統開發經驗，包含在既定的 Nuxt 3 SSR 架構下實作會員功能、JWT + Pinia 登入狀態設計，以及公司戶／個人戶複雜表單的處理心得。
 date: 2025-01-15
+updated: 2026-11-13
 category: project
 ---
 
@@ -19,7 +20,7 @@ category: project
 
 API 是別的工程師在處理，我就專注在會員相關的功能上。
 
-## 技術選型考量
+## 技術架構與使用心得
 
 專案使用 **Nuxt 3** 搭配 **Tailwind CSS**，這些技術不是我決定的，但用下來覺得蠻適合這種需要 SEO 的政府網站。Nuxt 3 的 SSR 機制讓搜尋引擎可以正確抓取頁面內容，這對藝術品的曝光來說很重要。
 

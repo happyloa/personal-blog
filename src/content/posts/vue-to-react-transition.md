@@ -2,7 +2,7 @@
 title: 從 Vue 跳到 React 的開發心得 — 兩個框架的差異與轉換經驗
 description: 我從 Vue 開始做前端，接觸 React 後重新適應 JSX、state 更新和 Effect，用程式碼對照兩邊的寫法與容易誤會的地方。
 date: 2024-08-20
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -180,6 +180,8 @@ async function Page() {
 ```
 
 這一點是從 Nuxt 過來最容易踩的坑：`useFetch("/api/posts")` 在 Nuxt 裡不管跑在伺服器還是瀏覽器都能正常運作，但 Next.js 的 Server Component 沒有這層包裝。
+
+上面的寫法適用於 `/api/posts` 在外部後端的情況。如果它是同一個 Next.js 專案裡的 Route Handler，Server Component 應該直接呼叫讀取資料的函式（例如 `const posts = await getPosts()`），不要再透過 HTTP 打自己的 API。如果頁面在建置時預先渲染，打自己的 Route Handler 會讓建置失敗，因為建置期間沒有伺服器在監聽；隨請求渲染時，也會多一趟網路往返。
 
 ## 狀態管理工具
 

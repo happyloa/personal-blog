@@ -2,7 +2,7 @@
 title: Figma to Code 工作流程分享
 description: 我會如何整理 Figma 的色票、字體、元件與互動狀態，再對應到 Vue、TypeScript 和 Tailwind，並和設計師同步修改。
 date: 2023-06-20
-updated: 2026-07-28
+updated: 2026-11-13
 category: tech-deep-dive
 ---
 
@@ -106,7 +106,7 @@ module.exports = {
       colors: {
         primary: {
           // primary 是全新的色票名稱，沒有預設值可繼承，用到哪一階就要定義哪一階；
-          // 少定義 50，下面 outline 樣式的 hover:bg-primary-50 就不會生成任何 CSS。
+          // 少定義 50，下面 outline 樣式的 hover:enabled:bg-primary-50 就不會生成任何 CSS。
           // （在 extend 底下擴充「既有」色票如下面的 gray 則是深層合併，
           //   預設的 gray-300~900 仍然可用，所以後面才能寫 text-gray-800。）
           50: "#EFF6FF",
@@ -159,12 +159,14 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const buttonClasses = computed(() => {
-  const base = "font-medium rounded-lg transition-colors";
+  const base =
+    "font-medium rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 
   const variants = {
-    primary: "bg-primary-500 text-white hover:bg-primary-600",
-    secondary: "bg-gray-100 text-gray-800 hover:bg-gray-200",
-    outline: "border border-primary-500 text-primary-500 hover:bg-primary-50",
+    primary: "bg-primary-500 text-white hover:enabled:bg-primary-600",
+    secondary: "bg-gray-100 text-gray-800 hover:enabled:bg-gray-200",
+    outline:
+      "border border-primary-500 text-primary-500 hover:enabled:bg-primary-50",
   };
 
   const sizes = {
@@ -183,6 +185,8 @@ const buttonClasses = computed(() => {
   </button>
 </template>
 ```
+
+Figma 裡的 disabled 狀態也要對應到程式碼：`disabled:` 讓停用的按鈕變淡、游標換成禁止符號；hover 樣式寫成 `hover:enabled:`，只在按鈕可用時套用，停用時滑過去就不會變色（`enabled` 變體需要 Tailwind v3.1 以上）。
 
 TypeScript 會在型別檢查時提醒 variant 和 size 是否符合定義。不過，API 或使用者輸入的資料仍需要執行時驗證，型別宣告本身不會擋下錯誤資料。
 

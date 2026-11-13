@@ -2,6 +2,7 @@
 title: API 請求卡住怎麼辦？聊聊 Timeout、Retry 與 Circuit Breaker
 description: API 遲遲沒有回應時，如何限制等待、判斷能否重試，以及暫停對故障服務的呼叫？整理 Timeout、Backoff 與 Circuit Breaker 的用途和實作限制。
 date: 2026-02-03
+updated: 2026-11-13
 category: tech-deep-dive
 ---
 
@@ -11,13 +12,15 @@ category: tech-deep-dive
 
 ## 問題在哪？
 
-想像一個情境：你的前端呼叫了一個第三方 API（比如金流、物流、或是某個資料服務），結果對方的伺服器卡住了，既不回傳成功，也不回傳失敗，就這樣 Hanging 在那邊。
+想像一個情境：你的後端服務呼叫了一個第三方 API（比如金流、物流、或是某個資料服務），結果對方的伺服器卡住了，既不回傳成功，也不回傳失敗，就這樣 Hanging 在那邊。
 
 如果你沒有任何防護措施，會發生什麼事？
 
 1. **使用者一直等**：畫面一直轉圈，使用者不知道發生什麼事
 2. **資源被佔用**：等待中的請求可能佔用連線、記憶體或其他資源，具體影響取決於架構；非同步等待不一定會卡住一條執行緒
 3. **連鎖反應**：一個服務卡住，可能拖垮整個系統
+
+前端呼叫 API 時，同樣需要 Timeout 和有限次數的重試。斷路器則多半放在伺服器端，用來保護連線這類共用資源，避免一個服務的故障拖累其他服務。扣款這類要用到商家私密金鑰的請求，也一定要由後端送出。
 
 處理這些情況時，可以從等待上限、重試條件，以及持續故障時要不要停止呼叫來安排「韌性」（Resilience）機制。
 
@@ -60,7 +63,7 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 5000) {
 - **複雜查詢或報表**：10-30 秒
 - **檔案上傳**：視檔案大小而定，可能需要更長
 
-這些時間只是起始參考，還要看服務的正常延遲、使用者願意等多久，以及整個操作的時間上限。也要分清楚「前端停止等待」和「伺服器取消處理」：前者不代表後者一定發生。
+這些時間只是起始參考，還要看服務的正常延遲、使用者願意等多久，以及整個操作的時間上限。也要分清楚「呼叫端停止等待」和「伺服器取消處理」：前者不代表後者一定發生。
 
 ## 第二道防線：Retry with Backoff（重試機制）
 
@@ -126,7 +129,7 @@ function sleep(ms) {
 
 ## 第三道防線：Circuit Breaker（斷路器）
 
-Circuit Breaker 的靈感來自電路的保險絲。電流異常時，保險絲會斷開；服務持續失敗時，斷路器則暫停呼叫，保護系統資源。
+Circuit Breaker 的名稱來自電路中的斷路器（無熔絲開關）。電流異常時，斷路器會跳脫、切斷電路，排除問題後可以復歸再用，不像保險絲燒斷就得更換。軟體的斷路器借用這個概念，服務持續失敗時先暫停呼叫，保護系統資源；不同的是，它會自動試探服務是否恢復，再決定要不要回到正常狀態。
 
 ### 為什麼需要 Circuit Breaker？
 
@@ -209,15 +212,15 @@ const paymentBreaker = new CircuitBreaker({
   resetTimeout: 30000,
 });
 
-async function processPayment(data) {
+// idempotencyKey 由呼叫端在建立付款嘗試時產生並保存，例如 crypto.randomUUID()
+async function processPayment(data, idempotencyKey) {
   return paymentBreaker.call(() =>
     fetchWithRetry("https://api.payment.com/charge", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 用 orderId 當 Idempotency Key：同一筆訂單就算被重試多次，
-        // 伺服器端也能辨識出是同一筆請求，回傳原本的結果而不會重複扣款
-        "Idempotency-Key": data.orderId,
+        // 這次付款嘗試的每次重送，都帶同一把 key
+        "Idempotency-Key": idempotencyKey,
       },
       body: JSON.stringify(data),
     }),
@@ -225,20 +228,23 @@ async function processPayment(data) {
 }
 ```
 
-像扣款這種非冪等（non-idempotent）操作，重試前務必確認 API 支援 Idempotency Key，否則 Timeout 後重試可能造成重複扣款。上面範例帶上 `Idempotency-Key`，讓伺服器端能辨識重複請求。
+像扣款這種非冪等（non-idempotent）操作，重試前務必確認 API 支援 Idempotency Key，否則 Timeout 後重試可能造成重複扣款。上面範例的 key 代表一次付款嘗試，這次嘗試的每次重送都帶同一把 key。這把 key 還在伺服器的保存期限內時，伺服器就能認出是同一個請求，回傳先前的結果，不會重複扣款。不過原請求還在處理時就重送，可能會收到衝突錯誤（例如 409），要稍後再查詢結果或重試。
+
+如果直接拿 `orderId` 當 key，使用者第一次刷卡被拒、換卡重付同一筆訂單時，會撞到同一把 key，可能拿到上次的拒絕結果，或因為內容不同而被拒絕。所以換卡或重新付款時，要建立新的付款嘗試，並產生新的 key。
 
 ## 實務上的整合
 
-整合時，先限制每次請求的等待時間，失敗後依條件重試；服務持續故障時，斷路器會暫停新的呼叫。下面用流程圖整理它們各自處理的情況：
+整合時，先限制每次請求的等待時間，失敗後依條件重試；服務持續故障時，斷路器會暫停新的呼叫。照前面 `processPayment` 的寫法，斷路器包在最外層，請求送出前會先檢查它的狀態：
 
 ```mermaid
 flowchart LR
-    A["發出請求"] --> B["Timeout<br/>單次請求不會無限等待"]
-    B -->|"超時"| C["Retry with Backoff<br/>暫時性失敗自動恢復"]
-    C -->|"連續失敗"| D["Circuit Breaker<br/>持續故障時快速失敗"]
-    B -->|"成功"| E["回傳結果"]
-    C -->|"重試成功"| E
-    D -->|"熔斷開啟"| F["快速失敗<br/>保護系統"]
+    A["發出請求"] --> D{"Circuit Breaker<br/>檢查狀態"}
+    D -->|"Open 且未到恢復時間<br/>或 Half-Open 已有試探在進行"| F["快速失敗<br/>不送出請求"]
+    D -->|"Closed<br/>或 Half-Open 試探"| B["送出請求<br/>Timeout 限制等待"]
+    B -->|"超時、網路錯誤或 5xx"| C["Retry with Backoff<br/>等待後再試"]
+    C -->|"還有次數"| B
+    C -->|"次數用盡"| G["回傳錯誤<br/>斷路器記一次失敗<br/>達門檻就跳開"]
+    B -->|"收到回應（非 5xx）"| E["回傳結果<br/>斷路器回到 Closed"]
 ```
 
 如果你用的是 Node.js，可以考慮使用現成的套件：

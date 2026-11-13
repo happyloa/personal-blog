@@ -2,7 +2,7 @@
 title: Nuxt 3 JWT 身份驗證實作筆記 — 搭配 Pinia 與 Cookie 管理登入狀態
 description: 實作筆記：如何在 Nuxt 3 專案中用 Pinia 搭配 Cookie 管理 JWT 登入狀態，並處理 SSR 時的登入狀態同步問題。
 date: 2025-03-05
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -63,7 +63,8 @@ export const useAuthStore = defineStore("auth", () => {
     // 正式環境建議改用短效 access token（幾小時內）+ refresh token，並實作換發機制
     maxAge: 60 * 60 * 24 * 7, // 7 天
     secure: true,
-    sameSite: "strict",
+    // 用 strict 的話，從其他網站點連結進站時不會帶這顆 cookie，SSR 會誤判成未登入
+    sameSite: "lax",
   });
 
   const user = ref<User | null>(null);
@@ -91,6 +92,8 @@ export const useAuthStore = defineStore("auth", () => {
 ```
 
 用 `useCookie` 的好處是它在 SSR 和 CSR 都能用。Server 端 render 時會從 request header 讀 cookie，client 端就讀 document.cookie，不用自己處理這些差異。
+
+`sameSite` 設成 `lax`，是因為 SSR 也要靠這顆 cookie 判斷登入狀態。如果設成 `strict`，使用者從其他網站或網頁版信箱點連結進入 `/dashboard`，這個請求不會帶上 cookie，後面的 auth middleware 在伺服器端讀不到 token，就會把已登入的使用者導向 `/login`。`lax` 會在這種從外站點進來的 GET 導覽帶上 cookie，但其他網站發出的 POST 或 `fetch` 請求不會帶。這份範例的 API 只看 `Authorization` header，這個 header 由前端程式加上，瀏覽器不會替跨站請求自動附加，所以改用 `lax` 不會讓 API 多出 CSRF 風險。
 
 ## 自動帶上 Token
 

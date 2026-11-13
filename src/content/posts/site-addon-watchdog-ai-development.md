@@ -2,6 +2,7 @@
 title: 用 AI 開發 WordPress 安全外掛 — Site Add-on Watchdog 開發分享
 description: 記錄 Site Add-on Watchdog 的開發過程：比對已知外掛漏洞、發送 Webhook 通知、安排 WP-Cron，以及 AI 協助的部分。
 date: 2025-12-15
+updated: 2026-11-13
 category: project
 ---
 
@@ -96,7 +97,7 @@ AI 可能產生看似合理卻有錯的程式碼，我得先理解邏輯、確�
 
 ## 結語
 
-Site Add-on Watchdog 已經上架到 WordPress 官方外掛庫了，歡迎有需要的人下載使用。有任何問題或建議也歡迎回報。
+Site Add-on Watchdog 已在 2025 年 12 月 22 日上架 WordPress 官方外掛庫，歡迎有需要的人下載使用。有任何問題或建議也歡迎回報。
 
 ---
 

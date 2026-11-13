@@ -2,7 +2,7 @@
 title: Vue i18n 多語系網站開發實作 — 從設定到維護的經驗分享
 description: 從航運公司中英文網站的經驗，整理 Vue i18n 的註冊、語言切換、插值、複數與日期格式，也留意翻譯檔案和多語系 SEO。
 date: 2022-02-15
-updated: 2026-07-28
+updated: 2026-11-13
 category: learning
 ---
 
@@ -96,8 +96,7 @@ const switchLanguage = (lang) => {
 </script>
 ```
 
-（純 Vue 專案沒有 auto-import，`useI18n` 一定要自己 import；如果是 Nuxt 搭配
-`@nuxtjs/i18n`，這行才可以省略。）
+（純 Vue 專案預設沒有 auto-import，`useI18n` 要自己 import；如果另外裝了 `unplugin-auto-import`，並在 `imports` 設定加入 `vue-i18n` preset，或是 Nuxt 搭配 `@nuxtjs/i18n`，這行就可以省略。）
 
 ## 語言切換的 UI
 
@@ -231,12 +230,14 @@ HTML 標籤要加上正確的語言屬性：
 
 **hreflang 標籤**
 
-告訴搜尋引擎這個頁面有其他語言版本：
+告訴搜尋引擎這個頁面有其他語言版本。前提是每個語言版本都有自己的網址，例如下面的 `/zh-TW/about` 和 `/en/about`；每個版本的頁面都要放上同一組標籤，列出所有語言版本，包含自己：
 
 ```html
 <link rel="alternate" hreflang="zh-TW" href="https://example.com/zh-TW/about" />
 <link rel="alternate" hreflang="en" href="https://example.com/en/about" />
 ```
+
+前面的語言切換只改 `locale`，再存進 localStorage，網址不會變。爬蟲抓頁面時沒有使用者存下的語言設定，在同一個網址上通常只會看到預設語言。要做多語系 SEO，語系要改由路由決定，例如在 Vue Router 的路徑前面加上 `/:locale`，或使用 `@nuxtjs/i18n` 的 `prefix`、`prefix_except_default` 策略，讓 `locale` 跟著網址同步。localStorage 只用來記住使用者上次選的語言。
 
 ## 實務經驗
 

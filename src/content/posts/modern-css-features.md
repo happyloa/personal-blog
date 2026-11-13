@@ -2,6 +2,7 @@
 title: 你可能還不知道的現代 CSS 功能 — Nesting、:has() 與 @container
 description: 用卡片與表單的例子，認識原生 CSS Nesting、:has() 與尺寸容器查詢，也留意它們和 SCSS、Media Query 的差別。
 date: 2026-02-18
+updated: 2026-11-13
 category: learning
 ---
 
@@ -41,6 +42,8 @@ CSS 這幾年新增了不少實用功能，有些寫法以前得靠 SASS/SCSS，
 
 它不需要編譯器，瀏覽器可以直接解析，也能減少重複寫 selector，讓樣式的層次比較清楚。
 
+上面 SCSS 那段的 `.title` 其實不加 `&` 也是合法的原生寫法，`&` 主要用在 `&:hover` 這種要接在父選擇器上的情況。不能照搬的是 BEM 常見的字串串接，例如 `&__title`、`&--active`。原生巢狀沒有字串串接，`&__title` 會被解析成 `&` 後面接一個型別選擇器；型別選擇器必須寫在最前面，這條巢狀規則因此整個失效。另外，原生 `&` 計算 specificity 的方式類似 `:is()`，會取父選擇器清單中最高的權重，結果可能和 SCSS 編譯出來的不同。
+
 ## 2. 父層選擇器 :has()
 
 過去我們可以從父層選取子層（Parent > Child），卻無法反過來依子層條件選取父層（Child < Parent）。
@@ -54,13 +57,13 @@ CSS 這幾年新增了不少實用功能，有些寫法以前得靠 SASS/SCSS，
   grid-template-columns: 1fr 1fr;
 }
 
-/* HTML: <input id="x"><label for="x">...</label> */
+/* HTML: <input type="checkbox" id="x"><label for="x">...</label> */
 /* 如果 input 被勾選了，就把緊接在後面的 label 變紅色 */
 input:checked + label {
   color: red;
 }
 
-/* HTML: <label>...</label><input id="x">（label 在前、input 在後時）*/
+/* HTML: <label for="x">...</label><input type="checkbox" id="x">（label 在前、input 在後時）*/
 /* :has() 讓我們終於能「往前選取」：根據後面兄弟元素的狀態，反過來選取前面的元素 */
 label:has(+ input:checked) {
   color: red;
