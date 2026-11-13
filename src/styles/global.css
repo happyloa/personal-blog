@@ -800,12 +800,35 @@
     }
   }
 
-  .surface {
-    @apply rounded-lg border border-border-soft bg-surface;
+  /* 文章頁頂端的閱讀進度條（ReadingProgress.astro）。放在全站樣式表，
+     免得為了這幾行規則，文章頁多下載一個獨立的 CSS 檔。 */
+  .reading-progress {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: 3px;
+    pointer-events: none;
   }
 
-  .surface-hover {
-    @apply transition-colors hover:border-muted hover:bg-surface-soft;
+  .reading-progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress {
+      display: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .reading-progress span {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
   }
 
   .eyebrow {

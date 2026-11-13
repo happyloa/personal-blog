@@ -1,12 +1,9 @@
 ---
-interface Heading {
-  depth: number;
-  slug: string;
-  text: string;
-}
+import type { MarkdownHeading } from "astro";
+import TocList from "./TocList.astro";
 
 interface Props {
-  headings: Heading[];
+  headings: MarkdownHeading[];
   variant: "desktop" | "mobile";
 }
 
@@ -24,38 +21,14 @@ const filteredHeadings = headings.filter(
           ON THIS PAGE
         </p>
         <p class="toc-heading">本篇目錄</p>
-        <ol>
-          {filteredHeadings.map((heading) => (
-            <li class:list={[{ "toc-nested": heading.depth === 3 }]}>
-              <a
-                href={`#${heading.slug}`}
-                class="toc-link"
-                data-slug={heading.slug}
-              >
-                {heading.text}
-              </a>
-            </li>
-          ))}
-        </ol>
+        <TocList headings={filteredHeadings} />
       </nav>
     </aside>
   ) : (
     <details class="toc-mobile">
       <summary>本篇目錄</summary>
       <nav aria-label="本篇目錄">
-        <ol>
-          {filteredHeadings.map((heading) => (
-            <li class:list={[{ "toc-nested": heading.depth === 3 }]}>
-              <a
-                href={`#${heading.slug}`}
-                class="toc-link"
-                data-slug={heading.slug}
-              >
-                {heading.text}
-              </a>
-            </li>
-          ))}
-        </ol>
+        <TocList headings={filteredHeadings} />
       </nav>
     </details>
   ))}

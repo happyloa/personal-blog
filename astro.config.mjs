@@ -73,7 +73,9 @@ export default defineConfig({
     },
   },
   build: {
-    inlineStylesheets: "auto",
+    // "auto" 的內嵌門檻沿用 vite.build.assetsInlineLimit，上面設成 0 之後，
+    // "auto" 實際上不會內嵌任何樣式表。直接寫 "never"，讓設定和實際行為一致。
+    inlineStylesheets: "never",
   },
   compressHTML: true,
   prefetch: {
