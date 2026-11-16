@@ -22,7 +22,7 @@ v4 把預設的配置方式從 JavaScript 設定檔換成了 CSS 變數。舊的
 
 ## 全新的配置方式
 
-以前我們要定義顏色、斷點，都要去 `tailwind.config.js` 改。現在，直接在 CSS 檔裡用 `@theme` 區塊定義：
+以前我們要定義顏色、斷點，都要去 `tailwind.config.js` 改。現在可以直接在 CSS 檔裡用 `@theme` 區塊定義：
 
 ```css
 @import "tailwindcss";
@@ -44,7 +44,7 @@ v4 把預設的配置方式從 JavaScript 設定檔換成了 CSS 變數。舊的
 
 ## 任意值語法與 CSS 運算
 
-其實方括號任意值語法（例如 `w-[350px]`）與其中的 **CSS 運算**（`calc()`），從 2021 年推出的 JIT 引擎就開始支援了：v2.1 用 `mode: "jit"` 選用，v3 起 JIT 成為預設引擎。
+其實方括號任意值語法（例如 `w-[350px]`）與其中的 CSS 運算（`calc()`），從 2021 年推出的 JIT 引擎就開始支援了：v2.1 用 `mode: "jit"` 選用，v3 起 JIT 成為預設引擎。
 
 ```html
 <div class="w-[calc(100%-20px)] bg-brand-primary/50">...</div>
@@ -54,7 +54,7 @@ v4 把預設的配置方式從 JavaScript 設定檔換成了 CSS 變數。舊的
 
 v4 也讓不少 utility 直接接受動態數值，例如 `w-17`、`grid-cols-15`，不必再寫成方括號的任意值。原本的任意值則有兩處寫法要改：CSS 變數簡寫從 `bg-[--brand-color]` 改成 `bg-(--brand-color)`；`grid-cols-*`、`grid-rows-*`、`object-*` 的任意值不再把逗號轉成空格，要改用底線，例如 `grid-cols-[max-content_auto]`。
 
-## 容器查詢（Container Queries）正式轉正
+## 容器查詢（Container Queries）正式內建
 
 以前要用 `@tailwindcss/container-queries` 外掛，現在直接內建：
 
@@ -74,7 +74,7 @@ v4 增加了對 3D 屬性的支援：
 <div class="transform-3d rotate-x-12 rotate-y-24">...</div>
 ```
 
-這類旋轉可以直接用 class 組合，也仍能按需求自己寫 `transform: rotateX(...)`。
+這類旋轉可以直接用 class 組合，需要時也能自己寫 `transform: rotateX(...)`。
 
 ## 升級指南
 
@@ -86,7 +86,7 @@ v4 增加了對 3D 屬性的支援：
 npx @tailwindcss/upgrade
 ```
 
-工具會協助更新依賴、搬移設定與調整模板，但執行完還要看 diff、建置專案，並打開實際頁面確認。尤其要留意 border 的預設顏色、ring 的寬度，以及 shadow、rounded 等 utility 的命名調整；程式沒有報錯，畫面也可能和 v3 不同。
+工具會協助更新相依套件、搬移設定與調整模板，但執行完還要看 diff、建置專案，並打開實際頁面確認。尤其要留意 border 的預設顏色、ring 的寬度，以及 shadow、rounded 等 utility 的命名調整；程式沒有報錯，畫面也可能和 v3 不同。
 
 PostCSS 與 CLI 的整合套件也有變動，不能只轉換 `tailwind.config.js` 就算完成。遷移時可以逐項對照[官方升級指南](https://tailwindcss.com/docs/upgrade-guide)。
 

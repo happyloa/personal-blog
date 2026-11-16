@@ -48,7 +48,7 @@ Cookie: session_id=k3J9xQ2mZp
 
 Cookie 本身只是「一小段會被自動帶上的資料」。裡面放 Session ID、JWT 還是語言偏好，是網站自己決定的。它的屬性和傳送規則可以對照 [MDN 的 Set-Cookie 說明](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie)。
 
-「自動帶上」是它方便的地方，後面談 CSRF 時也會看到，這同時是它的弱點。
+「自動帶上」是它方便的地方，也是它的弱點，後面談 CSRF 時會看到。
 
 ## Session：資料放伺服器，客戶端只拿編號
 
@@ -161,11 +161,11 @@ token 由程式自己放進 `Authorization` 標頭時，別的網站沒辦法讓
 這題沒有固定答案，我會先看系統的樣子：
 
 - 伺服器直接產生頁面的網站，例如一般的 Laravel 專案：用框架內建的 Session 加 Cookie 就好，登出和權限變更都即時，CSRF 防護框架也有。
-- 前後端分離、但前端和 API 在同一個網站底下：一樣可以用 `HttpOnly` Cookie。Laravel Sanctum 的 SPA 驗證就是這樣做的，[官方文件](https://laravel.com/framework/docs/13.x/sanctum#spa-authentication)說這個模式不使用任何 token，而是沿用 Laravel 內建的 Cookie Session，所以前端一樣要照文件處理 CSRF token。
+- 前後端分離、但前端和 API 在同一個網站底下：一樣可以用 `HttpOnly` Cookie。Laravel Sanctum 的 SPA 驗證就是這樣做的，[官方文件](https://laravel.com/framework/docs/13.x/sanctum#spa-authentication)說這個模式沿用 Laravel 內建的 Cookie Session，不使用任何 token，所以前端一樣要照文件處理 CSRF token。
 - 手機 App 或給第三方呼叫的 API：沒有瀏覽器幫忙管 Cookie，通常發 token，放在 `Authorization` 標頭。
 - 多個服務要共用登入狀態：短效的 JWT 可以讓各服務自己驗證，不必都去查同一個 Session 儲存區，再另外安排換發和撤銷。
 
-選之前我會先問幾件事：需不需要立刻登出或收回權限？客戶端是不是只有瀏覽器？前端和 API 是不是同一個網站？答案不同，合適的搭配也不同。
+選之前我會先問幾件事：需不需要立刻登出或收回權限？客戶端是不是只有瀏覽器？前端和 API 是不是同一個網站？
 
 ## 站內相關文章
 

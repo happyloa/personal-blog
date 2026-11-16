@@ -13,7 +13,7 @@ category: learning
 
 Windows 桌面版的 Outlook 從 2007 年開始，改用 Word 的引擎來解析和顯示 HTML 信件。[Microsoft 當年的技術文件](<https://learn.microsoft.com/en-us/previous-versions/office/developer/office-2007/aa338201(v=office.12)>)寫得很直接：Outlook 2007 使用 Word 2007 的 HTML 解析與排版引擎，Word 支援哪些 HTML 和 CSS，Outlook 就支援哪些。
 
-Word 是文書處理軟體，它的排版模型是為了紙本文件設計的，對 CSS 的支援停在很早期的範圍。所以在這個版本的 Outlook 裡，信件比較像「被貼進 Word 的網頁」。
+Word 是文書處理軟體，它的排版模型是為了紙本文件設計的，對 CSS 的支援停留在很早期的程度。所以在用 Word 引擎的 Outlook 裡，信件比較像「被貼進 Word 的網頁」。
 
 要注意的是，「Outlook」其實有好幾種，排版引擎不一樣：
 
@@ -128,7 +128,7 @@ Word 引擎認得一種條件註解，可以包住只給 Outlook 看的內容：
 
 對其他信箱來說，`<!--[if mso]> ... <![endif]-->` 只是一段 HTML 註解，會被略過，所以它們看到的是那個用 `max-width` 置中的 `<div>`。Windows 桌面版 Outlook 則會把註解裡的 table 當成真的標記，等於幫內容多包了一層 600px 寬的表格。
 
-這樣就能讓支援新寫法的信箱照新的來，Outlook 另外用 table 補上。
+這樣支援新寫法的信箱照新的來，Outlook 則另外用 table 補上。
 
 <details>
 <summary>補充：按鈕、圖片與字型</summary>

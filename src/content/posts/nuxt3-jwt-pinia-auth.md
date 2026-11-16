@@ -8,7 +8,7 @@ category: learning
 
 最近幾個專案都有會員系統的需求，也用了好幾次 JWT 驗證。以下整理我在 Nuxt 3 中的實作方式，以及處理登入狀態時要注意的細節。
 
-範例以 Nuxt 3、已啟用 `@pinia/nuxt` 的專案為前提，fetch hook 使用 ofetch 1.4 以上的 `Headers` 行為。`User` 與 `LoginCredentials` 是專案自己的型別，登入 API 的回傳格式假設為 `{ token, userData }`，實作時要依後端規格調整。Cookie 設了 `secure: true`，本機驗證也應使用 HTTPS 或確認開發環境的 cookie 設定。
+範例以 Nuxt 3、已啟用 `@pinia/nuxt` 的專案為前提，fetch hook 以 ofetch 1.4 以上的 `Headers` 行為為準。`User` 與 `LoginCredentials` 是專案自己的型別，登入 API 的回傳格式假設為 `{ token, userData }`，實作時要依後端規格調整。Cookie 設了 `secure: true`，本機驗證也應使用 HTTPS 或確認開發環境的 cookie 設定。
 
 ## JWT 是什麼
 
@@ -93,7 +93,7 @@ export const useAuthStore = defineStore("auth", () => {
 
 用 `useCookie` 的好處是它在 SSR 和 CSR 都能用。Server 端 render 時會從 request header 讀 cookie，client 端就讀 document.cookie，不用自己處理這些差異。
 
-`sameSite` 設成 `lax`，是因為 SSR 也要靠這顆 cookie 判斷登入狀態。如果設成 `strict`，使用者從其他網站或網頁版信箱點連結進入 `/dashboard`，這個請求不會帶上 cookie，後面的 auth middleware 在伺服器端讀不到 token，就會把已登入的使用者導向 `/login`。`lax` 會在這種從外站點進來的 GET 導覽帶上 cookie，但其他網站發出的 POST 或 `fetch` 請求不會帶。這份範例的 API 只看 `Authorization` header，這個 header 由前端程式加上，瀏覽器不會替跨站請求自動附加，所以改用 `lax` 不會讓 API 多出 CSRF 風險。
+`sameSite` 設成 `lax`，是因為 SSR 也要靠這顆 cookie 判斷登入狀態。如果設成 `strict`，使用者從其他網站或網頁版信箱點連結進入 `/dashboard`，這個請求不會帶上 cookie，後面的 auth middleware 在伺服器端讀不到 token，就會把已登入的使用者導向 `/login`。`lax` 會在這種從外站連進來的 GET 導覽帶上 cookie，但其他網站發出的 POST 或 `fetch` 請求不會帶。這份範例的 API 只看 `Authorization` header，這個 header 由前端程式加上，瀏覽器不會替跨站請求自動附加，所以改用 `lax` 不會讓 API 多出 CSRF 風險。
 
 ## 自動帶上 Token
 
@@ -197,11 +197,11 @@ export default defineNuxtPlugin(async () => {
 
 ## 實務經驗
 
-做過幾個專案後，有一些經驗：
+做過幾個專案後，整理出幾點經驗：
 
 1. **Token 不要存敏感資訊**：JWT 的 payload 只是 base64 編碼，不是加密，任何人都能解開來看
 
-2. **useCookie 存 token 一樣有 XSS 風險**：範例裡的 `auth_token` cookie 沒有設定 `httpOnly`，因為前端還要用 `authStore.token` 組出 `Authorization` header，架構上本來就無法設成 httpOnly。也就是說網站一旦被注入惡意 script，這顆 cookie 照樣能被讀走，風險其實跟存在 localStorage 差不多，只是多了「SSR 或重新整理頁面時不用等 client 端恢復」的方便。如果前後端在同一個網域，更安全的做法是讓後端直接發 httpOnly Cookie，前端不主動讀 token，改由 Server 端轉發 API 請求
+2. **useCookie 存 token 一樣有 XSS 風險**：範例裡的 `auth_token` cookie 沒有設定 `httpOnly`，因為前端還要用 `authStore.token` 組出 `Authorization` header，架構上本來就無法設成 httpOnly。也就是說網站一旦被注入惡意 script，這顆 cookie 照樣能被讀走，風險其實跟存在 localStorage 差不多，只是 SSR 或重新整理頁面時不用等 client 端恢復，這點比較方便。如果前後端在同一個網域，更安全的做法是讓後端直接發 httpOnly Cookie，前端不主動讀 token，改由 Server 端轉發 API 請求
 
 3. **設定合理的過期時間**：依資料敏感程度和登入需求決定，不要把某個時長當成通用標準。需要延長登入時，可以搭配 refresh token 與撤銷機制；本文的單一長效 token 是簡化範例，不宜直接套用到正式系統
 
@@ -213,7 +213,7 @@ Cookie 的傳送方式、有效期限和安全屬性，可以對照 [OWASP 的 S
 
 ## 結語
 
-Cookie + Pinia 是 Nuxt 3 專案中常見的登入狀態管理方式：Cookie 保存 token，Pinia 讓全站存取狀態，也能配合 SSR 恢復登入資訊。實作時仍要留意前面提到的 XSS 風險、token 過期與登出清除，不能只確認畫面顯示已登入。
+Cookie + Pinia 是 Nuxt 3 專案中常見的登入狀態管理方式：Cookie 保存 token，Pinia 讓全站共用狀態，也能配合 SSR 恢復登入資訊。實作時仍要留意前面提到的 XSS 風險、token 過期與登出清除，不能只看畫面顯示已登入就當作沒問題。
 
 ---
 

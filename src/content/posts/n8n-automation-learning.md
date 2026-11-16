@@ -22,7 +22,7 @@ category: learning
 
 你可以在視覺介面中連接節點（node），組成自動化流程。每個節點負責一件事，資料沿著連線交給下一步處理。
 
-拿前面提到的粉專客服來說，我實際做的時候，核心是一個 [**AI Agent 節點**](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/)，再把幾個工具串接給它。流程概念大概長這樣：
+拿前面提到的粉專客服來說，我實際做的時候，核心是一個 [AI Agent 節點](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/)，再把幾個工具串接給它。流程概念大概長這樣：
 
 ```mermaid
 flowchart LR

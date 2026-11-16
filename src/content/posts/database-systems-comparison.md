@@ -5,7 +5,7 @@ date: 2026-10-07
 category: tech-deep-dive
 ---
 
-做離線筆記，我不太想為了存幾篇文字再架一台資料庫伺服器；換成購物網站，就得考慮訂單、商品和會員怎麼互相對照。需求換了，選型也會跟著變。
+做離線筆記，我不太想為了存幾篇文字再架一台資料庫伺服器；換成購物網站，就得考慮訂單、商品和會員怎麼互相對照。
 
 前一篇[資料庫規劃筆記](/posts/database-planning-interview-notes/)用 PostgreSQL 談搶票與交易。接著想看看：換成 MySQL，SQL 能直接搬嗎？MongoDB、SQLite 或 Cloudflare D1 又適合用在哪裡？SQL Server 也一起放進來比較，下面簡稱 MSSQL，PostgreSQL 則簡稱 PG。
 
@@ -78,7 +78,7 @@ ORDER BY id
 LIMIT 10 OFFSET 20;
 ```
 
-SQL Server 把最後一行換成表裡的 `OFFSET ... FETCH`。MongoDB 則使用查詢 API：
+SQL Server 要把最後一行換成上表的 `OFFSET ... FETCH`。MongoDB 則使用查詢 API：
 
 ```javascript
 db.products
@@ -88,7 +88,7 @@ db.products
   .limit(10);
 ```
 
-分頁要有明確排序；很後面的頁碼可能需要掃過大量資料，再評估游標分頁。Upsert 也要有對應的唯一限制或索引，不能只寫「先查沒有，再新增」就忽略同時送來的請求。
+分頁要有明確排序；很後面的頁碼可能需要掃過大量資料，這時可以評估游標分頁。Upsert 也要有對應的唯一限制或索引，不能只寫「先查沒有，再新增」就忽略同時送來的請求。
 
 ## 庫存競爭與 D1 的交易方式
 
@@ -101,11 +101,11 @@ WHERE sku = 'P101' AND stock > 0;
 
 程式必須檢查實際更新筆數，再讓扣庫存和新增訂單一起成功或失敗。PG、MySQL InnoDB、SQLite 和 SQL Server 都支援交易；MongoDB 的單文件更新具原子性，多文件交易則需要 replica set 或 sharded cluster 等部署條件。
 
-D1 由 Cloudflare 管理，透過 Workers binding 或 HTTP API 存取。`batch()` 能依序執行一批 SQL，發生 SQL 錯誤時整批回滾；但「更新了 0 筆」通常不是 SQL 錯誤，缺貨邏輯仍得自己約束，不能以為放進 batch 就完成了交易設計。
+D1 由 Cloudflare 管理，透過 Workers binding 或 HTTP API 存取。`batch()` 能依序執行一批 SQL，發生 SQL 錯誤時整批回滾；但「更新了 0 筆」通常不是 SQL 錯誤，缺貨邏輯仍得自己處理，不能以為放進 batch 就完成了交易設計。
 
-D1 的寫入會回主要資料庫，讀取副本的一致性由 Sessions API 管理。它還有容量、查詢時間及讀寫額度限制；Workers binding 不支援 JavaScript `BigInt`，大型 ID 可以用文字欄位，或先 `CAST(id AS TEXT)` 再讀回。已有 PG 或 MySQL 的專案，也可以評估 Hyperdrive，讓 Workers 連接原本的資料庫。
+D1 的寫入會送到主要資料庫，讀取副本的一致性由 Sessions API 管理。它還有容量、查詢時間及讀寫額度限制；Workers binding 不支援 JavaScript `BigInt`，大型 ID 可以用文字欄位，或先 `CAST(id AS TEXT)` 再讀回。已有 PG 或 MySQL 的專案，也可以評估 Hyperdrive，讓 Workers 連接原本的資料庫。
 
-選好之後，還是得拿自己的查詢試一次。兩個請求搶最後一件商品，是否只有一筆成功？訂單沒存成，庫存有沒有還原？我也會實際試著還原備份，確認資料真的取得回來。
+選好之後，還是得拿自己的查詢試一次。兩個請求搶最後一件商品，是否只有一筆成功？訂單沒存成，庫存有沒有還原？我也會實際試著還原備份，確認資料真的能取回來。
 
 ## 語法速查與相關資料
 

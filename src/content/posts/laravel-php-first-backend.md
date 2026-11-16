@@ -38,7 +38,7 @@ Laravel 也可以直接產生 HTML，不一定只提供 API。這張圖選的是
 
 ## Vue 與 Laravel 的用途對照
 
-我先拿熟悉的 Vue 概念來理解 Laravel。像 Controller 和事件處理函式都會接住操作，但接下來要負責的事不完全相同。
+我先拿熟悉的 Vue 概念來理解 Laravel。像 Controller 和前端的資料載入函式都會接住操作，但接下來要負責的事不完全相同。
 
 <div class="table-wrapper" tabindex="0" role="group" aria-label="Vue 與 Laravel 觀念對照表（可水平捲動）">
 
@@ -78,11 +78,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/notes', [NoteController::class, 'index']);
 ```
 
-但這裡的意思是：**伺服器收到 `GET /notes` 時，交給 Controller 的 `index` 方法處理。** 方法最後可以回傳 HTML，也可以回傳 JSON。
+但這裡的意思是：伺服器收到 `GET /notes` 時，交給 Controller 的 `index` 方法處理。方法最後可以回傳 HTML，也可以回傳 JSON。
 
-這也是我理解 Laravel 時很重要的轉換：同樣叫路由，Vue Router 著重在前端顯示哪個頁面，Laravel Route 著重在伺服器怎麼處理請求。
+這也是我理解 Laravel 時的一個轉換：同樣叫路由，Vue Router 著重在前端顯示哪個頁面，Laravel Route 著重在伺服器怎麼處理請求。
 
-如果採用前後端分離，可以讓前端 `/notes` 顯示頁面，再向後端 `/api/notes` 取資料。Laravel 的 API 路由需先啟用，預設會加上 `/api` 前綴；不能只看到教學寫 `api.php`，就假設每個新專案都已經有這個檔案。參考 [Laravel 路由文件](https://laravel.com/docs/13.x/routing)。
+如果採用前後端分離，可以讓前端 `/notes` 顯示頁面，再向後端 `/api/notes` 取資料。Laravel 的 API 路由需先啟用，預設會加上 `/api` 前綴；看到教學寫 `api.php`，也別假設每個新專案都已經有這個檔案。參考 [Laravel 路由文件](https://laravel.com/docs/13.x/routing)。
 
 ## 從 template、props 與 slot 理解 Blade
 
@@ -124,7 +124,7 @@ Laravel 的 Blade 是伺服器端模板引擎。假設在 `resources/views/compo
 
 看到這裡就比較有親切感了：元件、輸入資料、插入內容，都是我在 Vue 裡用過的組合方式。
 
-不過，**Blade 的 `{{ $title }}` 是產生 HTML 時輸出資料，不會因此建立 Vue 那樣的響應式綁定。** 頁面到了瀏覽器，若要點按鈕即時修改內容，還需要 JavaScript 或其他互動方案。Blade 本身不會因為伺服器某個 PHP 變數改變，就自動更新已開啟的頁面。參考 [Blade 文件](https://laravel.com/docs/13.x/blade)。
+不過，Blade 的 `{{ $title }}` 是產生 HTML 時輸出資料，不會因此建立 Vue 那樣的響應式綁定。頁面到了瀏覽器，若要點按鈕即時修改內容，還需要 JavaScript 或其他互動方案。Blade 本身不會因為伺服器某個 PHP 變數改變，就自動更新已開啟的頁面。參考 [Blade 文件](https://laravel.com/docs/13.x/blade)。
 
 ## Controller：把「收到請求後要做什麼」集中起來
 
@@ -192,7 +192,7 @@ Eloquent Model 則是 PHP 裡操作資料庫記錄的工具。像 `Note::query()
 
 所以在 Vue 執行 `notes.value.push(newNote)`，只是更新前端陣列。若希望筆記重新整理後還在，就要經過請求、後端驗證與資料庫寫入，再用回傳結果更新畫面。
 
-這也是學後端時要多想的一步：**畫面上已經有資料，跟資料已經成功保存，是兩件需要分別確認的事。**
+這也是學後端時要多想的一步：畫面上已經有資料，跟資料已經成功保存，是兩件需要分別確認的事。
 
 ## PHP 語法先學到能讀懂流程
 

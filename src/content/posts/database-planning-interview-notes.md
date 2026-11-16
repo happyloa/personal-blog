@@ -8,7 +8,7 @@ category: tech-deep-dive
 
 最近在想一些資料庫設計的問題。像是票只剩一張，兩個人同時按下購買，要怎麼避免兩邊都買到？
 
-我一開始想到比送出時間，誰先送，票就給誰。但如果兩邊都已經讀到「還有一張」，然後各自建立訂單，還是可能賣出兩張。
+我一開始想到的是比送出時間，誰先送，票就給誰。但如果兩邊都已經讀到「還有一張」，然後各自建立訂單，還是可能賣出兩張。
 
 另外也查了商品分類和共用付款功能的做法，整理成這份筆記。範例用 PostgreSQL，SQL 就是操作資料庫的指令。
 
@@ -27,7 +27,7 @@ category: tech-deep-dive
 
 金額可以用固定單位的整數或 `numeric`（精確的十進位數值），幣別、單位和四捨五入方式也要訂好，詳見 [PostgreSQL 的數值型別說明](https://www.postgresql.org/docs/current/datatype-numeric.html)。
 
-付款時間、建立時間可以用 `timestamptz` 記錄時間點，按資料庫連線的時區顯示；原本的時區名稱要另外存。詳見 [PostgreSQL 的時間型別說明](https://www.postgresql.org/docs/current/datatype-datetime.html)。時間記得再準，兩個人同時搶票的問題還是要另外處理。
+付款時間、建立時間可以用 `timestamptz` 記錄時間點，按資料庫連線的時區顯示；原本的時區名稱要另外存。詳見 [PostgreSQL 的時間型別說明](https://www.postgresql.org/docs/current/datatype-datetime.html)。時間記錄得再準，兩個人同時搶票的問題還是要另外處理。
 
 </details>
 

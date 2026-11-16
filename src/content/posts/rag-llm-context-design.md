@@ -37,7 +37,7 @@ RAG 是 Retrieval-Augmented Generation，常翻成「檢索增強生成」。拆
 
 **一般應用裡，把文件放進 RAG 知識庫，不會更新回答模型的權重；模型本身的能力不會因此改變。** 權重可以先理解成模型訓練後，內部用來計算輸出的參數。
 
-同一個模型拿到正確資料，表現可能明顯變好，因為它有了作答依據。但如果它原本不擅長判讀複雜的方案條件，接上知識庫也不能保證它突然就能判斷正確。把店家文件更新掉，改變的是之後能查到的資料；下一次沒有把那些內容帶進 context，模型也不會因為上次讀過就永久記住。
+同一個模型拿到正確資料，表現可能明顯變好，因為它有了作答依據。但如果它原本不擅長判讀複雜的方案條件，接上知識庫也不能保證它突然就能判斷正確。更新店家文件，改變的是之後能查到的資料；若下一次沒把那些內容帶進 context，模型也不會因為上次讀過就永久記住。
 
 Fine-tuning，中文叫「微調」，才涉及用訓練資料調整模型參數。它常用來調整特定任務的行為或回答方式，也不能保證模型精確記住所有事實。RAG 和微調可以一起使用，只是「文件上傳成功」本身並不等於完成微調。
 
@@ -133,7 +133,7 @@ RAG 不一定要用向量資料庫。查一個確切的訂單編號，直接用 
 
 ## Context window：模型的桌面有多大
 
-Context window 是「上下文視窗」，可以想成模型這次工作時，桌面能攤開多少資料。容量通常用 token 計算；常見限制需要考慮輸入與輸出，服務也可能另外列出各自的上限。各模型的容量不同，可查 [OpenAI 的模型](https://developers.openai.com/api/docs/models)等官方規格，不能把一百萬 tokens 當成通用大小。
+Context window 是「上下文視窗」，可以想成模型這次工作時，桌面能攤開多少資料。容量通常用 token 計算；輸入與輸出常會一起算進去，服務也可能另外列出各自的上限。各模型的容量不同，可查 [OpenAI 的模型](https://developers.openai.com/api/docs/models)等官方規格，不能把一百萬 tokens 當成通用大小。
 
 桌上放的東西，通常包含：
 
@@ -220,7 +220,7 @@ Output limit 是「輸出上限」，限制最多能產生多少 tokens。模型
 
 我會用同一批問題比較，至少包含一般問法、條件不完整、資料不存在，以及有例外條款的情況。看速度，也看是否根據來源回答、是否漏掉限制。價格較便宜或參數較少，並不保證在你的流程裡一定比較快。
 
-如果介面支援 streaming，「串流輸出」，可以讓顧客較早看到開始生成的文字；整段回答完成的時間仍要另外量。像粉專訊息這種可能要等文字生成完才送出的管道，也得先確認實際支援方式。
+如果介面支援 streaming（串流輸出），顧客可以較早看到開始生成的文字；整段回答完成的時間仍要另外量。像粉專訊息這種可能要等文字生成完才送出的管道，也得先確認實際支援方式。
 
 <div class="table-wrapper" tabindex="0" role="group" aria-label="RAG 回覆速度的調整與取捨（可水平捲動）">
 
@@ -241,7 +241,7 @@ Output limit 是「輸出上限」，限制最多能產生多少 tokens。模型
 
 向量儲存節點也可以直接接成 AI Agent 的工具，讓 Agent 需要時去查；如果每次都確定要搜尋，先檢索再交給模型的固定流程也能用。兩種方式都能做 RAG，不必把它和 Agent 綁在一起。[n8n 的 RAG 文件](https://docs.n8n.io/build/integrate-ai/understand-ai-components/retrieve-relevant-context#querying-your-data)有這兩種用法。
 
-設定時，要確認各節點的 `Limit` 限制的是候選數還是最後結果數，也查看實際輸出。像 [Supabase Vector Store](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoresupabase) 就有檢索、metadata 過濾與 reranking 相關選項，支援範圍以你使用的節點與版本為準。
+設定時，要確認各節點的 `Limit` 限制的是候選數還是最後結果數，也要查看實際輸出。像 [Supabase Vector Store](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoresupabase) 就有檢索、metadata 過濾與 reranking 相關選項，支援範圍以你使用的節點與版本為準。
 
 練習可以用 Simple Vector Store，但它把資料放在記憶體，n8n 重啟後會遺失，而且同一個 instance 的使用者能存取其中資料；[官方文件](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreinmemory)建議只用於開發。正式客服要另外選擇能持久保存、符合資料隔離需求的儲存方式。
 

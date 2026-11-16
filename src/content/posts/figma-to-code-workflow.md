@@ -133,7 +133,7 @@ module.exports = {
 
 這樣 Tailwind 的 class 和 Figma 的 Design Token 就能對應起來。
 
-色票也要和使用情境一起確認。這裡的 primary 按鈕用白字配 `#2563EB`，文字對比約 5.17:1，符合一般文字的 WCAG AA 4.5:1 門檻；hover 的 `#1D4ED8` 更深。較亮的藍色仍可用在裝飾上，但若是小字按鈕，不能只看設計稿覺得顏色好看。可用[文字對比要求](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)檢查正常、hover 與其他狀態。
+色票也要和使用情境一起確認。這裡的 primary 按鈕用白字配 `#2563EB`，文字對比約 5.17:1，符合一般文字的 WCAG AA 4.5:1 門檻；hover 的 `#1D4ED8` 更深。較亮的藍色仍可用在裝飾上，但若是小字按鈕，不能只看設計稿覺得顏色好看。可用[文字對比要求](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)檢查預設、hover 與其他狀態。
 
 > **後記（2026 更新）**：上面是 Tailwind v3 的寫法。v4 起改用 CSS 端的 `@theme` 區塊定義變數，不再需要 `tailwind.config.js`（舊檔仍可透過 `@config` 沿用）。同一套 Design Token 在 v4 的寫法可以參考〈[Tailwind CSS v4 升級指南](/posts/tailwind-v4-upgrade/)〉。
 
@@ -192,7 +192,7 @@ TypeScript 會在型別檢查時提醒 variant 和 size 是否符合定義。不
 
 ### 元件文件化
 
-每個元件的使用方式要記錄下來，可以用 Storybook 或簡單的 Markdown 文件。記錄：
+每個元件的使用方式要記錄下來，可以用 Storybook 或簡單的 Markdown 文件。內容至少包含：
 
 - 支援哪些 props
 - 每個 variant 長什麼樣子
@@ -263,7 +263,7 @@ Icon 通常用 SVG，照片可以匯出成 JPG 或 PNG，再視需要轉成 WebP
 
 ### 和設計師協作
 
-建立共同語言很重要。跟設計師溝通的時候，用一些雙方都懂的詞彙：Padding、Margin、Flexbox、Hover 狀態、Breakpoint。
+跟設計師溝通的時候，要先建立共同語言，用雙方都懂的詞彙：Padding、Margin、Flexbox、Hover 狀態、Breakpoint。
 
 定期同步進度，不要等到全部做完才給設計師看。做完一個區塊就先同步，有問題可以早點發現早點改。
 

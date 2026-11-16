@@ -53,7 +53,7 @@ Wi-Fi 和 4G/5G 提供最後一段的無線連接。以家中 Wi-Fi 為例，無
 
 ### ISP 是什麼？
 
-ISP 的全名是 **Internet Service Provider**（網際網路服務提供商），就是你付錢買網路的那家公司。在台灣最常見的就是**中華電信**、**凱擘**、**遠傳**等。
+ISP 的全名是 **Internet Service Provider**（網際網路服務供應商），就是你付錢買網路的那家公司。在台灣最常見的就是**中華電信**、**凱擘**、**遠傳**等。
 
 ### ISP 做了什麼？
 
@@ -111,7 +111,7 @@ ISP 就是那個讓你的家庭網路「接上」全球網路的中間人。
 
 Google、Amazon、Microsoft 這些大公司在全球各地都有**資料中心（Data Center）**。想像一個巨大的倉庫，裡面放著成千上萬台伺服器，有獨立的供電系統、冷卻系統和安全管制。
 
-你每次搜尋 Google、看 YouTube、滑 Instagram，你的請求最終會被送到這些資料中心裡的某一台伺服器上——不過熱門內容常常會先被鄰近的快取伺服器（CDN／Edge Server）攔下來，不用每次都跑到最遠的機房，詳見〈[CDN 與 Edge Computing](/posts/cdn-edge-computing/)〉一文。
+你每次搜尋 Google、看 YouTube、滑 Instagram，請求最終會被送到這些資料中心裡的某一台伺服器上。不過熱門內容常常會先被鄰近的快取伺服器（CDN／Edge Server）攔下來，不用每次都跑到最遠的機房，詳見〈[CDN 與 Edge Computing](/posts/cdn-edge-computing/)〉一文。
 
 ## Request 和 Response — 寄信和回信
 
@@ -195,7 +195,7 @@ Content-Type: text/html
 
 ### Favicon — 網頁分頁上的小圖示
 
-你有注意過瀏覽器分頁上的小圖示嗎？Google 的分頁上有一個小小的彩色 G、YouTube 有一個紅色播放鍵——這個小圖示叫做 **Favicon**。
+你有注意過瀏覽器分頁上的小圖示嗎？Google 的分頁上有一個小小的彩色 G、YouTube 有一個紅色播放鍵，這種小圖示叫做 **Favicon**。
 
 **Favicon** = **Fav**orite + **Icon**（最愛的圖示）
 
@@ -253,7 +253,7 @@ Content-Type: text/html
 
 網路和快取狀況順利時，畫面可能很快出現，但沒有固定的完成時間。
 
-請求可能跨越半個地球、穿過數千公里的海底電纜，也經過許多路由器和交換機，最後才得到瀏覽器裡的畫面。
+請求可能跨越半個地球、穿過數千公里的海底電纜，也經過許多路由器和交換器，最後才得到瀏覽器裡的畫面。
 
 ## 結語
 

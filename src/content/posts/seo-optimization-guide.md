@@ -13,13 +13,13 @@ category: tech-deep-dive
 
 ### AI Overviews 改變搜尋生態
 
-Google 在 2025 年 7 月 23 日的[第二季財報電話會議](https://abc.xyz/2025-q2-earnings-call)中公布，AI Overviews 已超過每月 20 億用戶。搜尋結果直接顯示答案後，讀者可能不用點進網站就得到資訊；自己的網站是否因此少了流量，還是要看實際數據。
+Google 在 2025 年 7 月 23 日的[第二季財報電話會議](https://abc.xyz/2025-q2-earnings-call)中公布，AI Overviews 的每月用戶已超過 20 億。搜尋結果直接顯示答案後，讀者可能不用點進網站就得到資訊；自己的網站是否因此少了流量，還是要看實際數據。
 
 因此，除了爭取搜尋排名，也需要考慮如何讓內容被 AI 引用。
 
 ### 用 E-E-A-T 檢查內容依據
 
-Google 用 E-E-A-T 這幾個面向評估內容品質。[官方內容品質說明](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)也提醒，它不是一個獨立的排名因子。它不能保證內容會被 AI 引用，但可以拿來檢查文章是否交代清楚經驗和依據：
+Google 用 E-E-A-T 這幾個面向評估內容品質。[官方內容品質說明](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)也提醒，E-E-A-T 本身不是獨立的排名因子，也不能保證內容會被 AI 引用，但可以拿來檢查文章是否交代清楚經驗和依據：
 
 - **Experience（經驗）**：第一手經驗
 - **Expertise（專業）**：專業知識
@@ -39,7 +39,7 @@ Google 用 E-E-A-T 這幾個面向評估內容品質。[官方內容品質說明
 <meta name="description" content="中文頁面控制在 70-80 字左右的頁面描述" />
 ```
 
-Google 沒有規定 Meta Description 的字數上限，顯示時會依裝置和版面截斷，也可能改用頁面內容生成摘要，可參考[官方摘要文件](https://developers.google.com/search/docs/appearance/snippet)。範例中的 70–80 字只是寫作時方便控制篇幅的參考，重點是先把頁面內容說清楚，別把固定字數當成排名規則。
+Google 沒有規定 Meta Description 的字數上限，顯示時會依裝置和版面截斷，也可能改用頁面內容生成摘要，可參考[官方摘要文件](https://developers.google.com/search/docs/appearance/snippet)。範例中的 70-80 字只是寫作時方便控制篇幅的參考，重點是先把頁面內容說清楚，別把固定字數當成排名規則。
 
 ### Heading 結構
 
@@ -54,7 +54,7 @@ Google 沒有規定 Meta Description 的字數上限，顯示時會依裝置和�
 - **結構清晰**：使用標題層級、條列、表格、FAQ 格式
 - **直接回答**：內容開頭就回答問題，再詳細解釋
 - **交代自己的經驗與依據**：例如做過的調整、觀察到的結果，以及方法的限制
-- **依內容選擇結構化資料**：Google 的 AI 搜尋不要求特別加入 `FAQPage` 或 `HowTo`。標記要和頁面內容一致，也不保證會被引用
+- **依內容選擇結構化資料**：Google 的 AI 搜尋不要求特別加入 `FAQPage` 或 `HowTo`。標記要和頁面內容一致，加了也不保證會被引用
 
 Google 的 [AI 搜尋文件](https://developers.google.com/search/docs/appearance/ai-features)說明，頁面仍需先能被索引、符合摘要顯示資格；沒有另一套特別的 AI 標記要求。
 

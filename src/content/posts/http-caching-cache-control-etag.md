@@ -74,7 +74,7 @@ flowchart TD
 - `no-store`：這才是完全不要存。含敏感資料、不想留在任何快取裡的回應會用它。
 - `must-revalidate`：過期之後，一定要驗證成功才能用。少了它，快取在某些情況下（例如連不上伺服器時）可以拿過期的回應出來用。
 - `private`：只有瀏覽器這類私有快取可以存，CDN 不能存。登入後才看得到的頁面適合加上。
-- `public`：明確標示這個回應可以快取，連原本不能進共用快取的回應（例如帶 `Authorization` 的請求）也可以存。一般的回應只要有 `max-age` 就能進共用快取，[不需要另外加 `public`](https://www.rfc-editor.org/rfc/rfc9111.html#section-5.2.2.9)。
+- `public`：明確標示這個回應可以快取，連原本不能進共用快取的回應（例如對帶 `Authorization` 的請求所做的回應）也可以存。一般的回應只要有 `max-age` 就能進共用快取，[不需要另外加 `public`](https://www.rfc-editor.org/rfc/rfc9111.html#section-5.2.2.9)。
 - `s-maxage`：只給共用快取看的新鮮期，會蓋過 `max-age`。想讓 CDN 和瀏覽器的快取時間不同時會用到。
 
 `max-age=0, must-revalidate` 常被當成 `no-cache` 的同義寫法，效果幾乎一樣：一存進去就過期，而且過期後必須驗證才能用。
@@ -122,7 +122,7 @@ Cache-Control: public, max-age=0, must-revalidate
   Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 ```
 
-文章頁每次確認，`/_astro/` 底下帶 hash 的檔案放一年。文章頁那條多了 `no-transform`，意思是中間的代理或 CDN 不可以改寫內容。文章裡的圖片檔名不帶 hash，所以只放 7 天，再加上 `stale-while-revalidate`（[RFC 5861](https://www.rfc-editor.org/rfc/rfc5861.html)）：過期後的 30 天內，快取可以先回舊圖，同時在背景重新驗證，讀者不用等。
+文章頁每次都重新確認，`/_astro/` 底下帶 hash 的檔案放一年。`/posts/*` 這條多了 `no-transform`，意思是中間的代理或 CDN 不可以改寫內容。文章裡的圖片檔名不帶 hash，所以只放 7 天，再加上 `stale-while-revalidate`（[RFC 5861](https://www.rfc-editor.org/rfc/rfc5861.html)）：過期後的 30 天內，快取可以先回舊圖，同時在背景重新驗證，讀者不用等。
 
 設定時我踩過一個坑。原本我在最上面的 `/*` 規則統一寫了 `Cache-Control: public, max-age=0, must-revalidate`，想當成預設值，再讓下面的規則各自覆寫。但 [Cloudflare Pages 的文件](https://developers.cloudflare.com/pages/configuration/headers/)寫明，同一個標頭被多條規則套用時，值會用逗號接在一起，不會覆寫。結果 `/images/*` 和 `/_astro/*` 實際送出的標頭都同時帶著兩組設定：`max-age` 出現兩次，`must-revalidate` 又和 `stale-while-revalidate`、`immutable` 並存。
 

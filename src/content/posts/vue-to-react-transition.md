@@ -10,7 +10,7 @@ category: learning
 
 ## 為什麼要學 React
 
-老實說，Vue 用得很順手的時候，一開始對學 React 沒有太大的動力。但後來發現幾個現實的考量：
+老實說，Vue 用得很順手，一開始我對學 React 沒有太大的動力。但後來有幾個現實的考量：
 
 1. **工作機會**：當時我看的職缺裡，React 的需求比較多，也有不少外商職缺使用 React
 2. **生態系**：React 的社群資源和第三方套件非常豐富
@@ -20,7 +20,7 @@ Vue 和 React 都用元件拆分 UI，也都需要處理狀態與副作用。有
 
 ## 最明顯的差異：模板 vs JSX
 
-Vue 用的是 template 語法，長這樣，其實就是 HTML 加上 Vue 的指令（directives）：
+Vue 用的是 template 語法，其實就是 HTML 加上 Vue 的指令（directives），長這樣：
 
 ```vue
 <template>
@@ -109,9 +109,9 @@ React 用 `useEffect` 處理副作用，我一開始不太習慣。後來理解 
 
 ### 詳細的生命週期對照與陷阱
 
-我從 Vue 轉過來時，常把 `useEffect` 當成另一種 `onMounted` 或 `onUpdated`，後來才逐漸習慣按依賴安排同步。沒有 dependency array 的 Effect，在首次掛載後也會執行，所以不能直接拿來替換 `onUpdated`。
+我從 Vue 轉過來時，常把 `useEffect` 當成另一種 `onMounted` 或 `onUpdated`，後來才逐漸習慣依照依賴來安排同步。沒有 dependency array 的 Effect，在首次掛載後也會執行，所以不能直接拿來替換 `onUpdated`。
 
-用 ref 標記「略過第一次」也不是通用解法：根節點啟用 StrictMode 的開發環境會額外執行 setup → cleanup → setup，第二次 setup 已經看得到改過的 ref。遇到這種需求，先確認操作是不是由按鈕或表單送出觸發；如果是，可以放在事件處理函式。若是同步外部系統，就依賴相關 state，並讓 setup 與 cleanup 能正確配對。這也是 [StrictMode 額外執行 Effect](https://react.dev/reference/react/StrictMode#fixing-bugs-found-by-re-running-effects-in-development)要協助找出的問題。
+用 ref 標記「略過第一次」也不是通用解法：根節點啟用 StrictMode 的開發環境會額外執行 setup → cleanup → setup，第二次 setup 已經看得到改過的 ref。遇到這種需求，先確認操作是不是由按鈕或表單送出觸發；如果是，可以放在事件處理函式。若是同步外部系統，就依賴相關 state，並讓 setup 與 cleanup 能正確配對。[StrictMode 額外執行 Effect](https://react.dev/reference/react/StrictMode#fixing-bugs-found-by-re-running-effects-in-development)正是為了協助找出這類問題。
 
 **最大的陷阱：Stale Closure**
 
@@ -134,12 +134,12 @@ useEffect(() => {
 這應該是兩個框架最核心的差異。
 
 **Vue 的世界觀：你可以修改我，我會通知大家。**
-Vue 的 data 是 mutable 的。你想改標題？`title.value = 'New'`。Vue 的 Reactivity system 會攔截這個 setter，然後去更新畫面。這很直覺，跟我們寫傳統 JS 物件導向一樣。
+Vue 的 data 是 mutable 的。你想改標題？`title.value = 'New'`。Vue 的 Reactivity system 會攔截這個 setter，然後去更新畫面。這很直覺，跟我們平常直接修改 JS 物件的寫法一樣。
 
 **React 的世界觀：你不能修改我，你要創造一個新的我。**
 React 預期你把 state 當成 immutable 資料。要更新 `title`，就呼叫 `setTitle('New')`，讓 React 在下一次 render 使用新值。
 
-這個差異導致了寫 code 習慣的不同：
+這個差異也讓兩邊的寫法習慣跟著不同：
 
 - **Vue**: `arr.push(item)`（開心！）
 - **React**: `setArr([...arr, item])`（麻煩但安全）
@@ -187,7 +187,7 @@ async function Page() {
 
 Vue 生態系用 Pinia，React 生態系選擇比較多：Redux、Zustand、Jotai、Recoil...
 
-> **後記（2026 更新）**：Recoil 已於 2025 年初被 Meta 封存（archived），不再維護，新專案請不要再採用。下面提到的 Zustand、Jotai 都仍在活躍開發中。
+> **後記（2026 更新）**：Recoil 已於 2025 年初被 Meta 封存（archived），不再維護，新專案請不要再採用。文中提到的 Zustand、Jotai 都仍在活躍開發中。
 
 我自己比較喜歡 Zustand，寫法簡潔，跟 Pinia 的感覺有點像：
 

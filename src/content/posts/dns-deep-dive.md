@@ -11,8 +11,8 @@ category: web-basics
 
 DNS 是分散式、階層式的資料庫系統，可以用跨國公司的組織架構來理解各層的分工：
 
-1. **根域名伺服器（Root Nameservers）**：總公司，知道每個頂級域名（.com, .tw, .org）的負責人在哪。
-2. **頂級域名伺服器（TLD Nameservers）**：部門經理，管理特定結尾的網域（例如 .com 的註冊局）。
+1. **根名稱伺服器（Root Nameservers）**：總公司，知道每個頂級網域（.com, .tw, .org）的負責人在哪。
+2. **頂級網域名稱伺服器（TLD Nameservers）**：部門經理，管理特定結尾的網域（例如 .com 的註冊局）。
 3. **權威名稱伺服器（Authoritative Nameservers）**：專案負責人，真正知道該網域 IP 的伺服器（通常是 Cloudflare, AWS Route53 或你的網域註冊商）。
 
 ## 當你輸入 google.com 時發生了什麼事？
@@ -37,20 +37,20 @@ sequenceDiagram
     Resolver-->>User: IP 是 142.250.1.1
 ```
 
-**遞迴解析器（Recursive Resolver）** 通常由你的 ISP（中華電信）或公共 DNS（Google 8.8.8.8, Cloudflare 1.1.1.1）提供。它負責幫你跑腿問路，並且**快取（Cache）** 結果。下次再問同樣的網址，它就不用重新跑一次流程了。
+**遞迴解析器（Recursive Resolver）** 通常由你的 ISP（例如中華電信）或公共 DNS（Google 8.8.8.8, Cloudflare 1.1.1.1）提供。它負責幫你跑腿問路，並且**快取（Cache）** 結果。下次再問同樣的網址，它就不用重新跑一次流程了。
 
 ## 常見的 DNS 紀錄類型
 
-在 DNS 設定中，你會看到各種不同類型的紀錄（Records），它們有不同的用途：
+在 DNS 設定中會看到各種類型的紀錄（Records），用途各有不同：
 
 ### A 與 AAAA 紀錄
 
-- **A（Address）**：將域名指向 IPv4 位址，例如 `142.250.1.1`。這裡只是示意，實際位址應以當下的查詢結果為準。
-- **AAAA**：將域名指向 **IPv6** 位址。隨著 IPv4 枯竭，這越來越重要。
+- **A（Address）**：將網域指向 IPv4 位址，例如 `142.250.1.1`。這裡只是示意，實際位址應以當下的查詢結果為準。
+- **AAAA**：將網域指向 **IPv6** 位址。隨著 IPv4 枯竭，這越來越重要。
 
 ### CNAME（Canonical Name）
 
-將一個域名指向**另一個域名**，而不是 IP。
+將一個網域指向**另一個網域**，而不是 IP。
 
 - 例子：`blog.example.com` -> `example.com`
 - 用途：當 IP 變更時，可以集中修改 `example.com` 的 A 紀錄，其他 CNAME 會在重新查詢後取得新結果。子網域、CDN 或託管平台（如 Heroku、Vercel）常會用到，但 CNAME 本身不會讓瀏覽器跳轉網址。
@@ -86,14 +86,14 @@ nslookup google.com
 
 如果你剛修改了 DNS 設定但沒生效，可能是因為 **TTL** 還沒過期。TTL 決定了 DNS 紀錄在快取中存活多久。
 
-- **TTL = 3600（1 小時）**：解析器取得記錄後，通常可快取 1 小時。這不保證修改後全球會在 1 小時內全部更新，還要看舊記錄的 TTL 和解析器行為。
-- **建議**：遷移前先把 TTL 調低（例如 300 秒），並等原本的快取週期過去，再切換主機。到切換當下才調低，已被快取的舊 TTL 不會跟著縮短。
+- **TTL = 3600（1 小時）**：解析器取得紀錄後，通常可快取 1 小時。這不保證修改後全球會在 1 小時內全部更新，還要看舊紀錄的 TTL 和解析器行為。
+- **建議**：遷移前先把 TTL 調低（例如 300 秒），並等原本的快取週期過去，再切換主機。若到切換當下才調低，已被快取的舊 TTL 不會跟著縮短。
 
 ### 3. DNS 污染與劫持
 
-DNS 結果遭到竄改時，可能把你導向錯誤的網站。DoH（DNS over HTTPS）會加密裝置到所選解析器之間的查詢，減少這段路程被監聽或竄改的機會。不過，你仍需要信任該解析器；DoH 不等於 DNS 記錄本身的真偽驗證。
+DNS 結果遭到竄改時，可能把你導向錯誤的網站。DoH（DNS over HTTPS）會加密裝置到所選解析器之間的查詢，減少這段路程被監聽或竄改的機會。不過，你仍需要信任該解析器；DoH 不等於 DNS 紀錄本身的真偽驗證。
 
-如果想看原始定義，[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html)有 DNS 記錄和 TTL 的規則，[RFC 8484](https://www.rfc-editor.org/rfc/rfc8484.html)則說明 DoH 與它的安全範圍。
+如果想看原始定義，[RFC 1035](https://www.rfc-editor.org/rfc/rfc1035.html)有 DNS 紀錄和 TTL 的規則，[RFC 8484](https://www.rfc-editor.org/rfc/rfc8484.html)則說明 DoH 與它的安全範圍。
 
 ---
 

@@ -51,7 +51,7 @@ createApp(App).use(i18n).mount("#app");
 
 註冊必須在 `mount` 之前完成，順序可對照[官方入門文件](https://vue-i18n.intlify.dev/guide/essentials/started#registering-the-i18n-plugin)。
 
-翻譯檔案就是一般的 JSON。下方先列中文內容，英文檔也要準備相同 key 的翻譯。頂端的註解用來標示檔案位置，實際存成 JSON 時要移除；後面的翻譯範例也一樣，JSON 本身不接受註解。
+翻譯檔案就是一般的 JSON。下方先列中文內容，英文檔也要準備相同 key 的翻譯。JSON 本身不接受註解，所以頂端用來標示檔案位置的註解，實際存檔時要移除，後面的翻譯範例也一樣。
 
 ```json
 // locales/zh-TW.json
@@ -127,7 +127,7 @@ if (savedLocale) {
 }
 ```
 
-這段適用於瀏覽器端，也要檢查保存的值是否為支援的語系，例如 `zh-TW` 或 `en`。若放進 Nuxt 的 SSR 流程，讀取 localStorage 前要確認是在客戶端，也要處理伺服器與瀏覽器初始語言不同時的畫面同步。
+這段只適用於瀏覽器端，讀取後還要檢查保存的值是否為支援的語系，例如 `zh-TW` 或 `en`。若放進 Nuxt 的 SSR 流程，讀取 localStorage 前要確認是在客戶端，還要處理伺服器與瀏覽器初始語言不同時的畫面同步。
 
 ## 翻譯檔案的管理
 

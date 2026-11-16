@@ -32,7 +32,7 @@ async function searchProducts(keyword) {
 | 3    | B 先回來，顯示「無線滑鼠」結果 |
 | 4    | A 晚回來，把結果改成「滑鼠」   |
 
-這種結果受完成順序影響的問題，可以稱為 race condition。這裡要決定的規則很明確：畫面只接受最新一次搜尋的結果。前面那段還省略了 HTTP 錯誤處理，後面會一起補上。
+這種結果受完成順序影響的問題，可以稱為 race condition。這裡要決定的規則很明確：畫面只接受最新一次搜尋的結果。前面那段程式還省略了 HTTP 錯誤處理，後面會一起補上。
 
 ## JavaScript 一次跑一段，怎麼還會撞到？
 
@@ -59,9 +59,9 @@ console.log("end");
 
 這個例子的輸出順序是 `start`、`end`、`promise`、`timer`。
 
-目前這段程式先跑完。Promise 的 `.then()` 回呼排進 microtask（微任務）；計時器的回呼則是另一個 task（任務）。在這個例子裡，瀏覽器先清完微任務，才輪到計時器。Event Loop 負責安排這些工作何時執行，詳見 [MDN 的微任務說明](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide)。
+目前執行中的這段程式會先跑完。Promise 的 `.then()` 回呼排進 microtask（微任務）；計時器的回呼則是另一個 task（任務）。在這個例子裡，瀏覽器先清完微任務，才輪到計時器。Event Loop 負責安排這些工作何時執行，詳見 [MDN 的微任務說明](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide)。
 
-`setTimeout(..., 0)` 也得等目前的工作結束，不能插進正在執行的程式。這段例子的順序固定，兩個網路請求何時完成，則會受到伺服器和網路狀況影響。
+`setTimeout(..., 0)` 也得等目前的工作結束，不能插進正在執行的程式。這個例子的輸出順序固定；兩個網路請求何時完成，則會受到伺服器和網路狀況影響。
 
 如果一直建立新的微任務，或跑很久的同步迴圈，瀏覽器也會延後處理其他工作。把函式加上 `async`，裡面的大量計算仍然可能卡住畫面。
 
