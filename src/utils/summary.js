@@ -1,4 +1,22 @@
 /**
+ * 把單行內的 [文字](網址) 換成文字。
+ * 用 indexOf 掃描：同樣功能的正規表示式遇到大量未閉合的括號時，耗時呈平方成長。
+ * @param {string} line
+ */
+const stripLineLinks = (line) => {
+  let result = "";
+  let from = 0;
+  for (;;) {
+    const open = line.indexOf("[", from);
+    const middle = open < 0 ? -1 : line.indexOf("](", open + 1);
+    const close = middle < 0 ? -1 : line.indexOf(")", middle + 2);
+    if (close < 0) return result + line.slice(from);
+    result += line.slice(from, open) + line.slice(open + 1, middle);
+    from = close + 1;
+  }
+};
+
+/**
  * 將文字（可能含 Markdown 語法）去除連結與標記符號後，壓成單行純文字摘要。
  * @param {string} text 原始文字，可能含 Markdown 語法
  * @param {number} [maxLength=160] 摘要最大字元數
@@ -10,7 +28,10 @@ export const toPlainTextExcerpt = (text, maxLength = 160) => {
   // 先去除連結語法再壓成純文字與固定長度，避免摘要帶有 Markdown 雜訊影響可讀性。
   /** @param {string} value */
   const stripMarkdownLinks = (value) =>
-    value.replace(/\[(.*?)\]\((.*?)\)/g, "$1");
+    value
+      .split(/([\n\r\u2028\u2029])/)
+      .map(stripLineLinks)
+      .join("");
 
   return (
     stripMarkdownLinks(text)

@@ -47,7 +47,7 @@ export function paginatePosts(posts) {
 export function calculateReadingTime(body) {
   const text = body
     .replace(/```[\s\S]*?```/g, "")
-    .replace(/<[^>]+>/g, "")
+    .replace(/<[^<>]+>/g, "")
     .trim();
   const cjkCount = (text.match(/[\u4e00-\u9fff]/g) ?? []).length;
   const latinWordCount = (
